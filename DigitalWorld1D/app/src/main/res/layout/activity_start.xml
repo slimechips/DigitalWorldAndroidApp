@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Start"
+    android:background="@drawable/sutd_canteen_cover">
+
+
+    <include layout="@layout/content_start" />
+
+    <LinearLayout
+        android:id="@+id/start_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/start_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:textSize="@dimen/start_title_text"
+            />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="@dimen/start_button_horizontal_spacing"
+            android:layout_marginRight="@dimen/start_button_horizontal_spacing"
+            android:shadowColor="@color/design_default_color_primary_dark"
+            android:onClick="SignIn"
+            android:text="@string/button_login_text" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
