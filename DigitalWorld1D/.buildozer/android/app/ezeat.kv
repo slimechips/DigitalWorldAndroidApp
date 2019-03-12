@@ -1,0 +1,57 @@
+#:kivy 1.10.1
+#File name: ezeats.py
+
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+    transition: FadeTransition()
+    LoginPage:
+    MainPage:
+
+<LoginPage>:
+    name: "login"
+    Image:
+        source: 'SUTDcanteen.jpg'
+        color: (1, 1, 1, 0.7)
+          
+    FloatLayout:
+        orientation: "vertical"
+        Label:
+            id: username_txt
+            text: "Username"
+            font_size: 18
+            color: (1, 1, 1, 1)
+            pos_hint: {'x':0.3,'top':0.6}  
+            size_hint: 0.15, 0.05
+        Label:
+            id: password_txt
+            text: "Password"
+            font_size: 18
+            color: (1, 1, 1, 1)
+            pos_hint: {'x':0.3,'top':0.5}
+            size_hint: 0.15, 0.05
+        TextInput:
+            id: login
+            size_hint: 0.2, 0.05
+            pos_hint: {'x':0.45,'top':0.6}
+            multiline: False
+            focus: True
+        TextInput:
+            id: passw
+            size_hint: 0.2, 0.05
+            pos_hint: {"x":0.45,'top':0.5}
+            multiline: False
+            focus: True
+            password: True
+        Button:
+            size_hint: 0.2, 0.05
+            text: "Login"
+            pos_hint: {"center_x":0.5,'top':0.4}
+            font_size: 15
+            on_release: root.verify_credentials()
+
+<MainPage>:
+    name: "main"
+    Button:
+        text: "Logout"
+        on_release: app.root.current = "login"

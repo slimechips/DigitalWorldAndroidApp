@@ -1,3 +1,4 @@
+__version__ = "1.0"
 from kivy.app import App
 #kivy.require("1.10.1")
 from kivy.lang import Builder
@@ -28,5 +29,4 @@ class EzEat(App):
     def build(self):
         return kv_file
 
-if __name__ == "__main__":
-    EzEat().run()
+EzEat().run()
