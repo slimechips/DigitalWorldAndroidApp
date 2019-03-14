@@ -27,6 +27,7 @@ class LoginPage(Screen):
         
         wrong_credential_colour = (1, 0.4, 0.4, 1)
 
+        # Authentication from Firebase; username and password to be encrypted
         if self.ids["login"].text == "username" \
             and self.ids["passw"].text == "password":
             self.manager.current = "main"
@@ -34,10 +35,12 @@ class LoginPage(Screen):
             self.ids["login"].background_color = wrong_credential_colour
             self.ids["passw"].background_color = wrong_credential_colour
 
+    # On release of Sign Up button, login info to be encrypted and uploaded onto Firebase
     def signup(self):
         pass
 
 class MainPage(Screen):
+    _buttonfontsize = buttonfontsize
     pass
 
 class ScreenManagement(ScreenManager):

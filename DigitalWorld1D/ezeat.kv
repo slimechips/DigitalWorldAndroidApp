@@ -28,7 +28,7 @@ ScreenManagement:
             halign: "center"
         BoxLayout:
             orientation: "vertical"
-            pos_hint: {"x": 0, "y":0.45}
+            pos_hint: {"x": 0, "y":0.35}
             size_hint: 1, 0.4
             spacing: 20
             Label:
@@ -41,8 +41,7 @@ ScreenManagement:
             TextInput:
                 id: login
                 text_size: self.size
-                size_hint: 0.8, 0.25
-                font_size: root._labelfontsize
+                size_hint: 0.8, 0.3
                 pos_hint: {"x": 0.1}                
                 multiline: False
                 focus: True
@@ -56,13 +55,13 @@ ScreenManagement:
                 halign: "center"
             TextInput:
                 id: passw
-                size_hint: 0.8, 0.25
+                size_hint: 0.8, 0.3
                 pos_hint: {"x": 0.1}
                 multiline: False
                 focus: True
                 password: True
             Button:
-                size_hint: 0.8, 0.25
+                size_hint: 0.8, 0.5
                 pos_hint: {"x": 0.1}
                 text: "Login"
                 font_size: root._buttonfontsize
@@ -70,15 +69,26 @@ ScreenManagement:
                 background_color: 0, 0.8, 0, 1.0
                 background_normal: ""
             Button:
-                size_hint: 0.8, 0.25
+                size_hint: 0.8, 0.5
                 pos_hint: {"x": 0.1}
                 text: "Sign Up"
                 font_size: root._buttonfontsize
                 on_release: root.signup()
                 background_color: 0.2, 0.2, 0.8, 1.0
                 background_normal: ""
+
 <MainPage>:
     name: "main"
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     Button:
+        color: 1, 1, 1, 1
+        font_size: root._buttonfontsize
+        size_hint: 0.3, 0.2
+        pos_hint: {"right": 1, "top": 1}
         text: "Logout"
         on_release: app.root.current = "login"
