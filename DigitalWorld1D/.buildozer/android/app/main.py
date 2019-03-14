@@ -14,7 +14,8 @@ from kivy.uix.textinput import TextInput
 
 class LoginPage(Screen):
     def verify_credentials(self):
-        if self.ids["login"].text == "username" and self.ids["passw"].text == "password":
+        if self.ids["login"].text == "username" \
+            and self.ids["passw"].text == "password":
             self.manager.current = "main"
 
 class MainPage(Screen):
@@ -29,4 +30,5 @@ class EzEat(App):
     def build(self):
         return kv_file
 
-EzEat().run()
+if __name__ == "__main__":
+    EzEat().run()

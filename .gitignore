@@ -71,3 +71,6 @@ fastlane/readme.md
 !.vscode/launch.json
 !.vscode/extensions.json
 .vscode/settings.json
+
+# Image Files
+*.xcf

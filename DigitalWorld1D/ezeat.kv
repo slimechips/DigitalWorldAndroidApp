@@ -10,12 +10,15 @@ ScreenManagement:
 
 <LoginPage>:
     name: "login"
-    Image:
-        source: 'SUTDcanteen.jpg'
-        color: (1, 1, 1, 0.7)
-          
     FloatLayout:
         orientation: "vertical"
+        Image:
+            pos: self.pos
+            size_hint: 1, 1
+            source: 'SUTDcanteenPotrait.png'
+            allow_stretch: True
+            keep_ratio: False
+            color: 1, 1, 1, 0.5
         Label:
             id: username_txt
             text: "Username"

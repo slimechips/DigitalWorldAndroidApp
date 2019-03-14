@@ -1,0 +1,32 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Android Virtual Devices",
+            "type": "shell",
+            "command": "~/Android_SDK/android-sdk/emulator/emulator @Nexus_5X_API_27",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build, run kivy app on Android",
+            "type": "shell",
+            "command": "buildozer android debug deploy run"
+        },
+        {
+            "label": "Run Kivy App on Ubuntu",
+            "type": "shell",
+            "command": "python main.py"
+        },
+        {
+            "label": "Use old version of Java for buildozer",
+            "type": "shell",
+            "command": "export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'",
+            "problemMatcher": []
+        }
+    ]
+}
