@@ -1,6 +1,8 @@
 __version__ = "1.0"
 from kivy.app import App
 #kivy.require("1.10.1")
+from kivy.utils import platform
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.widget import Widget
@@ -35,19 +37,45 @@ class LoginPage(Screen):
             self.ids["passw"].background_color = wrong_credential_colour
 
     def signup(self):
+        self.manager.current = "signup"
+
+class SignUpPage(Screen):
+    _titlefontsize = 80
+    _labelfontsize = label_font_size
+    _buttonfontsize = buttonfontsize
+
+    def firebase_signup(self):
         pass
+
 
 class MainPage(Screen):
     pass
 
+
 class ScreenManagement(ScreenManager):
-    pass
+    def go_back(self, name):
+        if name == "signup":
+            self.manager.current = "login"
 
 kv_file = Builder.load_file("ezeat.kv")
 
 class EzEat(App):
     def build(self):
         return kv_file
+    
+    def init(self, *args):
+        if platform() == "android":
+            import android
+            android.map_key(android.KEYCODE_BACK, 1001)
+        win = Window
+        win.bind(on_keyboard=self.my_key_handler)
+
+    def my_key_handler(self, window, keycode1, keycode2, text, mods):
+        if keycode1 in [27, 1001]:
+            self.manager.current = self.manager.previous()
+            return True
+        else:
+            return False
 
 if __name__ == "__main__":
     EzEat().run()

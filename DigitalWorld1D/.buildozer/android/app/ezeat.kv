@@ -6,6 +6,7 @@
 ScreenManagement:
     transition: FadeTransition()
     LoginPage:
+    SignUpPage:
     MainPage:
 
 <LoginPage>:
@@ -24,6 +25,7 @@ ScreenManagement:
             id: easy_eat_txt
             text: root._appname
             font_size: root._titlefontsize
+            color: 0.5, 0.5, 0.5, 1
             pos_hint: {"y": 0.40}     
             halign: "center"
         BoxLayout:
@@ -75,6 +77,69 @@ ScreenManagement:
                 text: "Sign Up"
                 font_size: root._buttonfontsize
                 on_release: root.signup()
+                background_color: 0.2, 0.2, 0.8, 1.0
+                background_normal: ""
+
+<SignUpPage>:
+    name: "signup"
+    Image:
+        pos: self.pos
+        size_hint: 1, 1
+        source: 'SUTDcanteenPotrait.png'
+        allow_stretch: True
+        keep_ratio: False
+        color: 1, 1, 1, 0.5
+    AnchorLayout:
+        anchor_x: "center"
+        anchor_y: "bottom"
+        padding: 30
+        size: self.parent.size
+        BoxLayout:
+            orientation: "vertical"
+            size: self.size
+            pos: self.pos
+            spacing: 30
+            Label:
+                id: signup_txt_title
+                text: "Sign up!"
+                font_size: root._titlefontsize
+                color: 0.5, 0.5, 0.5, 1
+                size_hint: 1, None
+                size: self.texture_size
+                spacing: 20
+            TextInput:
+                id: username_signup_input
+                text_size: self.size
+                hint_text:
+                size_hint: 0.8, None
+                pos_hint: {"x": 0.1}
+                size_y: self.line_height
+                font_size: root._labelfontsize
+                multiline: False
+                focus: True
+            TextInput:
+                id: passw_signup_input
+                size_hint: 0.8, None
+                pos_hint: {"x": 0.1}
+                size_y: self.line_height
+                multiline: False
+                focus: True
+                password: True
+            TextInput:
+                id: passw_confirm_signup_input
+                size_hint: 0.8, None
+                pos_hint: {"x": 0.1}
+                size_y: self.line_height
+                multiline: False
+                focus: True
+                password: True
+            Button:
+                size_hint: 0.8, None
+                size_y: passw_confirm_signup_input.line_height
+                pos_hint: {"x": 0.1}
+                text: "Sign Up"
+                font_size: root._buttonfontsize
+                on_release: root.firebase_signup()
                 background_color: 0.2, 0.2, 0.8, 1.0
                 background_normal: ""
 <MainPage>:
