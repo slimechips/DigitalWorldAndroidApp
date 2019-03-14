@@ -2,42 +2,25 @@
 
 ## Building Kivy App from Source
 
-1. Ensure you have Python and Pip installed beforehand.
+1. Ensure you have Python3 and Pip3 installed beforehand.
 
 2. Follow the installation instructions for Kivy here: [Windows](https://kivy.org/doc/stable/installation/installation-windows.html), [macOS](https://kivy.org/doc/stable/installation/installation-osx.html), [Linux](https://kivy.org/doc/stable/installation/installation-linux.html).
 
 3. Clone this repository.
 
-## Using Buildozer to Build Android App (Ubuntu, Elementary OS)
+## Using Buildozer to Build Android App (Ubuntu 18.04, Elementary OS 5.0 Juno)
 
 - Install `buildozer`:
 
       # via pip (latest stable, recommended)
-      sudo pip install buildozer
+      sudo pip3 install --upgrade buildozer
 
-      # latest dev version
-      sudo pip install   https://github.com/kivy/buildozer/archive/master.zip
+- Targetting Android on Ubuntu 18.04
 
-      # git clone, for working on buildozer
-      git clone https://github.com/kivy/buildozer
-      cd buildozer
-      python setup.py build
-      sudo pip install -e .
-
-- Install `virtualenv`:
-
-      sudo apt-get install virtualenv
-
-- Install dependencies for Python-for-Android (P4A):
-
+      sudo pip3 install --upgrade cython==0.28.6
       sudo dpkg --add-architecture i386
-      sudo apt-get update
-      sudo apt-get install -y build-essential ccache git zlib1g-dev python2.7 python2.7-dev libncurses5:i386 libstdc++6:i386 zlib1g:i386 openjdk-8-jdk unzip ant ccache autoconf libtool
-
-- Ensure that you are using the latest version of Cython:
-
-      sudo apt-get update
-      sudo apt-get install cython
+      sudo apt update
+      sudo apt install build-essential ccache git libncurses5:i386 libstdc++6:i386 libgtk2.0-0:i386 libpangox-1.0-0:i386 libpangoxft-1.0-0:i386 libidn11:i386 python2.7 python2.7-dev openjdk-8-jdk unzip zlib1g-dev zlib1g:i386
 
 - Go into your application directory and run:
 
