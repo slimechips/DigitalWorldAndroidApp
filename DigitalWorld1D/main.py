@@ -12,11 +12,30 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 
+appname = "SUTD EzEat"
+label_font_size = 70
+buttonfontsize = 60
+
 class LoginPage(Screen):
+
+    _titlefontsize = 120
+    _appname = appname
+    _labelfontsize = label_font_size
+    _buttonfontsize = buttonfontsize
+
     def verify_credentials(self):
+        
+        wrong_credential_colour = (1, 0.4, 0.4, 1)
+
         if self.ids["login"].text == "username" \
             and self.ids["passw"].text == "password":
             self.manager.current = "main"
+        else:
+            self.ids["login"].background_color = wrong_credential_colour
+            self.ids["passw"].background_color = wrong_credential_colour
+
+    def signup(self):
+        pass
 
 class MainPage(Screen):
     pass
