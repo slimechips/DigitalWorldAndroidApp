@@ -74,3 +74,4 @@ fastlane/readme.md
 
 # Image Files
 *.xcf
+workspace.code-workspace
