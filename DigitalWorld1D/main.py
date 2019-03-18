@@ -13,42 +13,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+import login
 
 appname = "SUTD EzEat"
-label_font_size = 70
 buttonfontsize = 60
-
-class LoginPage(Screen):
-
-    _titlefontsize = 120
-    _appname = appname
-    _labelfontsize = label_font_size
-    _buttonfontsize = buttonfontsize
-
-    def verify_credentials(self):
-        
-        wrong_credential_colour = (1, 0.4, 0.4, 1)
-
-        # Authentication from Firebase; username and password to be encrypted
-        if self.ids["login"].text == "username" \
-            and self.ids["passw"].text == "password":
-            self.manager.current = "main"
-        else:
-            self.ids["login"].background_color = wrong_credential_colour
-            self.ids["passw"].background_color = wrong_credential_colour
-
-    # On release of Sign Up button, login info to be encrypted and uploaded onto Firebase
-    def signup(self):
-        self.manager.current = "signup"
-
-class SignUpPage(Screen):
-    _titlefontsize = 80
-    _labelfontsize = label_font_size
-    _buttonfontsize = buttonfontsize
-
-    def firebase_signup(self):
-        pass
-
 
 class MainPage(Screen):
     _buttonfontsize = buttonfontsize

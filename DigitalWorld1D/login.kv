@@ -1,14 +1,6 @@
 #:kivy 1.10.1
 #File name: ezeats.py
 
-#: import FadeTransition kivy.uix.screenmanager.FadeTransition
-
-ScreenManagement:
-    transition: FadeTransition()
-    LoginPage:
-    SignUpPage:
-    MainPage:
-
 <LoginPage>:
     name: "login"
     Image:
@@ -141,18 +133,3 @@ ScreenManagement:
                 on_release: root.firebase_signup()
                 background_color: 0.2, 0.2, 0.8, 1.0
                 background_normal: ""
-<MainPage>:
-    name: "main"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"right": 1, "top": 1}
-        text: "Logout"
-        on_release: app.root.current = "login"
