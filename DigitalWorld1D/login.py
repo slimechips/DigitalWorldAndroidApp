@@ -2,16 +2,17 @@ __version__ = "1.0"
 from kivy.app import App
 #kivy.require("1.10.1")
 from kivy.uix.screenmanager import Screen
-import main
 
 label_font_size = 70
+appname = "SUTD EzEat"
+buttonfontsize = 60
 
 class LoginPage(Screen):
 
     _titlefontsize = 120
-    _appname = main.appname
+    _appname = appname
     _labelfontsize = label_font_size
-    _buttonfontsize = main.buttonfontsize
+    _buttonfontsize = buttonfontsize
 
     def verify_credentials(self):
         

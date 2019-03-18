@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/home/slimechips/anaconda3/bin/python",
+    "python.pythonPath": "/usr/local/bin/python3",
     "python.linting.pylintEnabled": true
 }

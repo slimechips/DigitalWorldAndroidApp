@@ -13,7 +13,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-import login
+from login import LoginPage, SignUpPage
 
 appname = "SUTD EzEat"
 buttonfontsize = 60
