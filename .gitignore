@@ -80,3 +80,6 @@ workspace.code-workspace
 DigitalWorld1D/.buildozer/
 DigitalWorld1D/.buildozer/android/app/ezeat.kv
 DigitalWorld1D/.buildozer/state.db
+
+# config file
+DigitalWorld1D/config.py
