@@ -4,7 +4,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from config import apikey, authDomain, databaseURL
 from libdw import pyrebase
-from main import User
+from user import User
 
 firebase_config = {
     "apikey": apikey,
@@ -33,7 +33,7 @@ class LoginPage(Screen):
         email, pw = self.ids["login"].text, self.ids["passw"].text
         login_success = False
 
-        for cur_uid, user in self.db.child("users").get().items():
+        for cur_uid, user in dict(self.db.child("users").get()):
             if user["email"].get() == email:
                 if user["password"].get() == pw:
                     uid = cur_uid
