@@ -28,7 +28,7 @@ class LoginPage(Screen):
         Logger.info("test: xd")
         self.firebaseUrl = firebase_config["databaseURL"]
         self.user = None
-        self.verify_credentials()
+        # self.verify_credentials()
 
     def verify_credentials(self):
         self.email, self.pw = self.ids["login"].text, self.ids["passw"].text
