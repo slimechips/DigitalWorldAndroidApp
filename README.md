@@ -27,3 +27,6 @@
       buildozer init
       # edit the buildozer.spec, then
       buildozer android debug deploy run 
+
+- Use Java EE Module:
+      export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'

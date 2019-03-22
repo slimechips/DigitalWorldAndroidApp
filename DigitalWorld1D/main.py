@@ -53,6 +53,6 @@ class EzEat(App):
             return False
 
 if __name__ == "__main__":
-    EzEat().run()    
+    EzEat().run()  
 
 
