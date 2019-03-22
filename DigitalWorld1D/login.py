@@ -16,6 +16,9 @@ firebase_config = {
 label_font_size = 70
 appname = "SUTD EzEat"
 buttonfontsize = 60
+wrong_credential_colour = (1, 0.4, 0.4, 1)
+WHITE = (1, 1, 1, 1)
+
 
 class LoginPage(Screen):
     _titlefontsize = 120
@@ -31,7 +34,7 @@ class LoginPage(Screen):
         # self.verify_credentials()
 
     def verify_credentials(self):
-        self.email, self.pw = self.ids["login"].text, self.ids["passw"].text
+        self.username, self.pw = self.ids["login"].text, self.ids["passw"].text
         headers = ["Users"]
         req = UrlRequest(databaseURL, self.got_json,
                         debug=True)
@@ -42,7 +45,7 @@ class LoginPage(Screen):
         login_success = False
         try:
             for cur_uid, user in result["Users"].items():
-                if user["email"] == self.email:
+                if user["user_name"] == self.username:
                     if user["password"] == self.pw:
                         uid = cur_uid
                         username = user["user_name"]
@@ -69,15 +72,78 @@ class LoginPage(Screen):
         self.manager.current = "main"
 
     def login_error(self):
-        wrong_credential_colour = (1, 0.4, 0.4, 1)
         self.ids["login"].background_color = wrong_credential_colour
         self.ids["passw"].background_color = wrong_credential_colour
         
-
 class SignUpPage(Screen):
     _titlefontsize = 80
     _labelfontsize = label_font_size
     _buttonfontsize = buttonfontsize
 
+    def __init__(self, **kwargs):
+        super(SignUpPage, self).__init__(**kwargs)
+        self.email_field = self.ids["email_signup_input"]
+        self.username_field = self.ids["username_signup_input"]
+        self.password_field = self.ids["passw_signup_input"]
+        self.password2_field = self.ids["passw_confirm_singup_input"]
+        self.info_text_field = self.ids["info_text"]
+            
     def firebase_signup(self):
-        pass
+        self.__email = self.email_field.text
+        self.__username = self.username_field.text
+        self.__password = self.password_field.text
+        self.__password2 = self.password2_field.text
+
+        if self.password == self.password2:
+            req = UrlRequest(firebase_config["databaseURL"], self.got_json)
+        else:
+            self.passwords_different()
+
+
+    def got_json(self, req, result, *args):
+        Logger.info("json: got json")
+        print(result)
+        signup_success = False
+        try:
+            for cur_uid, user in result["Users"].items():
+                if user["email"] == self.__email:
+                    self.email_taken()
+                    break
+                if user["user_name"] == self.__username:
+                    self.username_taken()
+                    break
+                signup_success = True
+            if signup_success:
+                user = User(self.email, self.username, db_result = result)
+                upload_to_firebase(user)
+        except:
+            Logger.info("Error: Error signup")
+
+    def reset_input_field_colours(self):
+        self.email_field.background_color = WHITE
+        self.username_field.background_color = WHITE
+        self.password_field.background_color = WHITE
+        self.password2_field.background_color = WHITE
+        self.info_text_field.text = ""
+
+    def passwords_different(self):
+        self.password_field.background_color = wrong_credential_colour
+        self.password2_field.background_color = wrong_credential_colour
+
+    def email_taken(self):
+        self.reset_input_field_colours
+        self.email_field.background_color = wrong_credential_colour
+        self.info_text_field.txt = "Email is already Taken!"
+
+    def username_taken(self):
+        self.reset_input_field_colours
+        self.username_field.background_color = wrong_credential_colour
+        self.info_text_field.txt = "Username is already Taken!"
+
+    def upload_to_firebase(self, user):
+        data = {"Users": user.to_dict()}
+        req = UrlRequest(databaseURL, req_body=data, 
+                         on_success=self.upload_success)
+
+    def upload_success(self):
+        Logger.info("Upload Successful")

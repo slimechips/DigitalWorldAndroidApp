@@ -75,13 +75,6 @@
 
 <SignUpPage>:
     name: "signup"
-    Image:
-        pos: self.pos
-        size_hint: 1, 1
-        source: 'SUTDcanteenPotrait.png'
-        allow_stretch: True
-        keep_ratio: False
-        color: 1, 1, 1, 0.5
     AnchorLayout:
         anchor_x: "center"
         anchor_y: "top"
@@ -99,9 +92,19 @@
                 size: self.texture_size
                 spacing: 20
             TextInput:
-                id: username_signup_input
+                id: email_signup_input
                 text_size: self.size
                 hint_text: "Email Address"
+                size_hint: 0.8, None
+                pos_hint: {"x": 0.1}
+                size_y: self.line_height
+                font_size: root._labelfontsize
+                multiline: False
+                focus: True
+            TextInput:
+                id: username_signup_input
+                text_size: self.size
+                hint_text: "Username"
                 size_hint: 0.8, None
                 pos_hint: {"x": 0.1}
                 size_y: self.line_height
@@ -121,7 +124,7 @@
             TextInput:
                 id: passw_confirm_signup_input
                 size_hint: 0.8, None
-                hint_text: "Retype PassWord"
+                hint_text: "Retype Password"
                 pos_hint: {"x": 0.1}
                 size_y: self.line_height
                 font_size: root._labelfontsize
@@ -137,3 +140,17 @@
                 on_release: root.firebase_signup()
                 background_color: 0.2, 0.2, 0.8, 1.0
                 background_normal: ""
+            Label:
+                id: info_text
+                text: ""
+                font_size: root._labelfontsize
+                color: 0.5, 0.5, 0.5, 1
+                size_hint: 1, None
+                size: self.texture_size
+    Image:
+    pos: self.pos
+    size_hint: 1, 1
+    source: 'SUTDcanteenPotrait.png'
+    allow_stretch: True
+    keep_ratio: False
+    color: 1, 1, 1, 0.5
