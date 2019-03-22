@@ -19,13 +19,39 @@ from order import Order
 
 appname = "SUTD EzEat"
 buttonfontsize = 60
+titlefontsize = 120
 
 user = {}
 
 class MainPage(Screen):
     _buttonfontsize = buttonfontsize
+    _titlefontsize = titlefontsize
     pass
 
+class Logout_Confirm(Screen):
+    _buttonfontsize = buttonfontsize
+    _titlefontsize = titlefontsize
+    pass
+
+class Stalls(Screen):
+    _buttonfontsize = buttonfontsize
+    _titlefontsize = titlefontsize
+    pass
+
+class Dishes(Screen):
+    _buttonfontsize = buttonfontsize
+    _titlefontsize = titlefontsize
+    pass
+
+class Orders(Screen):
+    _buttonfontsize = buttonfontsize
+    _titlefontsize = titlefontsize
+    pass
+
+class Favourites(Screen):
+    _buttonfontsize = buttonfontsize
+    _titlefontsize = titlefontsize
+    pass
 
 class ScreenManagement(ScreenManager):
     def go_back(self, name):
@@ -53,6 +79,6 @@ class EzEat(App):
             return False
 
 if __name__ == "__main__":
-    EzEat().run()  
+    EzEat().run()    
 
 

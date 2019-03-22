@@ -32,21 +32,25 @@ class LoginPage(Screen):
 
     def verify_credentials(self):
         self.email, self.pw = self.ids["login"].text, self.ids["passw"].text
-        login_success = False
         headers = ["Users"]
-        req = UrlRequest(databaseURL, self.got_json, req_headers=headers,
-              debug=True)
+        req = UrlRequest(databaseURL, self.got_json,
+                        debug=True)
 
-    def got_json(self, req, result):
+    def got_json(self, req, result, *args):
         Logger.info("json: got json")
         print(result)
-        for cur_uid, user in req["users"].items():
-            if user["email"].get() == self.email:
-                if user["password"].get() == self.pw:
-                    uid = cur_uid
-                    username = user["username"].get()
-                    login_success = True
-                break
+        login_success = False
+        try:
+            for cur_uid, user in result["Users"].items():
+                if user["email"] == self.email:
+                    if user["password"] == self.pw:
+                        uid = cur_uid
+                        username = user["user_name"]
+                        login_success = True
+                    break
+        except:
+            Logger.info("Error: Login Error")
+            self.login_error()
 
         if login_success:
             self.login(uid, self.email, username)
@@ -62,6 +66,7 @@ class LoginPage(Screen):
 
     def login(self, email, uid, username):
         self.user = User(email, uid, username)
+        self.manager.current = "main"
 
     def login_error(self):
         wrong_credential_colour = (1, 0.4, 0.4, 1)
