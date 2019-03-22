@@ -22,41 +22,37 @@ ScreenManagement:
         Rectangle:
             pos: self.pos
             size: self.size
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"center_x": 0.5, "top": 0.2}
-        text: "Logout"
-        on_release: app.root.current = "logout_pg"
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 1, 0.2
-        pos_hint: {"center_y": 0.5, "top": 1}
-        text: "Stalls"
-        on_release: app.root.current = "stalls"
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 1, 0.2
-        pos_hint: {"center_y": 0.5, "top": 0.8}
-        text: "Dishes"
-        on_release: app.root.current = "dishes"
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 1, 0.2
-        pos_hint: {"center_y": 0.5, "top": 0.6}
-        text: "Orders"
-        on_release: app.root.current = "orders"
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 1, 0.2
-        pos_hint: {"center_y": 0.5, "top": 0.4}
-        text: "Favourites"
-        on_release: app.root.current = "favourites"
+    FloatLayout:
+        Button:
+            text: "Stalls"
+            font_size: root._buttonfontsize
+            size_hint: 1, 0.15
+            pos_hint: {"top": 1}
+            on_release: app.root.current = "stalls"
+        Button:
+            text: "Dishes"
+            font_size: root._buttonfontsize
+            size_hint: 1, 0.15
+            pos_hint: {"top": 0.8}
+            on_release: app.root.current = "dishes"
+        Button:
+            text: "Orders"
+            font_size: root._buttonfontsize
+            size_hint: 1, 0.15
+            pos_hint: {"top": 0.6}
+            on_release: app.root.current = "orders"
+        Button:
+            text: "Favourites"
+            font_size: root._buttonfontsize
+            size_hint: 1, 0.15
+            pos_hint: {"top": 0.4}
+            on_release: app.root.current = "favourites"
+        Button:
+            text: "Logout"
+            font_size: root._buttonfontsize
+            size_hint: 0.3, 0.2
+            pos_hint: {"top": 0.2, "center_x": 0.5}
+            on_release: app.root.current = "logout_pg"
 
 <Logout_Confirm>:
     name: "logout_pg"
@@ -64,31 +60,26 @@ ScreenManagement:
         Color:
             rgba: 1, 1, 1, 1
         Rectangle:
-            # pos: self.pos
+            pos: self.pos
             size: self.size
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"center_x": 0.5, "top": 1}
-        text: "Back"
-        on_release: app.root.current = "main"
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"center_x": 0.5, "top": 0.2}
-        text: "Logout"
-        on_release: app.root.current = "login"
-    Label:
-        id: logout_text
-        text: "Do you want to log out?"
-        font_size: root._titlefontsize/2
-        color: 1, 0, 0, 1
-        size_hint: 1, None
-        size: self.texture_size
-        spacing: 20
-        pos_hint: {"center_y": 0.5, "top": 0.6}
+    FloatLayout:
+        Button:
+            font_size: root._buttonfontsize
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 1}
+            text: "Back"
+            on_release: app.root.current = "main"
+        Button:
+            font_size: root._buttonfontsize
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 0.2}
+            text: "Logout"
+            on_release: app.root.current = "login"
+        Label:
+            id: logout_text
+            text: "Do you want to log out?"
+            font_size: root._titlefontsize/2
+            color: 1, 0, 0, 1
 
 <Stalls>:
     name: "stalls"
@@ -98,94 +89,93 @@ ScreenManagement:
         Rectangle:
             pos: self.pos
             size: self.size
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"center_x": 0.5, "top": 0.2}
-        text: "Back"
-        on_release: app.root.current = "main"
-    Label:
-        id: stall_text
-        text: "Stalls"
-        font_size: root._titlefontsize/2
-        color: 0, 0, 0, 1
-        size_hint: 1, None
-        size: self.texture_size
-        spacing: 20
-        pos_hint: {"center_y": 0.5, "top": 1}
+    FloatLayout:
+        Button:
+            color: 1, 1, 1, 1
+            font_size: root._buttonfontsize
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 0.2}
+            text: "Back"
+            on_release: app.root.current = "main"
+        Label:
+            id: stall_text
+            text: "Stalls"
+            font_size: root._titlefontsize/2
+            color: 0, 0, 0, 1
+            size_hint: 1, None
+            spacing: 20
+            pos_hint: {"top": 1}
 
 <Dishes>:
-    name: "Dishes"
+    name: "dishes"
     canvas.before:
         Color:
             rgba: 1, 1, 1, 1
         Rectangle:
             pos: self.pos
             size: self.size
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"center_x": 0.5, "top": 0.2}
-        text: "Back"
-        on_release: app.root.current = "main"
-    Label:
-        id: dishes_text
-        text: "dishes"
-        font_size: root._titlefontsize/2
-        color: 0, 0, 0, 1
-        size_hint: 1, None
-        size: self.texture_size
-        spacing: 20
-        pos_hint: {"center_y": 0.5, "top": 1}
-
+    FloatLayout:
+        Button:
+            color: 1, 1, 1, 1
+            font_size: root._buttonfontsize
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 0.2}
+            text: "Back"
+            on_release: app.root.current = "main"    
+        Label:
+            id: dishes_text
+            text: "Dishes"
+            font_size: root._titlefontsize/2
+            color: 0, 0, 0, 1
+            size_hint: 1, None
+            spacing: 20
+            pos_hint: {"top": 1}
 <Orders>:
-    name: "Orders"
+    name: "orders"
     canvas.before:
         Color:
             rgba: 1, 1, 1, 1
         Rectangle:
             pos: self.pos
             size: self.size
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"center_x": 0.5, "top": 0.2}
-        text: "Back"
-        on_release: app.root.current = "main"
-    Label:
-        id: orders_text
-        text: "orders"
-        font_size: root._titlefontsize/2
-        color: 0, 0, 0, 1
-        size_hint: 1, None
-        size: self.texture_size
-        spacing: 20
-        pos_hint: {"center_y": 0.5, "top": 1}
+    FloatLayout:
+        Button:
+            color: 1, 1, 1, 1
+            font_size: root._buttonfontsize
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 0.2}
+            text: "Back"
+            on_release: app.root.current = "main"    
+        Label:
+            id: dishes_text
+            text: "Orders"
+            font_size: root._titlefontsize/2
+            color: 0, 0, 0, 1
+            size_hint: 1, None
+            spacing: 20
+            pos_hint: {"top": 1}
 
 <Favourites>:
-    name: "Favourites"
+    name: "favourites"
     canvas.before:
         Color:
             rgba: 1, 1, 1, 1
         Rectangle:
             pos: self.pos
             size: self.size
-    Button:
-        color: 1, 1, 1, 1
-        font_size: root._buttonfontsize
-        size_hint: 0.3, 0.2
-        pos_hint: {"center_x": 0.5, "top": 0.2}
-        text: "Back"
-        on_release: app.root.current = "main"
-    Label:
-        id: dishes_text
-        text: "favourites"
-        font_size: root._titlefontsize/2
-        color: 0, 0, 0, 1
-        size_hint: 1, None
-        size: self.texture_size
-        spacing: 20
-        pos_hint: {"center_y": 0.5, "top": 1}
+    FloatLayout:
+        Button:
+            color: 1, 1, 1, 1
+            font_size: root._buttonfontsize
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 0.2}
+            text: "Back"
+            on_release: app.root.current = "main"    
+        Label:
+            id: dishes_text
+            text: "Favourites"
+            font_size: root._titlefontsize/2
+            color: 0, 0, 0, 1
+            size_hint: 1, None
+            spacing: 20
+            pos_hint: {"top": 1}

@@ -22,11 +22,12 @@
       sudo apt update
       sudo apt install build-essential ccache git libncurses5:i386 libstdc++6:i386 libgtk2.0-0:i386 libpangox-1.0-0:i386 libpangoxft-1.0-0:i386 libidn11:i386 python2.7 python2.7-dev openjdk-8-jdk unzip zlib1g-dev zlib1g:i386
 
+- Use Java EE Module:
+
+      export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+
 - Go into your application directory and run:
 
       buildozer init
       # edit the buildozer.spec, then
       buildozer android debug deploy run 
-
-- Use Java EE Module:
-      export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
