@@ -56,7 +56,7 @@ class LoginPage(Screen):
             self.login_error()
 
         if login_success:
-            self.login(uid, self.email, username)
+            self.login(uid, username)
         else:
             self.login_error()
 
@@ -67,8 +67,8 @@ class LoginPage(Screen):
     def signup(self):
         self.manager.current = "signup"
 
-    def login(self, email, uid, username):
-        self.user = User(email, uid, username)
+    def login(self, uid, username):
+        self.user = None # Replace this soon
         self.manager.current = "main"
 
     def login_error(self):
@@ -82,19 +82,26 @@ class SignUpPage(Screen):
 
     def __init__(self, **kwargs):
         super(SignUpPage, self).__init__(**kwargs)
+        
+
+    def get_ids(self):
         self.email_field = self.ids["email_signup_input"]
         self.username_field = self.ids["username_signup_input"]
         self.password_field = self.ids["passw_signup_input"]
-        self.password2_field = self.ids["passw_confirm_singup_input"]
+        self.password2_field = self.ids["passw_confirm_signup_input"]
         self.info_text_field = self.ids["info_text"]
             
     def firebase_signup(self):
+        self.get_ids()
         self.__email = self.email_field.text
         self.__username = self.username_field.text
         self.__password = self.password_field.text
         self.__password2 = self.password2_field.text
 
-        if self.password == self.password2:
+        if self.__email == "" or self.__username == "" \
+        or self.__password == "" or self.__password2 == "":
+            self.info_text_field.text = "Please fill in all fields"
+        elif self.__password == self.__password2:
             req = UrlRequest(firebase_config["databaseURL"], self.got_json)
         else:
             self.passwords_different()
