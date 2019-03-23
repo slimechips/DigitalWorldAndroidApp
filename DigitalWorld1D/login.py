@@ -5,6 +5,7 @@ from kivy.uix.screenmanager import Screen
 from config import apikey, authDomain, databaseURL
 from kivy.network.urlrequest import UrlRequest
 from kivy.logger import Logger
+from functools import partial
 from user import User
 
 firebase_config = {
@@ -34,21 +35,23 @@ class LoginPage(Screen):
         # self.verify_credentials()
 
     def verify_credentials(self):
-        self.username, self.pw = self.ids["login"].text, self.ids["passw"].text
+        _username, _pw = self.ids["login"].text, self.ids["passw"].text
         headers = ["Users"]
-        req = UrlRequest(databaseURL, self.got_json,
-                        debug=True)
+        self.req = UrlRequest(databaseURL, partial(self.got_json,
+                              _username, _pw), debug=True)
 
-    def got_json(self, req, result, *args):
+    def got_json(self, username, pw, *args):
         Logger.info("json: got json")
+        result = self.req.result
         print(result)
         login_success = False
         try:
             for cur_uid, user in result["Users"].items():
-                if user["user_name"] == self.username:
-                    if user["password"] == self.pw:
+                if user["user_name"] == username:
+                    if user["password"] == pw:
                         uid = cur_uid
                         username = user["user_name"]
+                        email = user["email"]
                         login_success = True
                     break
         except:
@@ -56,7 +59,7 @@ class LoginPage(Screen):
             self.login_error()
 
         if login_success:
-            self.login(uid, username)
+            self.login(uid, username, email)
         else:
             self.login_error()
 
@@ -67,8 +70,9 @@ class LoginPage(Screen):
     def signup(self):
         self.manager.current = "signup"
 
-    def login(self, uid, username):
-        self.user = None # Replace this soon
+    def login(self, uid, username, email):
+        login_user = User(email, username, uid = uid)
+        User.current_user = login_user
         self.manager.current = "main"
 
     def login_error(self):
@@ -150,7 +154,9 @@ class SignUpPage(Screen):
     def upload_to_firebase(self, user):
         data = {"Users": user.to_dict()}
         req = UrlRequest(databaseURL, req_body=data, 
-                         on_success=self.upload_success)
+                         on_success=partial(self.upload_success, user))
 
-    def upload_success(self):
+    def upload_success(self, user, *args):
         Logger.info("Upload Successful")
+        User.current_user
+        self.screenmanager = "main"

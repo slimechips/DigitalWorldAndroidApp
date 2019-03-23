@@ -9,6 +9,15 @@ class User:
         else:
             self.__uid = uid
 
+    @staticmethod
+    @property
+    def current_user(self):
+        return self.__current_user
+    
+    @current_user.setter
+    def current_user(self, value):
+        self.__current_user = value
+
     @property
     def email(self):
         return self.__email
