@@ -1,7 +1,10 @@
+from kivy.logger import Logger
+
 class User:
-    def __init__(self, email, username, uid = None, **kwargs):
+    def __init__(self, email, username, password, uid = None, **kwargs):
         self.__email = email
         self.__username = username
+        self.__password = password
         if uid != None:
             self.__uid = kwargs["uid"]
         elif kwargs["db_result"]:
@@ -9,14 +12,7 @@ class User:
         else:
             self.__uid = uid
 
-    @staticmethod
-    @property
-    def current_user(self):
-        return self.__current_user
-    
-    @current_user.setter
-    def current_user(self, value):
-        self.__current_user = value
+    current_user = None
 
     @property
     def email(self):
@@ -30,22 +26,30 @@ class User:
     def username(self):
         return self.__username
 
+    @property
+    def password(self):
+        return self.__password
+
     def create_new_uid(self, db_result):
         max_uid = 0
-        for uid in db_result["Users"].keys():
+        for user in db_result["Users"].values():
+            uid = user["user_id"]
             if int(uid) > max_uid:
                 max_uid = int(uid)
+        Logger.debug(max_uid)
         return max_uid + 1
 
     def to_dict(self):
+        Logger.debug("To dict")
         mydict = {}
-        subdict = {}
-        property_names = ["email", "uid", "user_name"]
+        property_names = ["email", "user_id", "user_name", "password"]
         try:
-            properties = [self.email, self.uid, self.username]
+            properties = [self.__email, self.__uid, self.__username,
+                          self.__password]
+            Logger.debug("okay")
         except:
-            properties = ["placeholder", "placeholder", "placeholder"]
-        for property_name, prop in property_names, properties:
-            subdict[property_name] = prop
-        mydict[str(self.uid)] = subdict
+            properties = ["placeholder", "placeholder", "placeholder",
+                          "placeholder"]
+        for idx in range(len(property_names)):
+            mydict[property_names[idx]] = properties[idx]
         return mydict

@@ -37,7 +37,7 @@ class LoginPage(Screen):
     def verify_credentials(self):
         _username, _pw = self.ids["login"].text, self.ids["passw"].text
         headers = ["Users"]
-        self.req = UrlRequest(databaseURL, partial(self.got_json,
+        self.req = UrlRequest(databaseURL + ".json", partial(self.got_json,
                               _username, _pw), debug=True)
 
     def got_json(self, username, pw, *args):
@@ -59,7 +59,7 @@ class LoginPage(Screen):
             self.login_error()
 
         if login_success:
-            self.login(uid, username, email)
+            self.login(uid, username, pw, email)
         else:
             self.login_error()
 
@@ -70,8 +70,8 @@ class LoginPage(Screen):
     def signup(self):
         self.manager.current = "signup"
 
-    def login(self, uid, username, email):
-        login_user = User(email, username, uid = uid)
+    def login(self, uid, username, pw, email):
+        login_user = User(email, username, pw, uid = uid)
         User.current_user = login_user
         self.manager.current = "main"
 
@@ -106,7 +106,7 @@ class SignUpPage(Screen):
         or self.__password == "" or self.__password2 == "":
             self.info_text_field.text = "Please fill in all fields"
         elif self.__password == self.__password2:
-            req = UrlRequest(firebase_config["databaseURL"], self.got_json)
+            req = UrlRequest(databaseURL + ".json", self.got_json)
         else:
             self.passwords_different()
 
@@ -114,21 +114,23 @@ class SignUpPage(Screen):
     def got_json(self, req, result, *args):
         Logger.info("json: got json")
         print(result)
-        signup_success = False
-        try:
-            for cur_uid, user in result["Users"].items():
-                if user["email"] == self.__email:
-                    self.email_taken()
-                    break
-                if user["user_name"] == self.__username:
-                    self.username_taken()
-                    break
-                signup_success = True
-            if signup_success:
-                user = User(self.email, self.username, db_result = result)
-                upload_to_firebase(user)
-        except:
-            Logger.info("Error: Error signup")
+        signup_success = True
+        for cur_uid, user in result["Users"].items():
+            if user["email"] == self.__email:
+                self.email_taken()
+                signup_success = False
+                break
+            if user["user_name"] == self.__username:
+                self.username_taken()
+                signup_success = False
+                break
+        if signup_success:
+            Logger.debug("Signup Success!")
+            user = User(self.__email, self.__username,
+                        self.__password, db_result = result)
+            Logger.debug("user created")
+            self.upload_to_firebase(user)
+            Logger.debug("user uploaded")
 
     def reset_input_field_colours(self):
         self.email_field.background_color = WHITE
@@ -140,23 +142,29 @@ class SignUpPage(Screen):
     def passwords_different(self):
         self.password_field.background_color = wrong_credential_colour
         self.password2_field.background_color = wrong_credential_colour
+        self.info_text_field.text = "Passwords don't match"
 
     def email_taken(self):
         self.reset_input_field_colours
         self.email_field.background_color = wrong_credential_colour
-        self.info_text_field.txt = "Email is already Taken!"
+        self.info_text_field.text = "Email is already Taken!"
 
     def username_taken(self):
         self.reset_input_field_colours
         self.username_field.background_color = wrong_credential_colour
-        self.info_text_field.txt = "Username is already Taken!"
+        self.info_text_field.text = "Username is already Taken!"
 
     def upload_to_firebase(self, user):
-        data = {"Users": user.to_dict()}
-        req = UrlRequest(databaseURL, req_body=data, 
-                         on_success=partial(self.upload_success, user))
+        Logger.debug("ul to firebase")
+        import json
+        data = json.dumps(user.to_dict())
+        headers = {'Content-Type': 'application/json'}
+        usersDatabaseURL = databaseURL + "Users.json"
+        req = UrlRequest(usersDatabaseURL, req_body=data, req_headers = headers,
+                         on_success=partial(self.upload_success, user),
+                         debug=True)
 
     def upload_success(self, user, *args):
         Logger.info("Upload Successful")
-        User.current_user
-        self.screenmanager = "main"
+        User.current_user = user
+        self.manager.current = "main"

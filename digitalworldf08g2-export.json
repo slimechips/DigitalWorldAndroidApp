@@ -1,0 +1,61 @@
+{
+  "Active Orders" : {
+    "Stall" : {
+      "Order" : {
+        "Description" : "Chicken Cutlet W Rice",
+        "ID" : 2003,
+        "Stall" : "Western Stall"
+      }
+    },
+    "Status" : "Pending",
+    "Time" : {
+      "Delay time " : "0 min",
+      "Est Waiting Time" : "7 min",
+      "Time Elapsed" : "3 min"
+    },
+    "User" : {
+      "Type of User" : "Student",
+      "User ID" : 100
+    }
+  },
+  "Completed Orders" : {
+    "Order" : {
+      "Description" : "Chicken Cutlet W Rice",
+      "ID" : 2003,
+      "Stall" : "Western"
+    },
+    "Time" : {
+      "Collection Time" : "3 min",
+      "Prep Time" : "10 min"
+    },
+    "Time of Day" : "12pm",
+    "User " : {
+      "Type of User" : "Student",
+      "User ID " : 1000
+    }
+  },
+  "Menu" : {
+    "Japanese Stall" : {
+      "Bento Set" : {
+        "EST Waiting Time" : "10 min",
+        "Food ID" : 100,
+        "Photo ID " : 5634102,
+        "Price" : "$5.50"
+      }
+    }
+  },
+  "Users" : {
+    "100" : {
+      "email" : "two_type@hotmail.com",
+      "password" : "test123",
+      "user_id" : "1",
+      "user_name" : "two type"
+    },
+    "101" : {
+      "email" : "jason.chowcs@gmail.com",
+      "password" : "test123",
+      "user_id" : "2",
+      "user_name" : "Jason Chow"
+    }
+  }
+}
