@@ -7,6 +7,7 @@ from kivy.network.urlrequest import UrlRequest
 from kivy.logger import Logger
 from functools import partial
 from user import User
+import requests
 
 firebase_config = {
     "apikey": apikey,
@@ -37,16 +38,19 @@ class LoginPage(Screen):
     def verify_credentials(self):
         _username, _pw = self.ids["login"].text, self.ids["passw"].text
         headers = ["Users"]
-        self.req = UrlRequest(databaseURL + ".json", partial(self.got_json,
-                              _username, _pw), debug=True)
+        usersDatabaseURL = databaseURL + "Users.json"
+        self.req = requests.get(usersDatabaseURL)
+        self.got_json(self.req, _username, _pw)
+        # self.req = UrlRequest(databaseURL + ".json", partial(self.got_json,
+        #                       _username, _pw), debug=True)
 
-    def got_json(self, username, pw, *args):
+    def got_json(self, req, username, pw, *args):
         Logger.info("json: got json")
-        result = self.req.result
+        result = req.json()
         print(result)
         login_success = False
         try:
-            for cur_uid, user in result["Users"].items():
+            for cur_uid, user in result.items():
                 if user["user_name"] == username:
                     if user["password"] == pw:
                         uid = cur_uid
@@ -105,17 +109,71 @@ class SignUpPage(Screen):
         if self.__email == "" or self.__username == "" \
         or self.__password == "" or self.__password2 == "":
             self.info_text_field.text = "Please fill in all fields"
-        elif self.__password == self.__password2:
-            req = UrlRequest(databaseURL + ".json", self.got_json)
+        self.check_email_validity(self.__email)
+        self.check_password_validity(self.__password, self.__password2)
+
+
+        if self.check_email_validity(self.__email) \
+            and self.check_password_validity(self.__password, self.__password2) \
+            and self.check_username_validity(self.__username):
+            usersDatabaseURL = databaseURL + "Users.json"
+            req = requests.get(usersDatabaseURL)
+            self.got_json(req)
+            # req = UrlRequest(databaseURL + ".json", self.got_json)
         else:
+            Logger.info("Some wrong information entered")
+
+    def check_email_validity(self, email):
+        req_chars = ["@", "."]
+        test_pass = True
+        for char in req_chars:
+            if char not in email:
+                test_pass = False
+        if not test_pass:
+            self.reset_input_field_colours()
+            self.email_field.background_color = wrong_credential_colour
+            self.info_text_field.text = "Invalid Email"
+        return test_pass                
+
+    def check_password_validity(self, pw1, pw2):
+        import string
+        req_chars = [string.ascii_letters, string.digits]
+        test_pass = True
+        if pw1 != pw2:
             self.passwords_different()
+            test_pass = False
+        else:
+            for chars in req_chars:
+                charset_found = False
+                for char in chars:
+                    if char in pw1:
+                        charset_found = True
+                        break
+                if not charset_found:
+                    test_pass = False
+            if not test_pass:
+                self.reset_input_field_colours()
+                self.password_field.background_color = wrong_credential_colour
+                self.password2_field.background_color = wrong_credential_colour
+                self.info_text_field.text = "Password doesn't match requirements"
+        return test_pass
 
+    def check_username_validity(self, username):
+        test_pass = True
+        if len(username) < 5:
+            test_pass = False
+        if not test_pass:
+            self.reset_input_field_colours()
+            self.username_field.background_color = wrong_credential_colour
+            self.info_text_field.text = "Invalid Username format"
+        return test_pass
 
-    def got_json(self, req, result, *args):
+    def got_json(self, req, *args):
         Logger.info("json: got json")
+        result = req.json()
         print(result)
         signup_success = True
-        for cur_uid, user in result["Users"].items():
+        for cur_uid, user in result.items():
             if user["email"] == self.__email:
                 self.email_taken()
                 signup_success = False
@@ -140,17 +198,18 @@ class SignUpPage(Screen):
         self.info_text_field.text = ""
 
     def passwords_different(self):
+        self.reset_input_field_colours()
         self.password_field.background_color = wrong_credential_colour
         self.password2_field.background_color = wrong_credential_colour
         self.info_text_field.text = "Passwords don't match"
 
     def email_taken(self):
-        self.reset_input_field_colours
+        self.reset_input_field_colours()
         self.email_field.background_color = wrong_credential_colour
         self.info_text_field.text = "Email is already Taken!"
 
     def username_taken(self):
-        self.reset_input_field_colours
+        self.reset_input_field_colours()
         self.username_field.background_color = wrong_credential_colour
         self.info_text_field.text = "Username is already Taken!"
 
@@ -160,9 +219,19 @@ class SignUpPage(Screen):
         data = json.dumps(user.to_dict())
         headers = {'Content-Type': 'application/json'}
         usersDatabaseURL = databaseURL + "Users.json"
-        req = UrlRequest(usersDatabaseURL, req_body=data, req_headers = headers,
-                         on_success=partial(self.upload_success, user),
-                         debug=True)
+        req = requests.post(usersDatabaseURL, data=data, headers=headers)
+        success = None
+        try:
+            req.raise_for_status()
+            success = True
+        except:
+            success = False
+
+        if success:
+            self.upload_success(user)
+        # req = UrlRequest(usersDatabaseURL, req_body=data, req_headers = headers,
+        #                  on_success=partial(self.upload_success, user),
+        #                  debug=True)
 
     def upload_success(self, user, *args):
         Logger.info("Upload Successful")

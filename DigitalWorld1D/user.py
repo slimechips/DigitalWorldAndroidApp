@@ -6,7 +6,7 @@ class User:
         self.__username = username
         self.__password = password
         if uid != None:
-            self.__uid = kwargs["uid"]
+            self.__uid = uid
         elif kwargs["db_result"]:
             self.__uid = self.create_new_uid(kwargs["db_result"])
         else:
@@ -32,7 +32,7 @@ class User:
 
     def create_new_uid(self, db_result):
         max_uid = 0
-        for user in db_result["Users"].values():
+        for user in db_result.values():
             uid = user["user_id"]
             if int(uid) > max_uid:
                 max_uid = int(uid)
