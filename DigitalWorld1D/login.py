@@ -229,9 +229,6 @@ class SignUpPage(Screen):
 
         if success:
             self.upload_success(user)
-        # req = UrlRequest(usersDatabaseURL, req_body=data, req_headers = headers,
-        #                  on_success=partial(self.upload_success, user),
-        #                  debug=True)
 
     def upload_success(self, user, *args):
         Logger.info("Upload Successful")
