@@ -3,11 +3,12 @@ from kivy.app import App
 #kivy.require("1.10.1")
 from kivy.uix.screenmanager import Screen
 from config import apikey, authDomain, databaseURL
-from kivy.network.urlrequest import UrlRequest
 from kivy.logger import Logger
 from functools import partial
 from user import User
+import asyncio
 import requests
+import database
 
 firebase_config = {
     "apikey": apikey,
@@ -30,7 +31,6 @@ class LoginPage(Screen):
 
     def __init__(self, **kwargs):
         super(LoginPage, self).__init__(**kwargs)
-        Logger.info("test: xd")
         self.firebaseUrl = firebase_config["databaseURL"]
         self.user = None
         # self.verify_credentials()
@@ -39,10 +39,17 @@ class LoginPage(Screen):
         _username, _pw = self.ids["login"].text, self.ids["passw"].text
         headers = ["Users"]
         usersDatabaseURL = databaseURL + "Users.json"
-        self.req = requests.get(usersDatabaseURL)
-        self.got_json(self.req, _username, _pw)
-        # self.req = UrlRequest(databaseURL + ".json", partial(self.got_json,
-        #                       _username, _pw), debug=True)
+        req = requests.get(usersDatabaseURL)
+        success = None
+        try:
+            req.raise_for_status()
+            success = True
+        except:
+            success = False
+        if success:
+            self.got_json(req, _username, _pw)
+        else:
+            Logger.info("Error fetching login data")
 
     def got_json(self, req, username, pw, *args):
         Logger.info("json: got json")
@@ -119,7 +126,6 @@ class SignUpPage(Screen):
             usersDatabaseURL = databaseURL + "Users.json"
             req = requests.get(usersDatabaseURL)
             self.got_json(req)
-            # req = UrlRequest(databaseURL + ".json", self.got_json)
         else:
             Logger.info("Some wrong information entered")
 
@@ -219,7 +225,7 @@ class SignUpPage(Screen):
         data = json.dumps(user.to_dict())
         headers = {'Content-Type': 'application/json'}
         usersDatabaseURL = databaseURL + "Users.json"
-        req = requests.post(usersDatabaseURL, data=data, headers=headers)
+        req = requests.patch(usersDatabaseURL, data=data, headers=headers)
         success = None
         try:
             req.raise_for_status()

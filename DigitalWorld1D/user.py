@@ -36,20 +36,18 @@ class User:
             uid = user["user_id"]
             if int(uid) > max_uid:
                 max_uid = int(uid)
-        Logger.debug(max_uid)
         return max_uid + 1
 
     def to_dict(self):
-        Logger.debug("To dict")
         mydict = {}
         property_names = ["email", "user_id", "user_name", "password"]
         try:
             properties = [self.__email, self.__uid, self.__username,
                           self.__password]
-            Logger.debug("okay")
         except:
             properties = ["placeholder", "placeholder", "placeholder",
                           "placeholder"]
         for idx in range(len(property_names)):
             mydict[property_names[idx]] = properties[idx]
-        return mydict
+        bigdict = {self.__uid: mydict}
+        return bigdict

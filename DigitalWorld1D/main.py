@@ -58,8 +58,6 @@ class ScreenManagement(ScreenManager):
         if name == "signup":
             self.manager.current = "login"
 
-kv_file = Builder.load_file("ezeat.kv")
-
 class EzEat(App):
     def build(self):
         return kv_file

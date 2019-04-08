@@ -1,10 +1,17 @@
 {
-  "Active Orders" : {
-    "Stall" : {
-      "Order" : {
-        "Description" : "Chicken Cutlet W Rice",
-        "ID" : 2003,
-        "Stall" : "Western Stall"
+  "active_orders" : {
+    "western_stall" : {
+      "order_000001" : {
+        "order_id": "000001",
+        "user_id": "1",
+        "stall": "Western Stall",
+        "status": "Preparing",
+        "time_of_order": "01/01/2019|13:10:10",
+        "food_item": "Chicken Cutlet W Rice",
+        "special_requests": "None",
+        "estimated_waiting_time": "7 mins",
+        "time_of_order_completion": "None",
+        "time_of_order_collection": "None"
       }
     },
     "Status" : "Pending",
@@ -18,11 +25,20 @@
       "User ID" : 100
     }
   },
-  "Completed Orders" : {
-    "Order" : {
-      "Description" : "Chicken Cutlet W Rice",
-      "ID" : 2003,
-      "Stall" : "Western"
+  "completed_orders" : {
+    "western_stall" : {
+      "order_000001" : {
+        "order_id": "000001",
+        "user_id": "1",
+        "stall": "Western Stall",
+        "status": "Collected",
+        "time_of_order": "01/01/2019|13:10:10",
+        "food_item": "Chicken Cutlet W Rice",
+        "special_requests": "None",
+        "estimated_waiting_time": "7 mins",
+        "time_of_order_completion": "01/01/2019|13:20:20",
+        "time_of_order_collection": "01/01/2019|13:20:30"
+      }
     },
     "Time" : {
       "Collection Time" : "3 min",
@@ -34,7 +50,7 @@
       "User ID " : 1000
     }
   },
-  "Menu" : {
+  "menu" : {
     "Japanese Stall" : {
       "Bento Set" : {
         "EST Waiting Time" : "10 min",
@@ -45,17 +61,41 @@
     }
   },
   "Users" : {
+    "6" : {
+      "email" : "digital5@world.com",
+      "password" : "test123",
+      "user_id" : 6,
+      "user_name" : "digital5"
+    },
     "100" : {
       "email" : "two_type@hotmail.com",
       "password" : "test123",
-      "user_id" : "1",
+      "user_id" : 1,
       "user_name" : "two type"
     },
     "101" : {
       "email" : "jason.chowcs@gmail.com",
       "password" : "test123",
-      "user_id" : "2",
+      "user_id" : 2,
       "user_name" : "Jason Chow"
+    },
+    "-LapjSMzDOUf7A5agVXS" : {
+      "email" : "test@test.com",
+      "password" : "test123",
+      "user_id" : 3,
+      "user_name" : "testuser"
+    },
+    "-LarkRWOlZT2t0mVOPL_" : {
+      "email" : "digital@world.com",
+      "password" : "test123",
+      "user_id" : 4,
+      "user_name" : "digital"
+    },
+    "-Las1QoOpo7Mgf57cqX6" : {
+      "email" : "digital2@world.com",
+      "password" : "test123",
+      "user_id" : 5,
+      "user_name" : "digital2"
     }
   }
 }

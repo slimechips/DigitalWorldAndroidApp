@@ -1,11 +1,21 @@
+from datetime import datetime
+
 class Order:
-    def __init__(self):
-        pass
-    def get_current_stall(self):
-        return self._current_stall
-    def set_current_stall(self, value):
-        self._current_stall = value
-    _current_stall = property(get_current_stall, set_current_stall)
+    def __init__(self, uid, stall, food_item, spec_req, amt_paid):
+        self.__current_stall = stall
+        self.__uid = uid
+        self.__current_stall = stall
+        self.__food_item = food_item
+        self.__special_requests = spec_req
+        self.time_of_order = datetime.now()
+        self.__amt_paid = amt_paid
+
+    @property
+    def uid(self):
+        return self.__uid
+    @uid.setter
+    def uid(self, value):
+        self.__uid = value
 
     @property
     def current_stall(self):
@@ -20,13 +30,16 @@ class Order:
     @time_of_order.setter
     def time_of_order(self, value):
         self.__time_of_order = value
+        self.__time_of_order_str = "{}/{}/{}|{}:{}:{}".format(
+            value.day, value.month, value.year, value.hour, value.minute,
+            value.second)
 
     @property
-    def food_items(self):
-        return self.__food_items
-    @food_items.setter
-    def food_items(self, value):
-        self.__food_items = value
+    def food_item(self):
+        return self.__food_item
+    @food_item.setter
+    def food_item(self, value):
+        self.__food_item = value
 
     @property
     def special_requests(self):
@@ -50,8 +63,8 @@ class Order:
         self.__time_of_order_collection = value
 
     @property
-    def total_amt_paid(self):
-        return self.__total_amt_paid
-    @total_amt_paid.setter
-    def total_amt_paid(self, value):
-        self.__total_amt_paid = value
+    def amt_paid(self):
+        return self.__amt_paid
+    @amt_paid.setter
+    def amt_paid(self, value):
+        self.__amt_paid = value
