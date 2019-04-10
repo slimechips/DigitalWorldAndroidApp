@@ -23,9 +23,6 @@ def get_stalls(callback = None):
                          on_error=network_failure)
     except:
         pass
-    
-    req = requests.get(catalogDatabaseURL)
-
     # if check_request_success(req):
     #     result = req.json()
     #     for stall in result["stall"]:
