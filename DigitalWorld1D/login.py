@@ -2,12 +2,11 @@ __version__ = "1.0"
 from kivy.app import App
 #kivy.require("1.10.1")
 from kivy.uix.screenmanager import Screen
+from kivy.network.urlrequest import UrlRequest
 from config import apikey, authDomain, databaseURL
 from kivy.logger import Logger
 from functools import partial
 from user import User
-import asyncio
-import requests
 import database
 
 firebase_config = {
@@ -124,8 +123,8 @@ class SignUpPage(Screen):
             and self.check_password_validity(self.__password, self.__password2) \
             and self.check_username_validity(self.__username):
             usersDatabaseURL = databaseURL + "Users.json"
-            req = requests.get(usersDatabaseURL)
-            self.got_json(req)
+            self.req = UrlRequest(usersDatabaseURL, on_success=self.got_json,
+                                  on_error=self.network_failure, verify=False)
         else:
             Logger.info("Some wrong information entered")
 
@@ -174,10 +173,9 @@ class SignUpPage(Screen):
             self.info_text_field.text = "Invalid Username format"
         return test_pass
 
-    def got_json(self, req, *args):
+    def got_json(self, request, result, *args):
         Logger.info("json: got json")
-        result = req.json()
-        print(result)
+        Logger.info(result)
         signup_success = True
         for cur_uid, user in result.items():
             if user["email"] == self.__email:
@@ -195,6 +193,15 @@ class SignUpPage(Screen):
             Logger.debug("user created")
             self.upload_to_firebase(user)
             Logger.debug("user uploaded")
+
+    def network_failure(self, request, error, *args):
+        self.reset_input_field_colours()
+        self.password_field.background_color = wrong_credential_colour
+        self.password2_field.background_color = wrong_credential_colour
+        self.info_text_field.text = "Network failure"
+        Logger.info(error)
+        #[SSL: CERTIFICATE_VERIFY_FAILED] certificate 
+        #verify failed: unable to get local issuer certificate (_ssl.c:1051)
 
     def reset_input_field_colours(self):
         self.email_field.background_color = WHITE
@@ -225,7 +232,9 @@ class SignUpPage(Screen):
         data = json.dumps(user.to_dict())
         headers = {'Content-Type': 'application/json'}
         usersDatabaseURL = databaseURL + "Users.json"
-        req = requests.patch(usersDatabaseURL, data=data, headers=headers)
+        req = UrlRequest(usersDatabaseURL, req_body=data, req_headers=headers,
+                         method="PATCH", verify=False,
+                         on_success=partial(self.upload_success, user))
         success = None
         try:
             req.raise_for_status()

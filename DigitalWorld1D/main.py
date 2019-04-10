@@ -5,6 +5,7 @@ from kivy.utils import platform
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
+from kivy.uix.actionbar import ActionBar
 from kivy.uix.widget import Widget
 from kivy.core.image import Image
 from kivy.graphics import Rectangle
@@ -13,6 +14,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.logger import Logger
 from login import LoginPage, SignUpPage
 from user import User
 from order import Order
@@ -54,27 +56,26 @@ class Favourites(Screen):
     pass
 
 class ScreenManagement(ScreenManager):
-    def go_back(self, name):
-        if name == "signup":
-            self.manager.current = "login"
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Window.bind(on_keyboard=self.key_handler)
+
+    def key_handler(self, instance, key, *args):
+        if key is 27:
+            self.set_previous_screen()
+            return True
+    
+    def set_previous_screen(self):
+        if self.current != "main":
+            self.transition.direction = "left"
+            self.current = self.previous()
 
 class EzEat(App):
     def build(self):
-        return kv_file
-    
-    def init(self, *args):
-        if platform() == "android":
-            import android
-            android.map_key(android.KEYCODE_BACK, 1001)
-        win = Window
-        win.bind(on_keyboard=self.my_key_handler)
+        self.bind(on_start=self.init)
 
-    def my_key_handler(self, window, keycode1, keycode2, text, mods):
-        if keycode1 in [27, 1001]:
-            self.manager.current = self.manager.previous()
-            return True
-        else:
-            return False
+    def init(self, *args):
+        pass
 
 if __name__ == "__main__":
     EzEat().run()    
