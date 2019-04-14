@@ -7,13 +7,14 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.widget import Widget
+from kivy.uix.button import Button
 from kivy.core.image import Image
 from kivy.graphics import Rectangle
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ObjectProperty
 from kivy.uix.textinput import TextInput
 from kivy.logger import Logger
 from login import LoginPage, SignUpPage
@@ -30,13 +31,12 @@ class TopNavigationBar(ActionBar):
     text = StringProperty()
     
 class BottomNavigationBar(ActionBar):
-    stalls_btn = StringProperty('normal')
-    my_orders_btn = StringProperty('normal')
-    logout_btn = StringProperty('normal')
+    pass
 
 class Stalls(Screen):
     _buttonfontsize = buttonfontsize
     _titlefontsize = titlefontsize
+    layout_content = ObjectProperty(None)
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
     #     self.first_load = True
@@ -44,9 +44,10 @@ class Stalls(Screen):
     # When loading, setup the stalls to be active button in nav bar
     def on_pre_enter(self, *args):
         super().on_pre_enter(*args)
-        self.nav_stall_button = self.ids["btm_bar"].ids["stalls_btn"]
-        self.nav_stall_button.state = "down"
+        self.ids["btm_bar"].ids["stalls_btn"].state = "down"
 
+class StallButton(Button):
+    pass
 # class Stalls(Screen):
 #     _buttonfontsize = buttonfontsize
 #     _titlefontsize = titlefontsize
@@ -64,9 +65,7 @@ class My_Orders(Screen):
     # When loading, setup the orders to be active button in nav bar
     def on_pre_enter(self, *args):
         super().on_pre_enter(*args)
-        self.my_orders_button = self.ids["btm_bar"].ids["my_orders_btn"]
-        self.my_orders_button.state = "down"
-
+        self.ids["btm_bar"].ids["my_orders_btn"].state = "down"
 
 class Favourites(Screen):
     _buttonfontsize = buttonfontsize

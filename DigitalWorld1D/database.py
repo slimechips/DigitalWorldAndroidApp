@@ -18,7 +18,7 @@ def get_stalls(callback = None):
     catalogDatabaseURL = databaseURL + "Catalog.json"
     try:
         req = UrlRequest(catalogDatabaseURL,
-                         on_success=partial(self.get_stalls_success, callback),
+                         on_success=partial(get_stalls_success, callback),
                          verify=False,
                          on_error=network_failure)
     except:
@@ -28,7 +28,7 @@ def get_stalls(callback = None):
     #     for stall in result["stall"]:
     #         yield stall
 
-def get_stalls_success(request, result, callback, *args):
+def get_stalls_success(callback, request, result, *args):
     # Split the stall data
     stall_info = None
     if callback:
@@ -37,8 +37,18 @@ def get_stalls_success(request, result, callback, *args):
 def get_stall_info(stall):
     pass
 
-def create_order(uid, stall, food_item, spec_req, amt_paid):
+def create_order(uid, stall, food_item, spec_req, amt_paid, callback):
     order = Order(uid, stall, food_item, spec_req, amt_paid)
+    orderDatabaseURL = databaseURL + "Order.json"
+    req = UrlRequest(orderDatabaseURL,
+                     on_success=partial(create_order_success, callback),
+                     method="PATCH", verify=False,
+                     on_error=network_failure)
+
+def create_order_success(callback, req, result, *args):
+    # Do something
+    if callback:
+        callback()
 
 def network_failure(request, error, *args):
     Logger.info(error)

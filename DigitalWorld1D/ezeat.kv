@@ -2,6 +2,7 @@
 #File name: main.py
 #:include login.kv
 #: import FadeTransition kivy.uix.screenmanager.FadeTransition
+#: import Window kivy.core.window.Window
 
 ScreenManagement:
     id: screenmanager
@@ -72,33 +73,79 @@ ScreenManagement:
             on_release: app.root.current = 'stalls'
             allow_no_selection: False
             group: "btm_bar"
-            state: root.stalls_btn
         ActionToggleButton:
             id: my_orders_btn
             text: 'My Orders'
             on_release: app.root.current = 'my_orders'
             allow_no_selection: False
             group: "btm_bar"
-            state: root.my_orders_btn
         ActionToggleButton:
             id: logout_btn
             text: 'Logout'
             on_release: app.root.current = 'logout_pg'
             allow_no_selection: False
             group: "btm_bar"
-            state: root.logout_btn
 
 <Stalls>:
     name: "stalls"
+    layout_content: layout_content
     BoxLayout:
         orientation: "vertical"
         TopNavigationBar:
             id: top_bar
-            text: "Stalls"
-        Label:
-            text: 'content'
+        ScrollView:
+            size: self.size
+            do_scroll_y: True
+            BoxLayout:
+                id: layout_content
+                orientation: "vertical"
+                spacing: 200
+                size_hint_y: None
+                height: self.minimum_height
+                StallButton:
+                    text: "Test text"
+                Label:
+                    text: "test"
+                    font_size: 80
+                Label:
+                    text: "tesssst"
+                    font_size: 80
+                Label:
+                    text: "test"
+                    font_size: 80
+                Label:
+                    text: "test4"
+                    font_size: 80
+                Label:
+                    text: "teeest"
+                    font_size: 80
+                Label:
+                    text: "test"
+                    font_size: 80
+                Label:
+                    text: "test"
+                    font_size: 80
+                Label:
+                    text: "test"
+                    font_size: 80
+                Label:
+                    text: "test"
+                    font_size: 80
+
         BottomNavigationBar:
             id: btm_bar
+            stalls_btn: "down"
+
+<StallButton>:
+    background_color: 0,0,0,0
+    size_y: self.line_height
+    canvas.before:
+        Color:
+            rgba: (.4,.4,.4,1) if self.state=='normal' else (0,.7,.7,1) 
+        RoundedRectangle:
+            size: root.size
+            pos: root.pos
+            radius: [50,]
 
 # <Stalls>:
 #     name: "stalls"
@@ -131,30 +178,12 @@ ScreenManagement:
         orientation: "vertical"
         TopNavigationBar:
             id: top_bar
-            text: "My Orders"
         Label:
             text: 'content'
         BottomNavigationBar:
             id: btm_bar
+            my_orders_btm: "down"
 
-
-<Favourites>:
-    name: "favourites"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    FloatLayout:
-        Label:
-            id: dishes_text
-            text: "Favourites"
-            font_size: root._titlefontsize/2
-            color: 0, 0, 0, 1
-            size_hint: 1, None
-            spacing: 20
-            pos_hint: {"top": 1}
 
 <Logout_Confirm>:
     name: "logout_pg"
@@ -182,4 +211,7 @@ ScreenManagement:
             text: "Do you want to log out?"
             font_size: root._titlefontsize/2
             color: 1, 0, 0, 1
+    BottomNavigationBar:
+        id: btm_bar
+        
 
