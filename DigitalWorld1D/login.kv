@@ -10,68 +10,76 @@
         allow_stretch: True
         keep_ratio: False
         color: 1, 1, 1, 0.5
-    FloatLayout:
+
+    BoxLayout:
         orientation: "vertical"
-        size: self.size
+        size_hint: 1, 1
+        spacing: 20
         Label:
             id: easy_eat_txt
             text: root._appname
             font_size: root._titlefontsize
             color: 0.5, 0.5, 0.5, 1
-            pos_hint: {"y": 0.40}     
-            halign: "center"
-        BoxLayout:
-            orientation: "vertical"
-            pos_hint: {"x": 0, "y":0.35}
-            size_hint: 1, 0.4
             spacing: 20
-            Label:
-                id: username_txt
-                text: "Username"
-                size_hint: 1, None
-                font_size: root._labelfontsize
-                size: self.texture_size
-                halign: "center"
-            TextInput:
-                id: login
-                text_size: self.size
-                size_hint: 0.8, 0.3
-                pos_hint: {"x": 0.1}                
-                multiline: False
-                focus: True
-            Label:
-                id: password_txt
-                text: "Password"
-                size_hint: 1, None
-                font_size: root._labelfontsize
-                size: self.texture_size
-                color: (1, 1, 1, 1)
-                halign: "center"
-            TextInput:
-                id: passw
-                size_hint: 0.8, 0.3
-                pos_hint: {"x": 0.1}
-                multiline: False
-                focus: True
-                password: True
-            Button:
-                id: login_button
-                size_hint: 0.8, 0.5
-                pos_hint: {"x": 0.1}
-                text: "Login"
-                font_size: root._buttonfontsize
-                on_release: root.verify_credentials()
-                background_color: 0, 0.8, 0, 1.0
-                background_normal: ""
-            Button:
-                id: signup_button
-                size_hint: 0.8, 0.5
-                pos_hint: {"x": 0.1}
-                text: "Sign Up"
-                font_size: root._buttonfontsize
-                on_release: root.signup()
-                background_color: 0.2, 0.2, 0.8, 1.0
-                background_normal: ""
+        Label:
+            id: username_txt
+            text: "Username"
+            size_hint: 1, None
+            font_size: root._labelfontsize
+            size: self.texture_size
+            halign: "center"
+        TextInput:
+            id: login
+            size_hint: 0.8, None
+            pos_hint: {"x": 0.1}
+            font_size: root._labelfontsize
+            height: self.minimum_height
+            multiline: False
+            focus: True
+        Label:
+            id: password_txt
+            text: "Password"
+            size_hint: 1, None
+            font_size: root._labelfontsize
+            size: self.texture_size
+            color: (1, 1, 1, 1)
+            halign: "center"
+        TextInput:
+            id: passw
+            size_hint: 0.8, None
+            height: self.minimum_height
+            font_size: root._labelfontsize
+            pos_hint: {"x": 0.1}
+            multiline: False
+            focus: True
+            password: True
+        Button:
+            id: login_button
+            size_hint: 0.8, None
+            size_y: self.line_height
+            pos_hint: {"x": 0.1}
+            text: "Login"
+            font_size: root._buttonfontsize
+            on_release: root.verify_credentials()
+            background_color: 0, 0.8, 0, 1.0
+            background_normal: ""
+            
+        Button:
+            id: signup_button
+            size_hint: 0.8, None
+            size_y: self.line_height
+            pos_hint: {"x": 0.1}
+            text: "Sign Up"
+            font_size: root._buttonfontsize
+            on_release: root.signup()
+            background_color: 0.2, 0.2, 0.8, 1.0
+            background_normal: ""
+        Label:
+            id: space_login
+            text: "."
+            size_hint: 1, 1
+            color: 0, 0, 0, 0
+            size: self.texture_size
             
 
 <SignUpPage>:
@@ -83,82 +91,78 @@
         allow_stretch: True
         keep_ratio: False
         color: 1, 1, 1, 0.5
-    AnchorLayout:
-        anchor_x: "center"
-        anchor_y: "top"
-        padding: 10
+    BoxLayout:
+        orientation: "vertical"
         size_hint: 1, 1
-        BoxLayout:
-            orientation: "vertical"
-            spacing: 30
-            
-            Label:
-                id: signup_txt_title
-                text: "Sign up"
-                font_size: root._titlefontsize
-                color: 0.5, 0.5, 0.5, 1
-                size_hint: 1, None
-                size: self.texture_size
-                spacing: 20
-            TextInput:
-                id: email_signup_input
-                text_size: self.size
-                hint_text: "Email Address"
-                size_hint: 0.8, None
-                pos_hint: {"x": 0.1}
-                size_y: self.line_height
-                font_size: root._labelfontsize
-                multiline: False
-                focus: True
-            TextInput:
-                id: username_signup_input
-                text_size: self.size
-                hint_text: "Username"
-                size_hint: 0.8, None
-                pos_hint: {"x": 0.1}
-                size_y: self.line_height
-                font_size: root._labelfontsize
-                multiline: False
-                focus: True
-            TextInput:
-                id: passw_signup_input
-                size_hint: 0.8, None
-                hint_text: "Password"
-                pos_hint: {"x": 0.1}
-                size_y: self.line_height
-                font_size: root._labelfontsize
-                multiline: False
-                focus: True
-                password: True
-            TextInput:
-                id: passw_confirm_signup_input
-                size_hint: 0.8, None
-                hint_text: "Retype Password"
-                pos_hint: {"x": 0.1}
-                size_y: self.line_height
-                font_size: root._labelfontsize
-                multiline: False
-                focus: True
-                password: True
-            Button:
-                size_hint: 0.8, None
-                size_y: passw_confirm_signup_input.line_height
-                pos_hint: {"x": 0.1}
-                text: "Sign Up"
-                font_size: root._buttonfontsize
-                on_release: root.firebase_signup()
-                background_color: 0.2, 0.2, 0.8, 1.0
-                background_normal: ""
-            Label:
-                id: info_text
-                text: ""
-                font_size: root._labelfontsize
-                color: 1.0, 0.2, 0.2, 1
-                size_hint: 1, None
-                size: self.texture_size
-            Label:
-                id: space_signup
-                text: "."
-                size_hint: 1, 1
-                color: 0, 0, 0, 0
-                size: self.texture_size
+        spacing: 30
+        height: self.minimum_height
+        Label:
+            id: signup_txt_title
+            text: "Sign up"
+            font_size: root._titlefontsize
+            color: 0.5, 0.5, 0.5, 1
+            size_hint: 1, None
+            size: self.texture_size
+            spacing: 20
+        TextInput:
+            id: email_signup_input
+            # text_size: self.size
+            hint_text: "Email Address"
+            size_hint: 0.8, None
+            pos_hint: {"x": 0.1}
+            height: self.minimum_height
+            font_size: root._labelfontsize
+            multiline: False
+            focus: True
+        TextInput:
+            id: username_signup_input
+            text_size: self.size
+            hint_text: "Username"
+            size_hint: 0.8, None
+            pos_hint: {"x": 0.1}
+            height: self.minimum_height
+            font_size: root._labelfontsize
+            multiline: False
+            focus: True
+        TextInput:
+            id: passw_signup_input
+            size_hint: 0.8, None
+            hint_text: "Password"
+            pos_hint: {"x": 0.1}
+            height: self.minimum_height
+            font_size: root._labelfontsize
+            multiline: False
+            focus: True
+            password: True
+        TextInput:
+            id: passw_confirm_signup_input
+            size_hint: 0.8, None
+            hint_text: "Retype Password"
+            pos_hint: {"x": 0.1}
+            height: self.minimum_height
+            font_size: root._labelfontsize
+            multiline: False
+            focus: True
+            password: True
+        Button:
+            size_hint: 0.8, None
+            size_y: passw_confirm_signup_input.line_height
+            pos_hint: {"x": 0.1}
+            text: "Sign Up"
+            font_size: root._buttonfontsize
+            on_release: root.firebase_signup()
+            background_color: 0.2, 0.2, 0.8, 1.0
+            background_normal: ""
+        Label:
+            id: info_text
+            text: ""
+            font_size: root._labelfontsize
+            color: 1.0, 0.2, 0.2, 1
+            size_hint: 1, None
+            size: self.texture_size
+        Label:
+            id: space_signup
+            text: "."
+            size_hint: 1, 1
+            color: 0, 0, 0, 0
+            size: self.texture_size

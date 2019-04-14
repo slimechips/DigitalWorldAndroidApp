@@ -30,9 +30,6 @@ class Order:
     @time_of_order.setter
     def time_of_order(self, value):
         self.__time_of_order = value
-        self.__time_of_order_str = "{}/{}/{}|{}:{}:{}".format(
-            value.day, value.month, value.year, value.hour, value.minute,
-            value.second)
 
     @property
     def food_item(self):

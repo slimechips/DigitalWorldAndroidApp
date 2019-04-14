@@ -8,15 +8,138 @@ ScreenManagement:
     transition: FadeTransition()
     LoginPage:
     SignUpPage:
-    MainPage:
     Logout_Confirm:
     Stalls:
-    Dishes:
-    Orders:
+    My_Orders:
     Favourites:
 
-<MainPage>:
-    name: "main"
+# <MainPage>:
+#     name: "main"
+#     canvas.before:
+#         Color:
+#             rgba: 1, 1, 1, 1
+#         Rectangle:
+#             pos: self.pos
+#             size: self.size
+#     FloatLayout:
+#         Button:
+#             text: "Stalls"
+#             font_size: root._buttonfontsize
+#             size_hint: 1, 0.15
+#             pos_hint: {"top": 1}
+#             on_release: app.root.current = "stalls"
+#         Button:
+#             text: "Dishes"
+#             font_size: root._buttonfontsize
+#             size_hint: 1, 0.15
+#             pos_hint: {"top": 0.8}
+#             on_release: app.root.current = "dishes"
+#         Button:
+#             text: "Orders"
+#             font_size: root._buttonfontsize
+#             size_hint: 1, 0.15
+#             pos_hint: {"top": 0.6}
+#             on_release: app.root.current = "orders"
+#         Button:
+#             text: "Favourites"
+#             font_size: root._buttonfontsize
+#             size_hint: 1, 0.15
+#             pos_hint: {"top": 0.4}
+#             on_release: app.root.current = "favourites"
+#         Button:
+#             text: "Logout"
+#             font_size: root._buttonfontsize
+#             size_hint: 0.3, 0.2
+#             pos_hint: {"top": 0.2, "center_x": 0.5}
+#             on_release: app.root.current = "logout_pg"
+<TopNavigationBar>:
+    ActionView:
+        id: top_bar_view
+        use_separator: True
+        ActionPrevious:
+            id: top_bar_previous
+            title: root.text
+            with_previous: False
+
+<BottomNavigationBar>:
+    ActionView:
+        id: btm_bar_view
+        ActionPrevious:
+            with_previous: False
+        ActionToggleButton:
+            id: stalls_btn
+            text: 'Stalls'
+            on_release: app.root.current = 'stalls'
+            allow_no_selection: False
+            group: "btm_bar"
+            state: root.stalls_btn
+        ActionToggleButton:
+            id: my_orders_btn
+            text: 'My Orders'
+            on_release: app.root.current = 'my_orders'
+            allow_no_selection: False
+            group: "btm_bar"
+            state: root.my_orders_btn
+        ActionToggleButton:
+            id: logout_btn
+            text: 'Logout'
+            on_release: app.root.current = 'logout_pg'
+            allow_no_selection: False
+            group: "btm_bar"
+            state: root.logout_btn
+
+<Stalls>:
+    name: "stalls"
+    BoxLayout:
+        orientation: "vertical"
+        TopNavigationBar:
+            id: top_bar
+            text: "Stalls"
+        Label:
+            text: 'content'
+        BottomNavigationBar:
+            id: btm_bar
+
+# <Stalls>:
+#     name: "stalls"
+#     canvas.before:
+#         Color:
+#             rgba: 1, 1, 1, 1
+#         Rectangle:
+#             pos: self.pos
+#             size: self.size
+#     FloatLayout:
+#         Button:
+#             color: 1, 1, 1, 1
+#             font_size: root._buttonfontsize
+#             size_hint: 0.3, 0.2
+#             pos_hint: {"center_x": 0.5, "top": 0.2}
+#             text: "Back"
+#             on_release: app.root.current = "main"
+#         Label:
+#             id: stall_text
+#             text: "Stalls"
+#             font_size: root._titlefontsize/2
+#             color: 0, 0, 0, 1
+#             size_hint: 1, None
+#             spacing: 20
+#             pos_hint: {"top": 1}
+
+<My_Orders>:
+    name: "my_orders"
+    BoxLayout:
+        orientation: "vertical"
+        TopNavigationBar:
+            id: top_bar
+            text: "My Orders"
+        Label:
+            text: 'content'
+        BottomNavigationBar:
+            id: btm_bar
+
+
+<Favourites>:
+    name: "favourites"
     canvas.before:
         Color:
             rgba: 1, 1, 1, 1
@@ -24,36 +147,14 @@ ScreenManagement:
             pos: self.pos
             size: self.size
     FloatLayout:
-        Button:
-            text: "Stalls"
-            font_size: root._buttonfontsize
-            size_hint: 1, 0.15
-            pos_hint: {"top": 1}
-            on_release: app.root.current = "stalls"
-        Button:
-            text: "Dishes"
-            font_size: root._buttonfontsize
-            size_hint: 1, 0.15
-            pos_hint: {"top": 0.8}
-            on_release: app.root.current = "dishes"
-        Button:
-            text: "Orders"
-            font_size: root._buttonfontsize
-            size_hint: 1, 0.15
-            pos_hint: {"top": 0.6}
-            on_release: app.root.current = "orders"
-        Button:
+        Label:
+            id: dishes_text
             text: "Favourites"
-            font_size: root._buttonfontsize
-            size_hint: 1, 0.15
-            pos_hint: {"top": 0.4}
-            on_release: app.root.current = "favourites"
-        Button:
-            text: "Logout"
-            font_size: root._buttonfontsize
-            size_hint: 0.3, 0.2
-            pos_hint: {"top": 0.2, "center_x": 0.5}
-            on_release: app.root.current = "logout_pg"
+            font_size: root._titlefontsize/2
+            color: 0, 0, 0, 1
+            size_hint: 1, None
+            spacing: 20
+            pos_hint: {"top": 1}
 
 <Logout_Confirm>:
     name: "logout_pg"
@@ -69,7 +170,7 @@ ScreenManagement:
             size_hint: 0.3, 0.2
             pos_hint: {"center_x": 0.5, "top": 1}
             text: "Back"
-            on_release: app.root.current = "main"
+            on_release: app.root.current = "stalls"
         Button:
             font_size: root._buttonfontsize
             size_hint: 0.3, 0.2
@@ -82,101 +183,3 @@ ScreenManagement:
             font_size: root._titlefontsize/2
             color: 1, 0, 0, 1
 
-<Stalls>:
-    name: "stalls"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    FloatLayout:
-        Button:
-            color: 1, 1, 1, 1
-            font_size: root._buttonfontsize
-            size_hint: 0.3, 0.2
-            pos_hint: {"center_x": 0.5, "top": 0.2}
-            text: "Back"
-            on_release: app.root.current = "main"
-        Label:
-            id: stall_text
-            text: "Stalls"
-            font_size: root._titlefontsize/2
-            color: 0, 0, 0, 1
-            size_hint: 1, None
-            spacing: 20
-            pos_hint: {"top": 1}
-
-<Dishes>:
-    name: "dishes"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    FloatLayout:
-        Button:
-            color: 1, 1, 1, 1
-            font_size: root._buttonfontsize
-            size_hint: 0.3, 0.2
-            pos_hint: {"center_x": 0.5, "top": 0.2}
-            text: "Back"
-            on_release: app.root.current = "main"    
-        Label:
-            id: dishes_text
-            text: "Dishes"
-            font_size: root._titlefontsize/2
-            color: 0, 0, 0, 1
-            size_hint: 1, None
-            spacing: 20
-            pos_hint: {"top": 1}
-<Orders>:
-    name: "orders"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    FloatLayout:
-        Button:
-            color: 1, 1, 1, 1
-            font_size: root._buttonfontsize
-            size_hint: 0.3, 0.2
-            pos_hint: {"center_x": 0.5, "top": 0.2}
-            text: "Back"
-            on_release: app.root.current = "main"    
-        Label:
-            id: dishes_text
-            text: "Orders"
-            font_size: root._titlefontsize/2
-            color: 0, 0, 0, 1
-            size_hint: 1, None
-            spacing: 20
-            pos_hint: {"top": 1}
-
-<Favourites>:
-    name: "favourites"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    FloatLayout:
-        Button:
-            color: 1, 1, 1, 1
-            font_size: root._buttonfontsize
-            size_hint: 0.3, 0.2
-            pos_hint: {"center_x": 0.5, "top": 0.2}
-            text: "Back"
-            on_release: app.root.current = "main"    
-        Label:
-            id: dishes_text
-            text: "Favourites"
-            font_size: root._titlefontsize/2
-            color: 0, 0, 0, 1
-            size_hint: 1, None
-            spacing: 20
-            pos_hint: {"top": 1}

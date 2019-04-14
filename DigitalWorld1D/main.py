@@ -13,6 +13,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
+from kivy.properties import StringProperty
 from kivy.uix.textinput import TextInput
 from kivy.logger import Logger
 from login import LoginPage, SignUpPage
@@ -25,30 +26,47 @@ titlefontsize = 120
 
 user = {}
 
-class MainPage(Screen):
-    _buttonfontsize = buttonfontsize
-    _titlefontsize = titlefontsize
-    pass
-
-class Logout_Confirm(Screen):
-    _buttonfontsize = buttonfontsize
-    _titlefontsize = titlefontsize
-    pass
+class TopNavigationBar(ActionBar):
+    text = StringProperty()
+    
+class BottomNavigationBar(ActionBar):
+    stalls_btn = StringProperty('normal')
+    my_orders_btn = StringProperty('normal')
+    logout_btn = StringProperty('normal')
 
 class Stalls(Screen):
     _buttonfontsize = buttonfontsize
     _titlefontsize = titlefontsize
-    pass
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.first_load = True
 
-class Dishes(Screen):
+    # When loading, setup the stalls to be active button in nav bar
+    def on_pre_enter(self, *args):
+        super().on_pre_enter(*args)
+        self.nav_stall_button = self.ids["btm_bar"].ids["stalls_btn"]
+        self.nav_stall_button.state = "down"
+
+# class Stalls(Screen):
+#     _buttonfontsize = buttonfontsize
+#     _titlefontsize = titlefontsize
+#     pass
+
+# class Dishes(Screen):
+#     _buttonfontsize = buttonfontsize
+#     _titlefontsize = titlefontsize
+#     pass
+
+class My_Orders(Screen):
     _buttonfontsize = buttonfontsize
     _titlefontsize = titlefontsize
-    pass
 
-class Orders(Screen):
-    _buttonfontsize = buttonfontsize
-    _titlefontsize = titlefontsize
-    pass
+    # When loading, setup the orders to be active button in nav bar
+    def on_pre_enter(self, *args):
+        super().on_pre_enter(*args)
+        self.my_orders_button = self.ids["btm_bar"].ids["my_orders_btn"]
+        self.my_orders_button.state = "down"
+
 
 class Favourites(Screen):
     _buttonfontsize = buttonfontsize
@@ -66,9 +84,15 @@ class ScreenManagement(ScreenManager):
             return True
     
     def set_previous_screen(self):
-        if self.current != "main":
+        if self.current != "login":
             self.transition.direction = "left"
             self.current = self.previous()
+
+class Logout_Confirm(Screen):
+    _buttonfontsize = buttonfontsize
+    _titlefontsize = titlefontsize
+    pass
+
 
 class EzEat(App):
     def build(self):

@@ -18,7 +18,7 @@ def get_stalls(callback = None):
     catalogDatabaseURL = databaseURL + "Catalog.json"
     try:
         req = UrlRequest(catalogDatabaseURL,
-                         on_success=partial(get_stalls_success, callback),
+                         on_success=partial(self.get_stalls_success, callback),
                          verify=False,
                          on_error=network_failure)
     except:
