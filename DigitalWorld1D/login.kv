@@ -53,7 +53,7 @@
             multiline: False
             focus: True
             password: True
-        Button:
+        SmoothButton:
             id: login_button
             size_hint: 0.8, None
             size_y: self.line_height
@@ -61,10 +61,9 @@
             text: "Login"
             font_size: root._buttonfontsize
             on_release: root.verify_credentials()
-            background_color: 0, 0.8, 0, 1.0
             background_normal: ""
-            
-        Button:
+            btn_color: 0.9, 0.9, 0.3, 1
+        FilledStrokeButton:
             id: signup_button
             size_hint: 0.8, None
             size_y: self.line_height
@@ -72,8 +71,10 @@
             text: "Sign Up"
             font_size: root._buttonfontsize
             on_release: root.signup()
-            background_color: 0.2, 0.2, 0.8, 1.0
+            # background_color: 0.2, 0.2, 0.8, 1.0
             background_normal: ""
+            btn_color: 0.7, 0.7, 0.7, 1
+            back_color: 0.2, 0.2, 1, 1     
         Label:
             id: space_login
             text: "."
@@ -166,3 +167,49 @@
             size_hint: 1, 1
             color: 0, 0, 0, 0
             size: self.texture_size
+
+<SmoothButton@Button>:
+    background_color: 0, 0, 0, 0
+    background_normal: ''
+    border_radius: [20]
+    btn_color: 0, 0, 0, 1
+    canvas.before:
+        Color:
+            rgba: self.btn_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.border_radius
+
+<StrokeButton@Button>:
+    background_color: 0, 0, 0, 0
+    background_normal: ''
+    border_radius: 20
+    back_color: 1, 0, 1, 1
+    color: self.back_color
+    bold: True
+    canvas.before:
+        Color:
+            rgba: self.back_color
+        Line:
+            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], self.border_radius)
+            width: 1.2
+
+<FilledStrokeButton@Button>:
+    btn_color: (0, 0, 0, 1)
+    back_color: 1, 0, 1, 1
+    background_color: 0, 0, 0, 0
+    color: 0, 0, 0, 0
+    # on_press: self.back_color = 0, 0 ,0 ,1
+    SmoothButton:
+        btn_color: self.parent.btn_color[:]
+        size: self.parent.size
+        pos: self.parent.pos
+        on_release: self.parent.on_release
+        StrokeButton:
+            size: self.parent.size
+            pos: self.parent.pos
+            text: self.parent.parent.text
+            font_size: self.parent.parent.font_size
+            back_color: self.parent.parent.back_color
+            on_release: self.parent.parent.on_release

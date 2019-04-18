@@ -1,71 +1,22 @@
 {
-  "active_orders" : {
-    "western_stall" : {
-      "order_000001" : {
-        "order_id": "000001",
-        "user_id": "1",
-        "stall": "Western Stall",
-        "status": "Preparing",
-        "time_of_order": "01/01/2019|13:10:10",
-        "food_item": "Chicken Cutlet W Rice",
-        "special_requests": "None",
-        "estimated_waiting_time": "7 mins",
-        "time_of_order_completion": "None",
-        "time_of_order_collection": "None"
-      }
-    },
-    "Status" : "Pending",
-    "Time" : {
-      "Delay time " : "0 min",
-      "Est Waiting Time" : "7 min",
-      "Time Elapsed" : "3 min"
-    },
-    "User" : {
-      "Type of User" : "Student",
-      "User ID" : 100
-    }
-  },
-  "completed_orders" : {
-    "western_stall" : {
-      "order_000001" : {
-        "order_id": "000001",
-        "user_id": "1",
-        "stall": "Western Stall",
-        "status": "Collected",
-        "time_of_order": "01/01/2019|13:10:10",
-        "food_item": "Chicken Cutlet W Rice",
-        "special_requests": "None",
-        "estimated_waiting_time": "7 mins",
-        "time_of_order_completion": "01/01/2019|13:20:20",
-        "time_of_order_collection": "01/01/2019|13:20:30"
-      }
-    },
-    "Time" : {
-      "Collection Time" : "3 min",
-      "Prep Time" : "10 min"
-    },
-    "Time of Day" : "12pm",
-    "User " : {
-      "Type of User" : "Student",
-      "User ID " : 1000
-    }
-  },
-  "menu" : {
-    "Japanese Stall" : {
-      "Bento Set" : {
-        "EST Waiting Time" : "10 min",
-        "Food ID" : 100,
-        "Photo ID " : 5634102,
-        "Price" : "$5.50"
-      }
-    }
-  },
   "Users" : {
     "6" : {
       "email" : "digital5@world.com",
       "password" : "test123",
       "user_id" : 6,
       "user_name" : "digital5"
+    },
+    "7" : {
+      "email" : "test0@test.com",
+      "password" : "test123",
+      "user_id" : 7,
+      "user_name" : "test0"
+    },
+    "8" : {
+      "email" : "http@somemail.com",
+      "password" : "test123",
+      "user_id" : 8,
+      "user_name" : "https"
     },
     "100" : {
       "email" : "two_type@hotmail.com",
@@ -97,5 +48,168 @@
       "user_id" : 5,
       "user_name" : "digital2"
     }
-  }
+  },
+  "active_orders" : {
+    "western_stall" : {
+      "order_000001" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Rice without chicket",
+        "order_id" : "000003",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-09 00:01:59",
+        "time_of_order_completion" : "None",
+        "user_id" : "1"
+      },
+      "order_000002" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Rice without chicket",
+        "order_id" : "000003",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-09 00:01:59",
+        "time_of_order_completion" : "None",
+        "user_id" : "1"
+      },
+      "order_000004" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Rice without chicket",
+        "order_id" : "000003",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-09 00:01:59",
+        "time_of_order_completion" : "None",
+        "user_id" : "1"
+      }
+    }
+  },
+  "completed_orders" : {
+    "Time of Day" : "12pm",
+    "western_stall" : {
+      "order_000001" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Chicken Cutlet W Rice",
+        "order_id" : "000001",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-08 23:15:45",
+        "time_of_order_completion" : "2019-04-08 22:20:28",
+        "user_id" : "1"
+      },
+      "order_000002" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Chicken Cutlet W Rice",
+        "order_id" : "000001",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-08 22:48:41",
+        "time_of_order_completion" : "2019-04-08 22:20:28",
+        "user_id" : "1"
+      },
+      "order_000003" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Rice without chicket",
+        "order_id" : "000003",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-14 22:47:14",
+        "time_of_order_completion" : "None",
+        "user_id" : "1"
+      },
+      "order_000004" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Rice without chicket",
+        "order_id" : "000003",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-09 00:01:59",
+        "time_of_order_completion" : "None",
+        "user_id" : "1"
+      },
+      "order_000005" : {
+        "estimated_waiting_time" : "7 mins",
+        "food_item" : "Rice without chicket",
+        "order_id" : "000001",
+        "special_requests" : "None",
+        "stall" : "Western Stall",
+        "status" : "collected",
+        "time_of_order" : "01/01/2019|13:10:10",
+        "time_of_order_collection" : "2019-04-14 22:47:49",
+        "time_of_order_completion" : "None",
+        "user_id" : "1"
+      }
+    }
+  },
+  "food_item" : "Chicken Cutlet W Rice",
+  "menu" : {
+    "Indian" : {
+      "Chicken Cutlet W Rice" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      },
+      "vegetarian" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      }
+    },
+    "Japanese Stall" : {
+      "Bento Set" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      }
+    },
+    "Vegetarian" : {
+      "Dish 1" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      }
+    },
+    "Western Stall" : {
+      "Chicken Cutlet W Rice" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      },
+      "Rice without chicket" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      },
+      "ricc_with_noodle2" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      }
+    }
+  },
+  "miniproject" : {
+    "red" : "off",
+    "yellow" : "on"
+  },
+  "order_id" : "000001",
+  "special_requests" : "None",
+  "stall" : "Western Stall",
+  "status" : "collected",
+  "time_of_order" : "01/01/2019|13:10:10",
+  "time_of_order_collection" : "2019-04-08 22:37:44",
+  "time_of_order_completion" : "2019-04-08 22:20:28",
+  "user_id" : "1"
 }

@@ -11,48 +11,10 @@ ScreenManagement:
     SignUpPage:
     Logout_Confirm:
     Stalls:
+    StallScreen:
     My_Orders:
     Favourites:
 
-# <MainPage>:
-#     name: "main"
-#     canvas.before:
-#         Color:
-#             rgba: 1, 1, 1, 1
-#         Rectangle:
-#             pos: self.pos
-#             size: self.size
-#     FloatLayout:
-#         Button:
-#             text: "Stalls"
-#             font_size: root._buttonfontsize
-#             size_hint: 1, 0.15
-#             pos_hint: {"top": 1}
-#             on_release: app.root.current = "stalls"
-#         Button:
-#             text: "Dishes"
-#             font_size: root._buttonfontsize
-#             size_hint: 1, 0.15
-#             pos_hint: {"top": 0.8}
-#             on_release: app.root.current = "dishes"
-#         Button:
-#             text: "Orders"
-#             font_size: root._buttonfontsize
-#             size_hint: 1, 0.15
-#             pos_hint: {"top": 0.6}
-#             on_release: app.root.current = "orders"
-#         Button:
-#             text: "Favourites"
-#             font_size: root._buttonfontsize
-#             size_hint: 1, 0.15
-#             pos_hint: {"top": 0.4}
-#             on_release: app.root.current = "favourites"
-#         Button:
-#             text: "Logout"
-#             font_size: root._buttonfontsize
-#             size_hint: 0.3, 0.2
-#             pos_hint: {"top": 0.2, "center_x": 0.5}
-#             on_release: app.root.current = "logout_pg"
 <TopNavigationBar>:
     ActionView:
         id: top_bar_view
@@ -89,6 +51,87 @@ ScreenManagement:
 <Stalls>:
     name: "stalls"
     layout_content: layout_content
+    canvas.before:
+        Color:
+            rgb: 0.8, 0.8, 0.8
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        TopNavigationBar:
+            id: top_bar
+            text: "Stalls"
+        ScrollView:
+            size: self.size
+            do_scroll_y: True
+            GridLayout:
+                id: layout_content
+                orientation: "vertical"
+                cols: 2
+                size_hint_y: None
+                spacing: 10
+                padding: 20
+                height: self.minimum_height
+                StallButton:
+                    id: btn_1
+                    source: "japanese.jpg"
+                    label_txt: "Japanese"
+                    stall_name: "Japanese Stall"
+                StallButton:
+                    text: "Test text"
+                StallButton:
+                    text: "Test text"
+                StallButton:
+                    text: "Test text"
+                StallButton:
+                    text: "Test text"
+                StallButton:
+                    text: "Test text"
+                StallButton:
+                    text: "Test text"
+                StallButton:
+                    text: "Test text"
+                StallButton:
+                    text: "Test text"
+        BottomNavigationBar:
+            id: btm_bar
+            stalls_btn: "down"
+
+<StallButton>:
+    id: stall_btn
+    background_color: 0,0,0,0
+    size: self.size
+    padding: 40, 40
+    size_hint_y: None
+    height: self.width
+    on_release: self.parent.parent.parent.parent.btn_pressed(self.stall_name)
+    Image:
+        x: self.parent.x
+        y: self.parent.y
+        size: self.parent.size
+        source: self.parent.source
+        allow_stretch: True
+        keep_ratio: False
+        color: 1, 1, 1, 0.5
+    Label:
+        # size: self.texture_size
+        center_x: self.parent.center_x
+        center_y: self.parent.center_y
+        text: self.parent.label_txt
+        font_size: root.btn_txt
+        color: 0, 0, 0, 1
+
+<StallScreen>:
+    name: "stall_screen"
+    id: stall_screen
+    current_stall: self.manager.current_stall
+    canvas.before:
+        Color:
+            rgb: 0.8, 0.8, 0.8
+        Rectangle:
+            size: self.size
+            pos: self.pos
     BoxLayout:
         orientation: "vertical"
         TopNavigationBar:
@@ -96,81 +139,23 @@ ScreenManagement:
         ScrollView:
             size: self.size
             do_scroll_y: True
-            BoxLayout:
-                id: layout_content
-                orientation: "vertical"
-                spacing: 200
-                size_hint_y: None
+            GridLayout:
+                id: stall_grd
+                cols: 2
+                column_default_force: True,
+                column_default_width: Window.width/2
                 height: self.minimum_height
-                StallButton:
-                    text: "Test text"
-                Label:
-                    text: "test"
-                    font_size: 80
-                Label:
-                    text: "tesssst"
-                    font_size: 80
-                Label:
-                    text: "test"
-                    font_size: 80
-                Label:
-                    text: "test4"
-                    font_size: 80
-                Label:
-                    text: "teeest"
-                    font_size: 80
-                Label:
-                    text: "test"
-                    font_size: 80
-                Label:
-                    text: "test"
-                    font_size: 80
-                Label:
-                    text: "test"
-                    font_size: 80
-                Label:
-                    text: "test"
-                    font_size: 80
-
+                spacing: 10
+                padding: 20
+                size_hint_y: None
         BottomNavigationBar:
             id: btm_bar
-            stalls_btn: "down"
 
-<StallButton>:
-    background_color: 0,0,0,0
-    size_y: self.line_height
-    canvas.before:
-        Color:
-            rgba: (.4,.4,.4,1) if self.state=='normal' else (0,.7,.7,1) 
-        RoundedRectangle:
-            size: root.size
-            pos: root.pos
-            radius: [50,]
+<FoodLabel>:
+    font_size: 40
+    color: [0, 0, 0, 1]
+    size_hint_y: None
 
-# <Stalls>:
-#     name: "stalls"
-#     canvas.before:
-#         Color:
-#             rgba: 1, 1, 1, 1
-#         Rectangle:
-#             pos: self.pos
-#             size: self.size
-#     FloatLayout:
-#         Button:
-#             color: 1, 1, 1, 1
-#             font_size: root._buttonfontsize
-#             size_hint: 0.3, 0.2
-#             pos_hint: {"center_x": 0.5, "top": 0.2}
-#             text: "Back"
-#             on_release: app.root.current = "main"
-#         Label:
-#             id: stall_text
-#             text: "Stalls"
-#             font_size: root._titlefontsize/2
-#             color: 0, 0, 0, 1
-#             size_hint: 1, None
-#             spacing: 20
-#             pos_hint: {"top": 1}
 
 <My_Orders>:
     name: "my_orders"
@@ -178,6 +163,7 @@ ScreenManagement:
         orientation: "vertical"
         TopNavigationBar:
             id: top_bar
+            text: "My Orders"
         Label:
             text: 'content'
         BottomNavigationBar:

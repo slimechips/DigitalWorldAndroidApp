@@ -84,3 +84,6 @@ DigitalWorld1D/.buildozer/state.db
 # config file
 DigitalWorld1D/config.py
 digitalworldf08g2-export.json
+
+DigitalWorld1D/testenv
+DigitalWorld1D/__pycache__/

@@ -9,6 +9,7 @@ from functools import partial
 from user import User
 import database
 from kivy.uix.button import Button
+from kivy.properties import ColorProperty
 
 firebase_config = {
     "apikey": apikey,
@@ -42,7 +43,7 @@ class LoginPage(Screen):
         req = UrlRequest(usersDatabaseURL,
                          on_success=partial(self.got_json, _username, _pw),
                          verify=False,
-                         on_failure=self.error_json)
+                         on_error=self.error_json)
 
     # Callback on success of verifying credentials
     def got_json(self, username, pw, req, result, *args):
@@ -71,8 +72,9 @@ class LoginPage(Screen):
             self.login_error()
 
     # If verification failed for some reason
-    def error_json(self, error, *args):
-        Logger.info("json: error " + error)
+    def error_json(self, req, error, *args):
+        Logger.info(error)
+        self.login_error()
 
     # Switch to signup page
     def signup(self):
@@ -267,3 +269,9 @@ class SignUpPage(Screen):
         Logger.info("Upload Successful")
         User.current_user = user
         self.manager.current = "stalls"
+
+class SmoothButton(Button):
+    btn_color = ColorProperty()
+
+class FilledStrokeButton(Button):
+    btn_color = ColorProperty()
