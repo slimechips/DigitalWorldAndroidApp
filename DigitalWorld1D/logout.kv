@@ -1,0 +1,32 @@
+#:kivy 1.10.1
+
+<Logout_Confirm>:
+    name: "logout_pg"
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    FloatLayout:
+        Button:
+            font_size: root._button_font_size
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 1}
+            text: "Back"
+            on_release: app.root.current = "stalls"
+        Button:
+            font_size: root._button_font_size
+            size_hint: 0.3, 0.2
+            pos_hint: {"center_x": 0.5, "top": 0.2}
+            text: "Logout"
+            on_release: app.root.current = "login"
+        Label:
+            id: logout_text
+            text: "Do you want to log out?"
+            font_size: root._title_font_size/2
+            color: 1, 0, 0, 1
+    BottomNavigationBar:
+        id: btm_bar
+        
+

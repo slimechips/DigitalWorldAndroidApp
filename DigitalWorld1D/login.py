@@ -2,37 +2,27 @@ __version__ = "1.0"
 from kivy.app import App
 #kivy.require("1.10.1")
 from kivy.uix.screenmanager import Screen
+from kivy.uix.textinput import TextInput
 from kivy.network.urlrequest import UrlRequest
-from config import apikey, authDomain, databaseURL
 from kivy.logger import Logger
+from kivy.uix.button import Button
+from kivy.properties import ColorProperty, BooleanProperty
+
 from functools import partial
+
+
 from user import User
 import database
-from kivy.uix.button import Button
-from kivy.properties import ColorProperty
-
-firebase_config = {
-    "apikey": apikey,
-    "authDomain": authDomain,
-    "databaseURL": databaseURL
-}
-
-label_font_size = 50
-appname = "SUTD EzEat"
-buttonfontsize = 60
-wrong_credential_colour = (1, 0.4, 0.4, 1)
-WHITE = (1, 1, 1, 1)
-
+import orders
+import appstrings
+import appcolours
+import appdimens
+from config import apikey, authDomain, databaseURL
 
 class LoginPage(Screen):
-    _titlefontsize = 100
-    _appname = appname
-    _labelfontsize = label_font_size
-    _buttonfontsize = buttonfontsize
 
     def __init__(self, **kwargs):
         super(LoginPage, self).__init__(**kwargs)
-        self.firebaseUrl = firebase_config["databaseURL"]
         self.user = None
 
     # Checks with database if login details are correct
@@ -88,14 +78,10 @@ class LoginPage(Screen):
 
     # UI change when user credentials are invalid
     def login_error(self):
-        self.ids["login"].background_color = wrong_credential_colour
-        self.ids["passw"].background_color = wrong_credential_colour
+        self.ids["login"].set_wrong()
+        self.ids["passw"].set_wrong()
         
 class SignUpPage(Screen):
-    _titlefontsize = 80
-    _labelfontsize = label_font_size
-    _buttonfontsize = buttonfontsize
-
     def __init__(self, **kwargs):
         super(SignUpPage, self).__init__(**kwargs)
         
@@ -142,7 +128,7 @@ class SignUpPage(Screen):
                 test_pass = False
         if not test_pass:
             self.reset_input_field_colours()
-            self.email_field.background_color = wrong_credential_colour
+            self.email_field.set_wrong()
             self.info_text_field.text = "Invalid Email"
         return test_pass                
 
@@ -166,9 +152,10 @@ class SignUpPage(Screen):
                     test_pass = False
             if not test_pass:
                 self.reset_input_field_colours()
-                self.password_field.background_color = wrong_credential_colour
-                self.password2_field.background_color = wrong_credential_colour
-                self.info_text_field.text = "Password doesn't match requirements"
+                self.password_field.set_wrong()
+                self.password2_field.set_wrong()
+                self.info_text_field.text = "" \
+                    "Password doesn't match requirements"
         return test_pass
 
     # Algo to check if username meets requirements
@@ -178,7 +165,7 @@ class SignUpPage(Screen):
             test_pass = False
         if not test_pass:
             self.reset_input_field_colours()
-            self.username_field.background_color = wrong_credential_colour
+            self.username_field.set_wrong()
             self.info_text_field.text = "Invalid Username format"
         return test_pass
 
@@ -219,36 +206,36 @@ class SignUpPage(Screen):
     # If unable to connect to the database
     def network_failure(self, request, error, *args):
         self.reset_input_field_colours()
-        self.password_field.background_color = wrong_credential_colour
-        self.password2_field.background_color = wrong_credential_colour
+        self.password_field.set_wrong()
+        self.password2_field.set_wrong()
         self.info_text_field.text = "Network failure"
         Logger.info(error)
 
     # Call this to clear any previous UI warnings to user
     def reset_input_field_colours(self):
-        self.email_field.background_color = WHITE
-        self.username_field.background_color = WHITE
-        self.password_field.background_color = WHITE
-        self.password2_field.background_color = WHITE
+        self.email_field.set_okay()
+        self.username_field.set_okay()
+        self.password_field.set_okay()
+        self.password2_field.set_okay()
         self.info_text_field.text = ""
 
     # Handles UI change when passwords don't message
     def passwords_different(self):
         self.reset_input_field_colours()
-        self.password_field.background_color = wrong_credential_colour
-        self.password2_field.background_color = wrong_credential_colour
+        self.password_field.set_wrong()
+        self.password2_field.set_wrong()
         self.info_text_field.text = "Passwords don't match"
 
     # Handles UI Change when email already exists in database
     def email_taken(self):
         self.reset_input_field_colours()
-        self.email_field.background_color = wrong_credential_colour
+        self.email_field.set_wrong()
         self.info_text_field.text = "Email is already Taken!"
 
     # Handles UI chaange when username already exists in database
     def username_taken(self):
         self.reset_input_field_colours()
-        self.username_field.background_color = wrong_credential_colour
+        self.username_field.set_wrong()
         self.info_text_field.text = "Username is already Taken!"
 
     # Uploads new user data to database. This is only called when
@@ -273,5 +260,36 @@ class SignUpPage(Screen):
 class SmoothButton(Button):
     btn_color = ColorProperty()
 
-class FilledStrokeButton(Button):
-    btn_color = ColorProperty()
+# Default transparent TextInput class
+class TransparentInput(TextInput):
+    cur_line_colour = ColorProperty()
+    normal_line_colour = ColorProperty()
+    focus_line_colour = ColorProperty()
+    wrong_line_colour = ColorProperty()
+    wrong = BooleanProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.wrong = False
+
+    # Callback when focus events happen
+    def on_focus(self, *args):
+        if self.focus:
+            # TextInput is focused
+            self.cur_line_colour = self.focus_line_colour # Change Colour
+        elif self.wrong:
+            # User previously entered wrong info
+            self.cur_line_colour = self.wrong_line_colour # Change Colour
+        else:
+            # Text input is not focused
+            self.cur_line_colour = self.normal_line_colour # Change Colour
+
+    def set_wrong(self):
+        self.wrong = True
+        self.foreground_color = self.wrong_line_colour
+        self.cur_line_colour = self.wrong_line_colour
+
+    def set_okay(self):
+        self.wrong = False
+        self.foreground_color = appcolours.WHITE
+        self.cur_line_colour = self.normal_line_colour

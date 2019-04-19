@@ -1,178 +1,138 @@
 #:kivy 1.10.1
-#File name: main.py
+#File name: login.py
+#: import appdimens appdimens
+#: import appstrings appstrings
+#: import appcolours appcolours
 
 <LoginPage>:
     name: "loginpage"
-    Image:
-        pos: self.pos
-        size_hint: 1, 1
-        source: 'SUTDcanteenPotrait.png'
-        allow_stretch: True
-        keep_ratio: False
-        color: 1, 1, 1, 0.5
-
+    BackgroundImage:
+        id: background_image
     BoxLayout:
         orientation: "vertical"
-        size_hint: 1, 1
-        spacing: 20
+        size_hint: 0.8, 1
+        spacing: 30
+        pos_hint: {"x": 0.1}
+        Widget:
+            id: login_space_top
+            size_hint_y: 0.1
         Label:
             id: easy_eat_txt
-            text: root._appname
-            font_size: root._titlefontsize
-            color: 0.5, 0.5, 0.5, 1
-            spacing: 20
+            text: appstrings.appname
+            size_hint_y: None
+            font_size: appdimens.title_font_size
+            color: appcolours.def_blue
         Label:
             id: username_txt
             text: "Username"
-            size_hint: 1, None
-            font_size: root._labelfontsize
+            size_hint_y: None
             size: self.texture_size
-            halign: "center"
-        TextInput:
+            text_size: self.size
+            halign: "left"
+            font_size: appdimens.label_font_size
+            halign: "left"
+            padding: 0, 0
+            color: appcolours.def_blue
+        TransparentInput:
             id: login
-            size_hint: 0.8, None
-            pos_hint: {"x": 0.1}
-            font_size: root._labelfontsize
-            height: self.minimum_height
-            multiline: False
-            focus: True
+            size_hint_y: None
+            hint_text: "example@email.com"
         Label:
             id: password_txt
             text: "Password"
-            size_hint: 1, None
-            font_size: root._labelfontsize
+            size_hint_y: None
+            text_size: self.size
             size: self.texture_size
+            font_size: appdimens.label_font_size
             color: (1, 1, 1, 1)
-            halign: "center"
-        TextInput:
+            halign: "left"
+            color: appcolours.def_blue
+        TransparentInput:
             id: passw
-            size_hint: 0.8, None
-            height: self.minimum_height
-            font_size: root._labelfontsize
-            pos_hint: {"x": 0.1}
-            multiline: False
-            focus: True
+            size_hint_y: None
             password: True
         SmoothButton:
             id: login_button
-            size_hint: 0.8, None
-            size_y: self.line_height
-            pos_hint: {"x": 0.1}
-            text: "Login"
-            font_size: root._buttonfontsize
+            size_hint_y: None
+            text: "[b]Login[/b]"
+            markup: True
+            font_size: appdimens.button_font_size
             on_release: root.verify_credentials()
             background_normal: ""
-            btn_color: 0.9, 0.9, 0.3, 1
-        FilledStrokeButton:
+            btn_color: appcolours.login_green
+        StrokeButton:
             id: signup_button
-            size_hint: 0.8, None
-            size_y: self.line_height
-            pos_hint: {"x": 0.1}
-            text: "Sign Up"
-            font_size: root._buttonfontsize
+            size_hint_y: None
+            text: "[b]Sign Up[/b]"
+            markup: True
+            font_size: appdimens.button_font_size
             on_release: root.signup()
-            # background_color: 0.2, 0.2, 0.8, 1.0
             background_normal: ""
-            btn_color: 0.7, 0.7, 0.7, 1
-            back_color: 0.2, 0.2, 1, 1     
-        Label:
-            id: space_login
-            text: "."
-            size_hint: 1, 1
-            color: 0, 0, 0, 0
-            size: self.texture_size
-            
+            back_color: 0.6, 0.8, 1, 1     
+        Widget:
+            id: space_login_btm
+            size_hint: 1, 0.9
 
 <SignUpPage>:
     name: "signup"
-    Image:
-        pos: self.pos
-        size_hint: 1, 1
-        source: 'SUTDcanteenPotrait.png'
-        allow_stretch: True
-        keep_ratio: False
-        color: 1, 1, 1, 0.5
+    BackgroundImage:
+        id: background_image
     BoxLayout:
         orientation: "vertical"
-        size_hint: 1, 1
-        spacing: 30
+        size_hint: 0.8, 1
+        spacing: 50
         height: self.minimum_height
+        pos_hint: {"x": 0.1}
         Label:
             id: signup_txt_title
             text: "Sign up"
-            font_size: root._titlefontsize
-            color: 0.5, 0.5, 0.5, 1
+            font_size: appdimens.title_font_size
+            color: appcolours.signup_blue
             size_hint: 1, None
             size: self.texture_size
             spacing: 20
-        TextInput:
+        TransparentInput:
             id: email_signup_input
-            # text_size: self.size
             hint_text: "Email Address"
-            size_hint: 0.8, None
-            pos_hint: {"x": 0.1}
-            height: self.minimum_height
-            font_size: root._labelfontsize
-            multiline: False
-            focus: True
-        TextInput:
+        TransparentInput:
             id: username_signup_input
-            text_size: self.size
             hint_text: "Username"
-            size_hint: 0.8, None
-            pos_hint: {"x": 0.1}
-            height: self.minimum_height
-            font_size: root._labelfontsize
-            multiline: False
-            focus: True
-        TextInput:
+        TransparentInput:
             id: passw_signup_input
-            size_hint: 0.8, None
             hint_text: "Password"
-            pos_hint: {"x": 0.1}
-            height: self.minimum_height
-            font_size: root._labelfontsize
-            multiline: False
-            focus: True
             password: True
-        TextInput:
+        TransparentInput:
             id: passw_confirm_signup_input
-            size_hint: 0.8, None
             hint_text: "Retype Password"
-            pos_hint: {"x": 0.1}
-            height: self.minimum_height
-            font_size: root._labelfontsize
-            multiline: False
-            focus: True
             password: True
-        Button:
+        SmoothButton:
             size_hint: 0.8, None
             size_y: passw_confirm_signup_input.line_height
             pos_hint: {"x": 0.1}
             text: "Sign Up"
-            font_size: root._buttonfontsize
+            font_size: appdimens.button_font_size
             on_release: root.firebase_signup()
-            background_color: 0.2, 0.2, 0.8, 1.0
             background_normal: ""
+            btn_color: appcolours.signup_blue
         Label:
             id: info_text
             text: ""
-            font_size: root._labelfontsize
+            font_size: appdimens.label_font_size
             color: 1.0, 0.2, 0.2, 1
             size_hint: 1, None
             size: self.texture_size
-        Label:
+        Widget:
             id: space_signup
-            text: "."
             size_hint: 1, 1
-            color: 0, 0, 0, 0
-            size: self.texture_size
 
+# Custom Button
 <SmoothButton@Button>:
     background_color: 0, 0, 0, 0
     background_normal: ''
-    border_radius: [20]
+    border_radius: [50]
     btn_color: 0, 0, 0, 1
+    size_hint: 1, None
+    size_y: self.line_height
     canvas.before:
         Color:
             rgba: self.btn_color
@@ -181,13 +141,16 @@
             pos: self.pos
             radius: self.border_radius
 
+# Custom Button
 <StrokeButton@Button>:
     background_color: 0, 0, 0, 0
     background_normal: ''
-    border_radius: 20
+    border_radius: 50
     back_color: 1, 0, 1, 1
     color: self.back_color
     bold: True
+    size_hint: 1, None
+    size_y: self.line_height
     canvas.before:
         Color:
             rgba: self.back_color
@@ -195,21 +158,31 @@
             rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], self.border_radius)
             width: 1.2
 
-<FilledStrokeButton@Button>:
-    btn_color: (0, 0, 0, 1)
-    back_color: 1, 0, 1, 1
-    background_color: 0, 0, 0, 0
-    color: 0, 0, 0, 0
-    # on_press: self.back_color = 0, 0 ,0 ,1
-    SmoothButton:
-        btn_color: self.parent.btn_color[:]
-        size: self.parent.size
-        pos: self.parent.pos
-        on_release: self.parent.on_release
-        StrokeButton:
-            size: self.parent.size
-            pos: self.parent.pos
-            text: self.parent.parent.text
-            font_size: self.parent.parent.font_size
-            back_color: self.parent.parent.back_color
-            on_release: self.parent.parent.on_release
+# Custom InputField
+<TransparentInput@TextInput>:
+    size_hint: 1, None
+    font_size: appdimens.label_font_size
+    height: self.minimum_height
+    multiline: False
+    background_color: [0, 0, 0, 0]
+    cursor_color: [1, 1, 1, 1]
+    foreground_color: appcolours.WHITE
+    write_tab: False
+    cur_line_colour: self.normal_line_colour
+    normal_line_colour: [0.8, 0.8, 0.8, 1]
+    focus_line_colour: [0, 0.8, 0.8, 1]
+    wrong_line_colour: appcolours.wrong_cred_colour
+    canvas.after:
+        Color:
+            rgba: self.cur_line_colour
+        Line:
+            points: [self.x, self.y, self.x + self.width, self.y]
+
+# Bg of the app
+<BackgroundImage@Image>:
+    pos: self.pos
+    size_hint: 1, 1
+    source: 'SUTDcanteenPotrait.png'
+    allow_stretch: True
+    keep_ratio: False
+    color: 1, 1, 1, 0.3

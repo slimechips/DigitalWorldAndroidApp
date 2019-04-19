@@ -1,0 +1,14 @@
+#:kivy 1.10.1
+
+<My_Orders>:
+    name: "my_orders"
+    BoxLayout:
+        orientation: "vertical"
+        TopNavigationBar:
+            id: top_bar
+            text: "My Orders"
+        Label:
+            text: 'content'
+        BottomNavigationBar:
+            id: btm_bar
+            my_orders_btm: "down"

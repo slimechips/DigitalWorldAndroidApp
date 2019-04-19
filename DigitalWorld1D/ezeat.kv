@@ -1,6 +1,8 @@
 #:kivy 1.10.1
 #File name: main.py
 #:include login.kv
+#:include logout.kv
+#:include orders.kv
 #: import FadeTransition kivy.uix.screenmanager.FadeTransition
 #: import Window kivy.core.window.Window
 
@@ -13,7 +15,6 @@ ScreenManagement:
     Stalls:
     StallScreen:
     My_Orders:
-    Favourites:
 
 <TopNavigationBar>:
     ActionView:
@@ -155,49 +156,3 @@ ScreenManagement:
     font_size: 40
     color: [0, 0, 0, 1]
     size_hint_y: None
-
-
-<My_Orders>:
-    name: "my_orders"
-    BoxLayout:
-        orientation: "vertical"
-        TopNavigationBar:
-            id: top_bar
-            text: "My Orders"
-        Label:
-            text: 'content'
-        BottomNavigationBar:
-            id: btm_bar
-            my_orders_btm: "down"
-
-
-<Logout_Confirm>:
-    name: "logout_pg"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    FloatLayout:
-        Button:
-            font_size: root._buttonfontsize
-            size_hint: 0.3, 0.2
-            pos_hint: {"center_x": 0.5, "top": 1}
-            text: "Back"
-            on_release: app.root.current = "stalls"
-        Button:
-            font_size: root._buttonfontsize
-            size_hint: 0.3, 0.2
-            pos_hint: {"center_x": 0.5, "top": 0.2}
-            text: "Logout"
-            on_release: app.root.current = "login"
-        Label:
-            id: logout_text
-            text: "Do you want to log out?"
-            font_size: root._titlefontsize/2
-            color: 1, 0, 0, 1
-    BottomNavigationBar:
-        id: btm_bar
-        
-
