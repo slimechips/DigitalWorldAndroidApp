@@ -54,6 +54,25 @@ ScreenManagement:
             allow_no_selection: False
             group: "btm_bar"
 
+<LogoutBottomNavBar>:
+    ActionView:
+        id: logout_btm_bar_view
+        ActionPrevious:
+            with_previous: False
+        ActionToggleButton:
+            id: stalls_btn
+            text: 'Stalls'
+            on_release: app.root.current = 'stalls'
+            allow_no_selection: False
+            group: "btm_bar"
+        ActionToggleButton:
+            id: my_orders_btn
+            text: 'My Orders'
+            on_release: app.root.current = 'my_orders'
+            allow_no_selection: False
+            group: "btm_bar"
+
+
 <Stalls>:
     name: "stalls"
     layout_content: layout_content
