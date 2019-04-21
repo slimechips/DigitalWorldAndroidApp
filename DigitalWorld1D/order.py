@@ -12,12 +12,14 @@ class Order:
         self.time_of_order = datetime.now()
         self.__amt_paid = amt_paid
         self.__num_in_q = num_in_q
+        self.__status = "sent"
 
     def to_dict(self, barcode_no):
         my_dict = {}
-        property_names = ["estimated"]
-
-
+        property_names = ["estimated_waiting_time", "food_item", "order_id",
+                          "orders_in_queue", "special_requests", "stall", 
+                          "status", "time_of_order", "time_of_order_collection",
+                          "time_of_order_completion", "user_id"]
     @property
     def uid(self):
         return self.__uid
@@ -94,3 +96,10 @@ class Order:
     @num_in_q.setter
     def num_in_q(self, value):
         self.__num_in_q = value
+
+    @property
+    def status(self):
+        return self.__status
+    @status.setter
+    def status(self, value):
+        self.__status = value

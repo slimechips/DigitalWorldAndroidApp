@@ -23,7 +23,8 @@ class ConfirmOrder(Screen):
         self.food_info = self.food_widget.food_info
 
     def order(self):
-        database.create_order(self.food_info.)
+        # database.create_order(self.food_info.)
+        pass
         
     def go_back(self):
         self.manager.current = self.manager.previous()

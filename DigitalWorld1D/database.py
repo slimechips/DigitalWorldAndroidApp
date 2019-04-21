@@ -67,7 +67,7 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
     date, time = split_datetime_now()
     barcode_no = barcode_generator(stall_id, food_id, uid, date, time)
     orderDatabaseURL = databaseURL + stall + "/active_orders.json"
-    # data = json.dumps(order.to_dict(barcode_no))
+    data = json.dumps(order.to_dict(barcode_no))
     headers = {'Content-Type': 'application/json'}
     usersDatabaseURL = databaseURL + "Users.json"
 
