@@ -20,6 +20,9 @@ class Order:
                           "orders_in_queue", "special_requests", "stall", 
                           "status", "time_of_order", "time_of_order_collection",
                           "time_of_order_completion", "user_id"]
+        # properties = [self.uid, self.current_stall, barcode_no,
+        #               ]
+
     @property
     def uid(self):
         return self.__uid
