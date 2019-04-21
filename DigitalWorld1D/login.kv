@@ -15,13 +15,16 @@
         pos_hint: {"x": 0.1}
         Widget:
             id: login_space_top
-            size_hint_y: 0.1
+            size_hint_y: 0.05
         Label:
             id: easy_eat_txt
             text: appstrings.appname
             size_hint_y: None
             font_size: appdimens.title_font_size
             color: appcolours.def_blue
+        Widget:
+            id: login_space_mid
+            size_hint_y: 0.05
         Label:
             id: username_txt
             text: "Username"
@@ -67,7 +70,6 @@
             markup: True
             font_size: appdimens.button_font_size
             on_release: root.signup()
-            background_normal: ""
             back_color: 0.6, 0.8, 1, 1     
         Widget:
             id: space_login_btm
@@ -182,7 +184,7 @@
 <BackgroundImage@Image>:
     pos: self.pos
     size_hint: 1, 1
-    source: 'SUTDcanteenPotrait.png'
+    source: 'res/SUTDcanteenPotrait.png'
     allow_stretch: True
     keep_ratio: False
     color: 1, 1, 1, 0.3

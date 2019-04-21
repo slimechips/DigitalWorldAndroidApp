@@ -10,8 +10,7 @@ from kivy.properties import ColorProperty, BooleanProperty
 
 from functools import partial
 
-
-from user import User
+import user
 import database
 import orders
 import appstrings
@@ -72,8 +71,8 @@ class LoginPage(Screen):
 
     # Brings user to main menu after successful login
     def login(self, uid, username, pw, email):
-        login_user = User(email, username, pw, uid = uid)
-        User.current_user = login_user
+        login_user = user.User(email, username, pw, uid = uid)
+        user.current_user = login_user
         self.manager.current = "stalls"
 
     # UI change when user credentials are invalid
@@ -195,12 +194,12 @@ class SignUpPage(Screen):
 
             # Creates a new user object, refer to User.py for actual properties
             # of the object
-            user = User(self.__email, self.__username,
-                        self.__password, db_result = result)
+            user.current_user = user.User(self.__email, self.__username,
+                                          self.__password, db_result = result)
             Logger.debug("user created")
 
             # Now we can upload the user object to firebase
-            self.upload_to_firebase(user)
+            self.upload_to_firebase(user.current_user)
             Logger.debug("user uploaded")
 
     # If unable to connect to the database
@@ -242,7 +241,6 @@ class SignUpPage(Screen):
     # all requirements for user credentials are satisfied and verified
     # with the database
     def upload_to_firebase(self, user):
-        Logger.debug("ul to firebase")
         import json
         data = json.dumps(user.to_dict())
         headers = {'Content-Type': 'application/json'}

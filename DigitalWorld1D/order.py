@@ -1,14 +1,22 @@
 from datetime import datetime
 
 class Order:
-    def __init__(self, uid, stall, food_item, spec_req, amt_paid):
-        self.__current_stall = stall
+    def __init__(self, uid, stall, stall_id, food_item, food_id,
+                 spec_req, amt_paid, num_in_q):
         self.__uid = uid
         self.__current_stall = stall
+        self.__stall_id = stall_id
         self.__food_item = food_item
+        self.__food_id = food_id
         self.__special_requests = spec_req
         self.time_of_order = datetime.now()
         self.__amt_paid = amt_paid
+        self.__num_in_q = num_in_q
+
+    def to_dict(self, barcode_no):
+        my_dict = {}
+        property_names = ["estimated"]
+
 
     @property
     def uid(self):
@@ -23,6 +31,13 @@ class Order:
     @current_stall.setter
     def current_stall(self, value):
         self.__current_stall = value
+
+    @property
+    def stall_id(self):
+        return self.__stall_id
+    @stall_id.setter
+    def stall_id(self, value):
+        self.__stall_id = value
     
     @property
     def time_of_order(self):
@@ -37,6 +52,13 @@ class Order:
     @food_item.setter
     def food_item(self, value):
         self.__food_item = value
+
+    @property
+    def food_id(self):
+        return self.__food_id
+    @food_id.setter
+    def food_id(self, value):
+        self.__food_id = value
 
     @property
     def special_requests(self):
@@ -65,3 +87,10 @@ class Order:
     @amt_paid.setter
     def amt_paid(self, value):
         self.__amt_paid = value
+
+    @property
+    def num_in_q(self):
+        return self.__num_in_q
+    @num_in_q.setter
+    def num_in_q(self, value):
+        self.__num_in_q = value

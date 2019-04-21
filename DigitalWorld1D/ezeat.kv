@@ -1,20 +1,25 @@
 #:kivy 1.10.1
 #File name: main.py
 #:include login.kv
+#:include confirmorder.kv
 #:include logout.kv
 #:include orders.kv
 #: import FadeTransition kivy.uix.screenmanager.FadeTransition
 #: import Window kivy.core.window.Window
+#: import appdimens appdimens
+#: import fonts fonts
 
 ScreenManagement:
     id: screenmanager
     transition: FadeTransition()
     LoginPage:
     SignUpPage:
-    Logout_Confirm:
     Stalls:
     StallScreen:
+    ConfirmOrder:
     My_Orders:
+    Logout_Confirm:
+
 
 <TopNavigationBar>:
     ActionView:
@@ -76,25 +81,24 @@ ScreenManagement:
                 height: self.minimum_height
                 StallButton:
                     id: btn_1
-                    source: "japanese.jpg"
+                    source: "res/japanese.jpg"
                     label_txt: "Japanese"
-                    stall_name: "Japanese Stall"
+                    stall_name: "japanese_stall"
                 StallButton:
-                    text: "Test text"
+                    id: btn_2
+                    source: "res/indian.jpg"
+                    label_txt: "Indian"
+                    stall_name: "indian_stall"
                 StallButton:
-                    text: "Test text"
+                    id: btn_3
+                    source: "res/chicken_rice.jpg"
+                    label_txt: "Chicken Rice"
+                    stall_name: "chicken_rice_stall"
                 StallButton:
-                    text: "Test text"
-                StallButton:
-                    text: "Test text"
-                StallButton:
-                    text: "Test text"
-                StallButton:
-                    text: "Test text"
-                StallButton:
-                    text: "Test text"
-                StallButton:
-                    text: "Test text"
+                    id: btn_4
+                    source: "res/western.jpg"
+                    label_txt: "Western"
+                    stall_name: "wester_stall"
         BottomNavigationBar:
             id: btm_bar
             stalls_btn: "down"
@@ -106,6 +110,7 @@ ScreenManagement:
     padding: 40, 40
     size_hint_y: None
     height: self.width
+    label_txt: "Placeholder"
     on_release: self.parent.parent.parent.parent.btn_pressed(self.stall_name)
     Image:
         x: self.parent.x
@@ -114,13 +119,13 @@ ScreenManagement:
         source: self.parent.source
         allow_stretch: True
         keep_ratio: False
-        color: 1, 1, 1, 0.5
+        color: 1, 1, 1, 0.25
     Label:
-        # size: self.texture_size
         center_x: self.parent.center_x
         center_y: self.parent.center_y
         text: self.parent.label_txt
-        font_size: root.btn_txt
+        font_size: appdimens.stall_label_size
+        font_name: fonts.fonts["robotoslab bold"]
         color: 0, 0, 0, 1
 
 <StallScreen>:
@@ -137,6 +142,7 @@ ScreenManagement:
         orientation: "vertical"
         TopNavigationBar:
             id: top_bar
+            text: ""
         ScrollView:
             size: self.size
             do_scroll_y: True
@@ -156,3 +162,12 @@ ScreenManagement:
     font_size: 40
     color: [0, 0, 0, 1]
     size_hint_y: None
+    padding_y: 20
+
+# Custom Food Picture Widget
+<FoodPicture@AsyncImage>:
+    allow_stretch: True
+    keep_ratio: True
+    on_error: self.img_error
+    size_hint: 1, None
+    height: appdimens.stall_screen_height

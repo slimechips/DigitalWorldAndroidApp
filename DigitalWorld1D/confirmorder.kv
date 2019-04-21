@@ -1,0 +1,56 @@
+#:kivy 1.10.1
+#:import appdimens appdimens
+<ConfirmOrder>:
+    name: "confirm_order"
+    canvas.before:
+        Color:
+            rgb: 0.8, 0.8, 0.8
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 50
+        Label:
+            id: title
+            text: "Confirm Order?"
+            font_size: appdimens.title_font_size
+            size_hint_y: None
+            padding_y: 20
+        GridLayout:
+            id: grid_layout
+            orientation: "vertical"
+            cols: 2
+            rows: 2
+            spacing: 100
+            size_hint: 0.8, None
+            pos_hint: {"x": 0.1}
+            # Picture to go here
+            # Label to go here
+            SmoothButton:
+                id: yes_btn
+                text: "[b]Yes[/b]"
+                markup: True
+                size_hint_y: None
+                font_size: appdimens.button_font_size
+                btn_color: 0, 1, 0, 1
+                on_release: self.parent.order
+            SmoothButton:
+                id: no_btn
+                text: "[b]No[/b]"
+                markup: True
+                size_hint_y: None
+                font_size: appdimens.button_font_size
+                btn_color: 1, 0, 0, 1
+                on_release: self.parent.go_back
+        Widget:
+            id: space_btm
+            size_hint: 1, 1
+
+# Custom Food Picture Widget
+<FoodPicture2@AsyncImage>:
+    allow_stretch: True
+    keep_ratio: True
+    on_error: self.img_error
+    size_hint: 1, None
+    height: appdimens.stall_screen_height

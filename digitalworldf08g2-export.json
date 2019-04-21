@@ -96,6 +96,7 @@
         "estimated_waiting_time" : "7 mins",
         "food_item" : "Chicken Cutlet W Rice",
         "order_id" : "000001",
+        "orders_in_queue" : 3,
         "special_requests" : "None",
         "stall" : "Western Stall",
         "status" : "collected",
@@ -156,7 +157,16 @@
   },
   "food_item" : "Chicken Cutlet W Rice",
   "menu" : {
-    "Indian" : {
+    "chicken_rice_stall" : {
+      "!stall_id" : 1,
+      "Dish 1" : {
+        "est_waiting_time" : 10,
+        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+        "price" : "$5.50"
+      }
+    },
+    "indian_stall" : {
+      "!stall_id" : 2,
       "Chicken Cutlet W Rice" : {
         "est_waiting_time" : 10,
         "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
@@ -168,21 +178,25 @@
         "price" : "$5.50"
       }
     },
-    "Japanese Stall" : {
+    "japanese_stall" : {
+      "!stall_id" : 3,
       "Bento Set" : {
         "est_waiting_time" : 10,
-        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-        "price" : "$5.50"
+        "food_id" : 1,
+        "photo_url" : "https://firebasestorage.googleapis.com/v0/b/digitalworldf08g2.appspot.com/o/Indian%2Fricc_with_noodle2.jpg?alt=media&token=12315c16-b2ae-47cc-904a-5068c7122371",
+        "price" : "$5.50",
+        "stall_id" : 3
+      },
+      "Sashimi" : {
+        "est_waiting_time" : 100,
+        "food_id" : 1,
+        "photo_url" : "https://firebasestorage.googleapis.com/v0/b/digitalworldf08g2.appspot.com/o/save_games%2Fsavegame.data?alt=media&token=770fc447-18de-4741-ac34-b3a77cde3d1c",
+        "price" : "$10.00",
+        "stall_id" : 3
       }
     },
-    "Vegetarian" : {
-      "Dish 1" : {
-        "est_waiting_time" : 10,
-        "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-        "price" : "$5.50"
-      }
-    },
-    "Western Stall" : {
+    "western_stall" : {
+      "!stall_id" : 4,
       "Chicken Cutlet W Rice" : {
         "est_waiting_time" : 10,
         "photo_url" : "https://www.google.com.sg/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",

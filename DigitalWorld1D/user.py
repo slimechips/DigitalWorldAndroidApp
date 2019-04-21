@@ -12,8 +12,6 @@ class User:
         else:
             self.__uid = uid
 
-    current_user = None
-
     @property
     def email(self):
         return self.__email
@@ -51,3 +49,5 @@ class User:
             mydict[property_names[idx]] = properties[idx]
         bigdict = {self.__uid: mydict}
         return bigdict
+
+current_user = None

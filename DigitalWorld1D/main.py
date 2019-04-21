@@ -17,6 +17,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.uix.textinput import TextInput
 from kivy.logger import Logger
@@ -25,15 +26,17 @@ from kivy.logger import Logger
 import appstrings
 import appdimens
 import database
+import fonts
 from user import User
 from order import Order
+
+from copy import copy
 
 # Import app page scripts
 import login
 import orders
 import logout
-
-user = {}
+import confirmorder
 
 class TopNavigationBar(ActionBar):
     text = StringProperty()
@@ -56,58 +59,48 @@ class Stalls(Screen):
         self.manager.current = "stall_screen"
 
 class StallButton(Button):
-    btn_txt = 80
     source = StringProperty(None)
     label_txt = StringProperty(None)
     stall_name = StringProperty(None)
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.label_txt == None:
-            self.label_txt = "Placeholder"
-    
-    
+
 class StallScreen(Screen):
     food_items = []
     current_stall = StringProperty("")
 
     def on_pre_enter(self, *args, **kwargs):
         super().on_pre_enter(*args, **kwargs)
-        self.do_layout()
+        self.ids["top_bar"].text = self.current_stall
         database.get_stall_info(self.current_stall, callback=self.on_get_info)
         self.ids["btm_bar"].ids["stalls_btn"].state = "normal"
 
     def on_get_info(self, food_items):
         self.food_items = food_items
         self.grd = self.ids["stall_grd"]
-        print("on get info")
         for i, food in enumerate(food_items):
             food_img_id = "food_{}_img".format(i)
-            picture = AsyncImage(id=food_img_id,
-                                 source=food.photo_url,
-                                 allow_stretch=True,
-                                 keep_ratio=True,
-                                 on_error=self.img_error,
-                                 on_load=self.loaded,
-                                 size_hint_y=None,
-                                 height=400)
+            picture = FoodPicture(id=food_img_id,
+                                  source=food.photo_url)
 
-            print("picture")
-            self.grd.add_widget(picture)
-        
             label_text = "Food Name: {}\nPrice: {}\nEst " \
                          "Wait Time: {} mins".format(food.food_name, 
                          food.price, food.waiting_time)
             label = Label(text=label_text, font_size=40, 
-                          color=[0, 0, 0, 1], height=400)
+                          color=[0, 0, 0, 1], 
+                          height=appdimens.stall_screen_height)
+            picture.food_label=label
+            picture.food_info = food
+            self.grd.add_widget(picture)
             self.grd.add_widget(label)
-            print("added widgets")
 
     def loaded(self, *args):
-        print("I loaded yo")
-    
+        pass
+
     def img_error(self, error, *args):
         Logger.info("Error: " + str(error))
+
+    def goto_confirm(self, picture):
+        self.manager.food_item = picture
+        self.manager.current = "confirm_order"
     
     def on_leave(self, *args):
         super().on_leave(*args)
@@ -117,9 +110,19 @@ class StallScreen(Screen):
 class FoodLabel(GridLayout):
     pass
 
+class FoodPicture(ButtonBehavior, AsyncImage):
+    food_label = ObjectProperty()
 
+    def on_release(self):
+        super().on_release()
+        self.parent.parent.parent.parent.goto_confirm(self)
+        
 class ScreenManagement(ScreenManager):
     current_stall = StringProperty("")
+    food_item = ObjectProperty()
+    cur_food_info = ObjectProperty()
+
+    main_menus = ["stalls", "my_orders"]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -131,7 +134,13 @@ class ScreenManagement(ScreenManager):
             return True
     
     def set_previous_screen(self):
-        if self.current != "loginpage":
+        if self.current == "loginpage":
+            pass
+        elif self.current in self.main_menus:
+            pass
+        elif self.current == "logout_pg":
+            self.current = "stalls"
+        else:
             self.transition.direction = "left"
             self.current = self.previous()
 
