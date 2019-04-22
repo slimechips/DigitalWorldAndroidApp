@@ -2,6 +2,7 @@
 #:import appdimens appdimens
 <ConfirmOrder>:
     name: "confirm_order"
+    id: confirm_order_screen
     canvas.before:
         Color:
             rgb: 0.8, 0.8, 0.8
@@ -34,7 +35,7 @@
                 size_hint_y: None
                 font_size: appdimens.button_font_size
                 btn_color: 0, 1, 0, 1
-                on_release: self.parent.order
+                on_release: confirm_order_screen.order()
             SmoothButton:
                 id: no_btn
                 text: "[b]No[/b]"

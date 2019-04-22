@@ -1,4 +1,5 @@
 from datetime import datetime
+from kivy.logger import Logger
 
 class Order:
     def __init__(self, uid, stall, stall_id, food_item, food_id,
@@ -26,6 +27,7 @@ class Order:
                       "None", 1]
 
         for idx in range(len(property_names)):
+            Logger.info("IDX:" + idx)
             mydict[property_names[idx]] = properties[idx]
             bigdict = {barcode_no: mydict}
             return bigdict

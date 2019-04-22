@@ -58,6 +58,8 @@ def split_datetime_now():
     date = str(day) + str(month) + str(year)
     time = str(hour) + str(minute) + str(second)
 
+    Logger.info("Date: " + date)
+    Logger.info("Time: " + time)
     return date, time
 
 
@@ -68,10 +70,11 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                   num_in_q)
     date, time = split_datetime_now()
     barcode_no = barcode_generator(stall_id, food_id, uid, date, time)
-    orderDatabaseURL = databaseURL + stall + "/active_orders.json"
+    orderDatabaseURL = databaseURL + "active_orders/" + stall + ".json"
+    Logger.info("Dbase URL:" + orderDatabaseURL)
     data = json.dumps(order.to_dict(barcode_no))
+    Logger.info("Created order")
     headers = {'Content-Type': 'application/json'}
-    orderDatabaseURL = databaseURL + "Users.json"
 
     req = UrlRequest(orderDatabaseURL, req_body=data, req_headers=headers,
                      on_success=partial(create_order_success, callback),

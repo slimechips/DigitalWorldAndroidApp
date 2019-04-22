@@ -4,6 +4,7 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import AsyncImage
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.logger import Logger
 
 import database
 
@@ -20,16 +21,18 @@ class ConfirmOrder(Screen):
                            height=orig_food_label.height)
         self.ids["grid_layout"].add_widget(self.food_widget, 2)
         self.ids["grid_layout"].add_widget(self.food_label, 2)
-        self.food_info = self.food_widget.food_info
+        self.food_info = orig_food_widget.food_info
 
     def order(self):
+        Logger.info("clickity click")
         food = self.food_info
-        database.create_order(1, "chicken_rice", food.stall_id, food.food_name,
+        database.create_order(1, "chicken_rice_stall", food.stall_id, 
+                              food.food_name,
                               food.food_id, "None", food.price, 2, 
                               self.order_uploaded)
 
     def order_uploaded(self):
-        pass    
+        Logger.info("Order: Uploaded")
     
     def go_back(self):
         self.manager.current = self.manager.previous()
