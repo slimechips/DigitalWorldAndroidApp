@@ -90,5 +90,5 @@ class FoodPicture(ButtonBehavior, AsyncImage):
 class OrderLabel(Label):
     pass
 
-class OrderRow(GridLayout):
+class OrderRow(BoxLayout):
     pass
