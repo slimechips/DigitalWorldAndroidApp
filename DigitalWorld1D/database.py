@@ -17,6 +17,7 @@ def check_request_success(req):
         success = False
     return success
 
+# Get the info of the menu of a particular stall from firebase
 def get_stall_info(current_stall, callback = None):
     catalogDatabaseURL = databaseURL + "menu/" + current_stall + ".json"
     try:
@@ -27,6 +28,7 @@ def get_stall_info(current_stall, callback = None):
     except:
         pass
 
+# Callback to query for information of stall menu
 def get_stall_success(callback, request, result, *args):
     # Split the stall data
     food_items = []
@@ -43,6 +45,7 @@ def get_stall_success(callback, request, result, *args):
     if callback:
         callback(food_items)
 
+# Func to get number of orders in the queue of a particular stall
 def get_num_in_q(stall, callback):
     stallDatabaseUrl = databaseURL + "active_orders/" + stall + ".json"
     req = UrlRequest(stallDatabaseUrl, 
@@ -50,6 +53,7 @@ def get_num_in_q(stall, callback):
                      verify=False,
                      on_error=network_failure)
 
+# Result of querying for get number in queue
 def got_num_in_q(callback, req, result, *args):
     Logger.info("Result:" + str(result))
     Logger.info(len(result))
@@ -57,6 +61,7 @@ def got_num_in_q(callback, req, result, *args):
     if callback:
         callback(num_in_q)
 
+# Func to get datetime format for barcode
 def split_datetime_now():
     day = datetime.now().day
     month = datetime.now().month
@@ -77,7 +82,7 @@ def split_datetime_now():
     return date, time
 
 
-# Create a new order
+# Create a new order and uploads it to firebase
 def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                  num_in_q, est_wait, callback):
     
@@ -91,6 +96,7 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
     Logger.info("Created order")
     headers = {'Content-Type': 'application/json'}
 
+    # PATCH the new order information to firebase
     req = UrlRequest(orderDatabaseURL, req_body=data, req_headers=headers,
                      on_success=None,
                      method="PATCH", verify=False,
@@ -103,21 +109,56 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                      method="PATCH", verify=False,
                      on_error=network_failure)
 
+# Callback when order has been successfully created
 def create_order_success(callback, req, result, *args):
-    # Do something
     if callback:
         callback()
 
-def check_my_orders(self, uid, callback):
+# Function to find out a user's orders from firebase
+def check_my_orders(uid, callback):
     userDatabaseUrl = databaseURL + "Users/" + str(uid) + "/active_orders.json"
 
-    # req = UrlRequest(userDatabaseUrl,)
+    # Queries to firebase, result passed to get_orders_data
+    req = UrlRequest(userDatabaseUrl,
+                     on_success=partial(got_orders_data, callback),
+                     verify=False, on_error=network_failure)
 
+# Callback to query for orders data
+def got_orders_data(callback, req, result, *args):
+    Logger.info("Database: Got orders data")
+    if result == None or result == "":
+        # User has no active orders!
+        callback(None) # Inform UI there are no orders to show
+    else:
+        # User has at least 1 active order!
+        orders = []
+        for order_data in result:
+            # Iterate through orders
+            order = Order.dict_to_obj(order_data) # Converts dict to order obj
+            orders.append(order)
+        callback(orders) # Returns the list of orders to UI
+
+# Func to get the food picture of an order given its stall id and food id
+def query_picture_url(stall_name, food_name, callback):
+    imageUrl = "{}menu/{}/{}/photo_url.json" \
+          .format(databaseURL,stall_name, food_name)
+    
+    # Query the url
+    req = UrlRequest(imageUrl, on_success=partial(got_picture_url, callback),
+                     verify=False, on_error=network_failure)
+
+# Callback to query for picture url
+def got_picture_url(callback, req, result, *args):
+    Logger.info("Database: Got picture url")
+    callback(result)
+
+# Callback when there is a network error
 def network_failure(request, error, *args):
     Logger.info(error)
 
-
+# Food Item Object
 class FoodItem:
+    # Constructor
     def __init__(self, waiting_time=0, food_name="", photo_url="", price="",
                  food_id=0, stall_id=0):
         self.__waiting_time = waiting_time

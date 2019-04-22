@@ -3,14 +3,19 @@ from kivy.logger import Logger
 
 class Order:
     def __init__(self, uid, stall, stall_id, food_item, food_id,
-                 spec_req, amt_paid, num_in_q, est_wait):
+                 spec_req, amt_paid, num_in_q, est_wait,
+                 time_of_order=str(datetime.now()).split('.')[0],
+                 status="sent", time_of_order_collection="None",
+                 time_of_order_completion="None"):
         self.__uid = uid
         self.__current_stall = stall
         self.__stall_id = stall_id
         self.__food_item = food_item
         self.__food_id = food_id
         self.__special_requests = spec_req
-        self.time_of_order = str(datetime.now()).split('.')[0]
+        self.__time_of_order = time_of_order
+        self.__time_of_order_collection = time_of_order_collection
+        self.__time_of_order_completion = time_of_order_completion
         self.__amt_paid = amt_paid
         self.__num_in_q = num_in_q
         self.__status = "sent"
@@ -19,13 +24,14 @@ class Order:
     def to_dict(self, barcode_no):
         mydict = {}
         property_names = ["estimated_waiting_time", "food_item", "food_id",
-                          "order_id",
-                          "orders_in_queue", "special_requests", "stall", 
+                          "order_id", "orders_in_queue", "special_requests", 
+                          "stall", "stall_id", "amt_paid",
                           "status", "time_of_order", "time_of_order_collection",
                           "time_of_order_completion", "user_id"]
         properties = [self.est_wait, self.food_item, self.food_id, barcode_no,
                       self.num_in_q, self.special_requests, self.current_stall,
-                      self.status, self.time_of_order, "None",
+                      self.stall_id, self.amt_paid, self.status, 
+                      self.time_of_order, "None",
                       "None", self.uid]
 
         for idx in range(len(property_names)):
@@ -33,6 +39,18 @@ class Order:
             bigdict = {barcode_no: mydict}
         Logger.info("Big Dict:" + str(bigdict))
         return bigdict
+
+    @staticmethod
+    def dict_to_obj(dict):
+        new_order = Order(dict["user_id"], dict["stall"], dict["stall_id"],
+                          dict["food_item"], dict["food_id"],
+                          dict["special_requests"], dict["amt_paid"], 
+                          dict["orders_in_queue"], 
+                          dict["estimated_waiting_time"],
+                          status=dict["status"],
+                          time_of_order_collection=dict["time_of_order_collection"],
+                          time_of_order_completion=dict["time_of_order_completion"])
+        return new_order
 
     @property
     def uid(self):
