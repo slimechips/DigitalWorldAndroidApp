@@ -6,7 +6,7 @@ class Order:
                  spec_req, amt_paid, num_in_q, est_wait,
                  time_of_order=str(datetime.now()).split('.')[0],
                  status="sent", time_of_order_collection="None",
-                 time_of_order_completion="None"):
+                 time_of_order_completion="None", order_id=0):
         self.__uid = uid
         self.__current_stall = stall
         self.__stall_id = stall_id
@@ -20,15 +20,16 @@ class Order:
         self.__num_in_q = num_in_q
         self.__status = "sent"
         self.__est_wait = est_wait
+        self.__order_id = int(order_id)
 
-    def to_dict(self, barcode_no):
+    def to_dict(self):
         mydict = {}
         property_names = ["estimated_waiting_time", "food_item", "food_id",
                           "order_id", "orders_in_queue", "special_requests", 
                           "stall", "stall_id", "amt_paid",
                           "status", "time_of_order", "time_of_order_collection",
                           "time_of_order_completion", "user_id"]
-        properties = [self.est_wait, self.food_item, self.food_id, barcode_no,
+        properties = [self.est_wait, self.food_item, self.food_id, self.order_id,
                       self.num_in_q, self.special_requests, self.current_stall,
                       self.stall_id, self.amt_paid, self.status, 
                       self.time_of_order, "None",
@@ -36,21 +37,22 @@ class Order:
 
         for idx in range(len(property_names)):
             mydict[property_names[idx]] = properties[idx]
-            bigdict = {barcode_no: mydict}
+            bigdict = {self.order_id: mydict}
         Logger.info("Big Dict:" + str(bigdict))
         return bigdict
 
     @staticmethod
     def dict_to_obj(dict):
-        new_order = Order(dict["user_id"], dict["stall"], dict["stall_id"],
-                          dict["food_item"], dict["food_id"],
-                          dict["special_requests"], dict["amt_paid"], 
-                          dict["orders_in_queue"], 
-                          dict["estimated_waiting_time"],
-                          status=dict["status"],
-                          time_of_order_collection=dict["time_of_order_collection"],
-                          time_of_order_completion=dict["time_of_order_completion"])
-        return new_order
+        order = Order(dict["user_id"], dict["stall"], dict["stall_id"],
+                      dict["food_item"], dict["food_id"],
+                      dict["special_requests"], dict["amt_paid"], 
+                      dict["orders_in_queue"], 
+                      dict["estimated_waiting_time"],
+                      status=dict["status"],
+                      time_of_order_collection=dict["time_of_order_collection"],
+                      time_of_order_completion=dict["time_of_order_completion"],
+                      order_id=dict["order_id"])
+        return order
 
     @property
     def uid(self):
@@ -142,3 +144,10 @@ class Order:
     @est_wait.setter
     def est_wait(self, value):
         self.__est_wait = value
+
+    @property
+    def order_id(self):
+        return self.__order_id
+    @order_id.setter
+    def order_id(self, value):
+        self.__order_id = int(value)

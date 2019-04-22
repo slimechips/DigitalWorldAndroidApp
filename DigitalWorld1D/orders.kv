@@ -52,3 +52,10 @@
     orientation: "horizontal"
     size_hint_y: None
     height: self.minimum_height
+
+<BarcodeImage@Image>:
+    allow_stretch: True
+    keep_ratio: True
+    size_hint: 1, None
+    height: Window.width / self.image_ratio
+    halign: "middle"

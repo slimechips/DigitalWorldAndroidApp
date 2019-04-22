@@ -59,12 +59,10 @@ def barcode_generator(stallind,dishind,userid,date,time):
 			generated='4312'
 		if dishind==4:
 			generated='1002'
-		
-		
 	
 	barcodeno=generated+useridno+stallidno+dishidno
 	
-	return barcodeno
+	return int(barcodeno)
 	
 	#add date time instead of the random numbers
 
@@ -81,7 +79,7 @@ def gen_barcode_img(barcodeno):
 		filePath = os.path.join(sub_folder_path, barcodeno + ".png")
 	else:
 		desktop = os.path.join(os.path.expanduser("~"), "Desktop")
-		filePath = os.path.join(desktop, barcodeno + ".png")
+		filePath = os.path.join(desktop, str(barcodeno) + ".png")
 	f = open(filePath,'wb')
 	image_bar.write(f)
 	return filePath
