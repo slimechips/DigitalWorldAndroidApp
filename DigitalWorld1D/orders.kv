@@ -35,15 +35,18 @@
     allow_stretch: True
     keep_ratio: True
     on_error: self.img_error
-    size_hint: 1, None
+    size_hint: 0.5, 1
     height: appdimens.stall_screen_height
 
 <OrderLabel@Label>:
     text: "Placeholder"
-    size_hint: 0.5, None
+    size_hint: 0.5, 1
     font_size: appdimens.label_font_size
+    text_size: self.size
     color: appcolours.BLACK
+    multiline: True
     markup: True
+    halign: "left"
 
 <OrderRow@GridLayout>:
     cols: 2
