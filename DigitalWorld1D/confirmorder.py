@@ -40,6 +40,7 @@ class ConfirmOrder(Screen):
 
     def order_uploaded(self):
         Logger.info("Order: Uploaded")
+        self.manager.current = "my_orders"
     
     def go_back(self):
         self.manager.current = self.manager.previous()
