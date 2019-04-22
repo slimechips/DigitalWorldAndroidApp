@@ -2,13 +2,30 @@
 
 <My_Orders>:
     name: "my_orders"
+    canvas.before:
+        Color:
+            rgb: 0.8, 0.8, 0.8
+        Rectangle:
+            size: self.size
+            pos: self.pos
     BoxLayout:
         orientation: "vertical"
         TopNavigationBar:
             id: top_bar
             text: "My Orders"
-        Label:
-            text: 'content'
+        GridLayout:
+            cols: 2
+            Label:
+                id: order_pic
+                text: 'picture here'
+                color: 0, 0, 0, 1
+            Label:
+                id: order_details
+                halign: 'left'
+                valign: 'middle'
+                text: '{Food Item}\nSpecial Requests: {}\nEstimated Waiting Time: {}\nOrders In Queue: {}\nStall: {}'
+                # text_size: self.size
+                color: 0, 0, 0, 1
         BottomNavigationBar:
             id: btm_bar
             my_orders_btm: "down"
