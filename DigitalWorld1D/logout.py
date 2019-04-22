@@ -1,7 +1,8 @@
 from kivy.uix.screenmanager import Screen
+from kivy.uix.actionbar import ActionBar
 import appdimens 
 
-class LogoutBottomNavBar(Screen):
+class LogoutBottomNavBar(ActionBar):
     pass
 
 class Logout_Confirm(Screen):
