@@ -8,6 +8,7 @@ from kivy.uix.image import AsyncImage
 from functools import partial
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 # from importbarcode import gen_barcode_image
 
 class FoodPicture(ButtonBehavior, AsyncImage):
@@ -22,7 +23,7 @@ class My_Orders(Screen):
         super().on_pre_enter(*args)
         self.picture = []
         self.orders_ls = []
-        self.box = self.ids["orders_box"]
+        self.grd = self.ids["orders_grd"]
         self.ids["btm_bar"].ids["my_orders_btn"].state = "down"
         self.retrieve_orders(None)
         Clock.schedule_interval(self.retrieve_orders, 30)
@@ -37,7 +38,7 @@ class My_Orders(Screen):
         for order in self.orders_ls:
             self.picture.append('')
         for idx, order in enumerate(self.orders_ls):
-            self.retrieve_url(order.food_item, order.stall_id, idx)
+            self.retrieve_url(order.food_item, order.current_stall, idx)
 
     def retrieve_url(self, food_name, stall, idx):
         database.query_picture_url(stall, food_name, idx, self.got_url)
@@ -50,26 +51,29 @@ class My_Orders(Screen):
         if '' not in self.picture:
             self.update_UI()
 
+    def gen_barcode_image(barcode_no):
+        pass
+
     def update_UI(self):
         for idx, order in enumerate(self.orders_ls):
-            picture = FoodPicture(source=self.picture[idx], size_hint = (0.5, 1))
-            if picture:
-                print('Picture LOADED')
+            picture = FoodPicture(source=self.picture[idx], size_hint = (0.5, None))
+            print(self.picture[idx])
             food_name = order.food_item
             waiting_time = order.est_wait
             orders_in_q = order.num_in_q
             stall = order.current_stall
             status = order.status
             stall_name = self.mk_stall_name(stall)
-            my_box_layout = BoxLayout(orientation="horizontal", size_hint_y=None)
+            my_box_layout = GridLayout(cols=2, size_hint_y=None)
+            # my_box_layout.bind(height=my_box_layout.setter('minimum_height'))
             label_text = """[b][u]{}[/u][/b]\n[b]Status: [/b]{}\n[b]Arriving:[/b] {} mins\n[b]Orders in Queue:[/b] {}\n[b]Stall:[/b] {}""".format(food_name,
                         status, waiting_time, orders_in_q, stall_name)
-            label = Label(text=label_text, size_hint = (0.5, 1), font_size=40, 
-                          color=[0, 0, 0, 1], 
-                          height=appdimens.stall_screen_height, markup = True)
-            self.my_box_layout.add_widget(picture)
-            self.my_box_layout.add_widget(label)
-            self.box.add_widget(my_box_layout)
+            label = Label(text=label_text, size_hint = (0.5, None), font_size=40, 
+                          color=[0, 0, 0, 1], markup = True)
+            label.bind(size=label.setter('text_size'), texture_size=label.setter('size'))
+            my_box_layout.add_widget(picture)
+            my_box_layout.add_widget(label)
+            self.grd.add_widget(my_box_layout)
 
     def mk_stall_name(self, stall):
         if stall == 'japanese_stall':
@@ -80,6 +84,3 @@ class My_Orders(Screen):
             return 'Indian'
         elif stall == 'chicken_rice_stall':
             return 'Chicken Rice'
-
-    def gen_barcode_image(barcode_no):
-        pass

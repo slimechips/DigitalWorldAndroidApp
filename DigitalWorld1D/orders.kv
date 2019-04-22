@@ -17,11 +17,21 @@
         ScrollView:
             size: self.size
             do_scroll_y: True
-            BoxLayout:
-                id: orders_box_box
-                orientation: "vertical"
+            GridLayout:
+                id: orders_grd
+                cols: 1
+                column_default_force: True,
+                column_default_width: Window.width
+                # height: self.minimum_height
                 spacing: 10
                 padding: 20
                 size_hint_y: None
         BottomNavigationBar:
             id: btm_bar
+
+<FoodPicture@AsyncImage>:
+    allow_stretch: True
+    keep_ratio: True
+    on_error: self.img_error
+    size_hint: 1, None
+    height: appdimens.stall_screen_height
