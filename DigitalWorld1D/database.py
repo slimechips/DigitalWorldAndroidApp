@@ -132,7 +132,8 @@ def got_orders_data(callback, req, result, *args):
     else:
         # User has at least 1 active order!
         orders = []
-        for order_data in result:
+        for order_data in result.values():
+            Logger.info("Order_data: " + str(order_data))
             # Iterate through orders
             order = Order.dict_to_obj(order_data) # Converts dict to order obj
             orders.append(order)
