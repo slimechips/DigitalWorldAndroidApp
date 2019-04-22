@@ -27,8 +27,9 @@ class ConfirmOrder(Screen):
     def order(self, num_in_q=None):
         food = self.food_info
         stall_name = self.manager.current_stall
-        database.get_num_in_q(stall_name, self.order)
-        if num_in_q != None:
+        if num_in_q == None:
+            database.get_num_in_q(stall_name, self.order)
+        else:
             database.create_order(user.current_user.uid, stall_name, 
                                 food.stall_id, 
                                 food.food_name,

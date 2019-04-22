@@ -51,6 +51,8 @@ def get_num_in_q(stall, callback):
                      on_error=network_failure)
 
 def got_num_in_q(callback, req, result, *args):
+    Logger.info("Result:" + str(result))
+    Logger.info(len(result))
     num_in_q = len(result) - 1
     if callback:
         callback(num_in_q)
@@ -79,11 +81,8 @@ def split_datetime_now():
 def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                  num_in_q, est_wait, callback):
     
-    
-    # TEMP
-    num_in_q = 0
     order = Order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
-                  est_wait, num_in_q)
+                  num_in_q, est_wait)
     date, time = split_datetime_now()
     barcode_no = barcode_generator(stall_id, food_id, uid, date, time)
     orderDatabaseURL = databaseURL + "active_orders/" + stall + ".json"
