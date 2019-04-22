@@ -64,6 +64,12 @@ def barcode_generator(stallind,dishind,userid,date,time):
 	
 	barcodeno=generated+useridno+stallidno+dishidno
 	
+	return barcodeno
+	
+	#add date time instead of the random numbers
+
+
+def gen_barcode_img(barcodeno):
 	image = barcode.get_barcode_class('ean13')
 	Logger.info(image)
 	image_bar = image(u'{}'.format(barcodeno),writer=ImageWriter())
@@ -75,13 +81,9 @@ def barcode_generator(stallind,dishind,userid,date,time):
 		filePath = os.path.join(sub_folder_path, barcodeno + ".png")
 	else:
 		desktop = os.path.join(os.path.expanduser("~"), "Desktop")
-		filePath = os.path.join(desktop, "test.png")
+		filePath = os.path.join(desktop, barcodeno + ".png")
 	f = open(filePath,'wb')
 	image_bar.write(f)
-	print(barcodeno)
-	return barcodeno
-	
-	#add date time instead of the random numbers
+	return filePath
 
-
-
+# TODO: Stop genning the barcode all the time
