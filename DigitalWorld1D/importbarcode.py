@@ -13,14 +13,57 @@ dishes=[1,2,3,4,5,6,7,8,9,10]
 sn=0
 barcodeno=0
 def barcode_generator(stallind,dishind,userid,date,time):
+	# stall ind, dish in, date, time, uid
 
-	if dishind>=10:
+	# barcodeno=int('1'+ str(stallind).zfill(2) + str(dishind).zfill(2)
+	# 				  + str(date)+ str(time) + str(userid).zfill(4))
 
-		barcodeno=int('1'+ str(stallind) +str(dishind) + str(date)+ str(time) + str(userid))
+	useridno='00'+str(userid)
+	dishidno='00'+str(dishind)
+	stallidno='0'+str(stallind)
+	generated=0
+
+	if stallind==1 :
+		if dishind==1:
+			generated='2345'
+		if dishind==2:
+			generated='4845'
+		if dishind==3:
+			generated='4345'
+		if dishind==4:
+			generated='9823'
+	elif stallind==2 :
+		if dishind==1:
+			generated='2343'
+		if dishind==2:
+			generated='4872'
+		if dishind==3:
+			generated='4312'
+		if dishind==4:
+			generated='9800'
+	elif stallind==3 :
+		if dishind==1:
+			generated='1143'
+		if dishind==2:
+			generated='2272'
+		if dishind==3:
+			generated='3312'
+		if dishind==4:
+			generated='4500'
+	elif stallind==4 :
+		if dishind==1:
+			generated='2343'
+		if dishind==2:
+			generated='4872'
+		if dishind==3:
+			generated='4312'
+		if dishind==4:
+			generated='1002'
 		
-	else:
-		barcodeno=int('1'+ str(stallind) +str(dishind) + str(date)+ str(time)+ str(userid))
-
+		
+	
+	barcodeno=generated+useridno+stallidno+dishidno
+	
 	image = barcode.get_barcode_class('ean13')
 	Logger.info(image)
 	image_bar = image(u'{}'.format(barcodeno),writer=ImageWriter())
@@ -42,4 +85,3 @@ def barcode_generator(stallind,dishind,userid,date,time):
 
 
 
-barcode_generator(1,11,6854,2106,1010)

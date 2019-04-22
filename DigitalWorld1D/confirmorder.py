@@ -24,7 +24,6 @@ class ConfirmOrder(Screen):
         self.food_info = orig_food_widget.food_info
 
     def order(self):
-        Logger.info("clickity click")
         food = self.food_info
         database.create_order(1, "chicken_rice_stall", food.stall_id, 
                               food.food_name,

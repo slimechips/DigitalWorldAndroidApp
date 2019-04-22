@@ -10,7 +10,7 @@ class Order:
         self.__food_item = food_item
         self.__food_id = food_id
         self.__special_requests = spec_req
-        self.time_of_order = lambda: str(datetime.now()).split('.')[0]
+        self.time_of_order = str(datetime.now()).split('.')[0]
         self.__amt_paid = amt_paid
         self.__num_in_q = num_in_q
         self.__status = "sent"
@@ -27,10 +27,10 @@ class Order:
                       "None", 1]
 
         for idx in range(len(property_names)):
-            Logger.info("IDX:" + idx)
             mydict[property_names[idx]] = properties[idx]
             bigdict = {barcode_no: mydict}
-            return bigdict
+        Logger.info("Big Dict:" + str(bigdict))
+        return bigdict
 
     @property
     def uid(self):

@@ -252,7 +252,7 @@ class SignUpPage(Screen):
     # Switch user to main page after signup is successful
     def upload_success(self, user, *args):
         Logger.info("Upload Successful")
-        User.current_user = user
+        user.current_user = user
         self.manager.current = "stalls"
 
 class SmoothButton(Button):

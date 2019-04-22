@@ -55,8 +55,11 @@ def split_datetime_now():
     minute = datetime.now().minute
     second = datetime.now().second
     
-    date = str(day) + str(month) + str(year)
-    time = str(hour) + str(minute) + str(second)
+    # Get date in ddmmyyyy format, adding leading zeroes when necessary
+    date = str(day).zfill(2) + str(month).zfill(2) + str(year).zfill(4)
+
+    # Get time in hhmmss format, adding leading zeroes when necessary
+    time = str(hour).zfill(2) + str(minute).zfill(2) + str(second).zfill(2)
 
     Logger.info("Date: " + date)
     Logger.info("Time: " + time)
