@@ -6,6 +6,7 @@ import appdimens
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import AsyncImage
 from functools import partial
+from kivy.uix.label import Label
 
 class FoodPicture(ButtonBehavior, AsyncImage):
     def on_release(self):
@@ -18,7 +19,7 @@ class My_Orders(Screen):
     def on_pre_enter(self, *args):
         super().on_pre_enter(*args)
         self.picture = []
-        self.got_orders = []
+        self.orders_ls = []
         self.grd = self.ids["orders_grd"]
         self.ids["btm_bar"].ids["my_orders_btn"].state = "down"
         self.retrieve_orders(None)
@@ -30,14 +31,14 @@ class My_Orders(Screen):
         database.check_my_orders(current_user_uid, self.got_orders)
 
     def got_orders(self, order_ls):
-        self.orders = order_ls
-        for order in self.orders:
-            self.got_orders.append('')
-        for idx, order in enumerate(self.orders):
-            self.retrieve_url(self.order.food_item, self.order.stall_id)
+        self.orders_ls = order_ls
+        for order in self.orders_ls:
+            self.picture.append('')
+        for idx, order in enumerate(self.orders_ls):
+            self.retrieve_url(order.food_item, order.stall_id, idx)
 
-    def retrieve_url(self, idx):
-        database.query_picture_url(stall, food_name, idx, got_url)
+    def retrieve_url(self, food_name, stall, idx):
+        database.query_picture_url(stall, food_name, idx, self.got_url)
 
     def got_url(self, pictureURL, idx):
         self.picture[idx] = pictureURL
@@ -48,17 +49,28 @@ class My_Orders(Screen):
             self.update_UI()
 
     def update_UI(self):
-        for order in order_ls:
-            picture = FoodPicture(source=order.photo_url)
+        for idx, order in enumerate(self.orders_ls):
+            picture = FoodPicture(source=self.picture[idx])
             food_name = order.food_item
             waiting_time = order.est_wait
             orders_in_q = order.num_in_q
             stall = order.current_stall
-            label_text = """{}\nEstimated Waiting Time: 
-                        {}\n Orders in Queue: {}\n Stall: {}""".format(food_name,
-                        waiting_time, orders_in_q, stall)
+            status = order.status
+            stall_name = self.mk_stall_name(stall)
+            label_text = """[b][u]{}[/u][/b]\n[b]Status: [/b]{}\n[b]Arriving:[/b] {} mins\n[b]Orders in Queue:[/b] {}\n[b]Stall:[/b] {}""".format(food_name,
+                        status, waiting_time, orders_in_q, stall_name)
             label = Label(text=label_text, font_size=40, 
                           color=[0, 0, 0, 1], 
-                          height=appdimens.stall_screen_height)
+                          height=appdimens.stall_screen_height, markup = True)
             self.grd.add_widget(picture)
             self.grd.add_widget(label)
+
+    def mk_stall_name(self, stall):
+        if stall == 'japanese_stall':
+            return 'Japanese'
+        elif stall == 'western_stall':
+            return 'Western'
+        elif stall == 'indian_stall':
+            return 'Indian'
+        elif stall == 'chicken_rice_stall':
+            return 'Chicken Rice'

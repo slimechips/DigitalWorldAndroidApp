@@ -13,26 +13,17 @@
         TopNavigationBar:
             id: top_bar
             text: "My Orders"
-        GridLayout:
-            id: orders_grd
-            cols: 2
-            column_default_force: True,
-            column_default_width: Window.width/2
-            height: self.minimum_height
-            spacing: 10
-            padding: 20
-            size_hint_y: None
-            Label:
-                id: order_pic
-                text: 'picture here'
-                color: 0, 0, 0, 1
-            Label:
-                id: order_details
-                halign: 'left'
-                valign: 'middle'
-                text: '{Food Item}\nSpecial Requests: {}\nEstimated Waiting Time: {}\nOrders In Queue: {}\nStall: {}'
-                # text_size: self.size
-                color: 0, 0, 0, 1
+        ScrollView:
+            size: self.size
+            do_scroll_y: True
+            GridLayout:
+                id: orders_grd
+                cols: 2
+                column_default_force: True,
+                column_default_width: Window.width/2
+                height: self.minimum_height
+                spacing: 10
+                padding: 20
+                size_hint_y: None
         BottomNavigationBar:
             id: btm_bar
-            my_orders_btm: "down"
