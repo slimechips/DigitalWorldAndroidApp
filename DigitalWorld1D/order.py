@@ -9,19 +9,26 @@ class Order:
         self.__food_item = food_item
         self.__food_id = food_id
         self.__special_requests = spec_req
-        self.time_of_order = datetime.now()
+        self.time_of_order = lambda: str(datetime.now()).split('.')[0]
         self.__amt_paid = amt_paid
         self.__num_in_q = num_in_q
         self.__status = "sent"
 
     def to_dict(self, barcode_no):
-        my_dict = {}
+        mydict = {}
         property_names = ["estimated_waiting_time", "food_item", "order_id",
                           "orders_in_queue", "special_requests", "stall", 
                           "status", "time_of_order", "time_of_order_collection",
                           "time_of_order_completion", "user_id"]
-        # properties = [self.uid, self.current_stall, barcode_no,
-        #               ]
+        properties = [self.uid, self.food_item, barcode_no,
+                      2, self.special_requests, self.current_stall,
+                      self.status, self.time_of_order, "None",
+                      "None", 1]
+
+        for idx in range(len(property_names)):
+            mydict[property_names[idx]] = properties[idx]
+            bigdict = {barcode_no: mydict}
+            return bigdict
 
     @property
     def uid(self):

@@ -23,9 +23,14 @@ class ConfirmOrder(Screen):
         self.food_info = self.food_widget.food_info
 
     def order(self):
-        # database.create_order(self.food_info.)
-        pass
-        
+        food = self.food_info
+        database.create_order(1, "chicken_rice", food.stall_id, food.food_name,
+                              food.food_id, "None", food.price, 2, 
+                              self.order_uploaded)
+
+    def order_uploaded(self):
+        pass    
+    
     def go_back(self):
         self.manager.current = self.manager.previous()
 

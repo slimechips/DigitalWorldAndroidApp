@@ -36,7 +36,9 @@ def get_stall_success(callback, request, result, *args):
             food_info = FoodItem(waiting_time=item["est_waiting_time"],
                                 food_name=name,
                                 photo_url=item["photo_url"],
-                                price=item["price"])
+                                price=item["price"],
+                                food_id=item["food_id"],
+                                stall_id=item["stall_id"])
             food_items.append(food_info)
     if callback:
         callback(food_items)
@@ -69,7 +71,7 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
     orderDatabaseURL = databaseURL + stall + "/active_orders.json"
     data = json.dumps(order.to_dict(barcode_no))
     headers = {'Content-Type': 'application/json'}
-    usersDatabaseURL = databaseURL + "Users.json"
+    orderDatabaseURL = databaseURL + "Users.json"
 
     req = UrlRequest(orderDatabaseURL, req_body=data, req_headers=headers,
                      on_success=partial(create_order_success, callback),
@@ -86,11 +88,14 @@ def network_failure(request, error, *args):
 
 
 class FoodItem:
-    def __init__(self, waiting_time=0, food_name="", photo_url="", price=""):
+    def __init__(self, waiting_time=0, food_name="", photo_url="", price="",
+                 food_id=0, stall_id=0):
         self.__waiting_time = waiting_time
         self.__food_name = food_name
         self.__photo_url = photo_url
         self.__price = price
+        self.__food_id = food_id
+        self.__stall_id = stall_id
 
     @property
     def waiting_time(self):
@@ -107,3 +112,11 @@ class FoodItem:
     @property
     def price(self):
         return self.__price
+
+    @property
+    def food_id(self):
+        return self.__food_id
+
+    @property
+    def stall_id(self):
+        return self.__stall_id

@@ -87,7 +87,7 @@ class StallScreen(Screen):
             label = Label(text=label_text, font_size=40, 
                           color=[0, 0, 0, 1], 
                           height=appdimens.stall_screen_height)
-            picture.food_label=label
+            picture.food_label = label
             picture.food_info = food
             self.grd.add_widget(picture)
             self.grd.add_widget(label)
@@ -112,6 +112,8 @@ class FoodLabel(GridLayout):
 
 class FoodPicture(ButtonBehavior, AsyncImage):
     food_label = ObjectProperty()
+    food_info = ObjectProperty()
+    stall_name = StringProperty()
 
     def on_release(self):
         super().on_release()
