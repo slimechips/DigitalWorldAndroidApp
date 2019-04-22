@@ -12,12 +12,17 @@
     BoxLayout:
         orientation: "vertical"
         spacing: 50
+        TopNavigationBar:
+            id: top_bar
+            text: "Confirm Order"
         Label:
             id: title
             text: "Confirm Order?"
             font_size: appdimens.title_font_size
             size_hint_y: None
             padding_y: 20
+            outline_color: (0, 0, 0)
+            color: 0, 0, 0, 1
         GridLayout:
             id: grid_layout
             orientation: "vertical"
@@ -34,7 +39,7 @@
                 markup: True
                 size_hint_y: None
                 font_size: appdimens.button_font_size
-                btn_color: 0, 1, 0, 1
+                btn_color: 0, 0.5, 0, 1
                 on_release: confirm_order_screen.order()
             SmoothButton:
                 id: no_btn
@@ -42,11 +47,13 @@
                 markup: True
                 size_hint_y: None
                 font_size: appdimens.button_font_size
-                btn_color: 1, 0, 0, 1
+                btn_color: 0.8, 0, 0, 1
                 on_release: self.parent.go_back
         Widget:
             id: space_btm
             size_hint: 1, 1
+        BottomNavigationBar:
+            id: btm_bar
 
 # Custom Food Picture Widget
 <FoodPicture2@AsyncImage>:
