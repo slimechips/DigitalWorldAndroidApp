@@ -44,6 +44,9 @@ class TopNavigationBar(ActionBar):
 class BottomNavigationBar(ActionBar):
     pass
 
+class LogoutBottomNavBar(ActionBar):
+    pass
+
 class Stalls(Screen):
     _buttonfontsize = appdimens.button_font_size
     _titlefontsize = appdimens.title_font_size
