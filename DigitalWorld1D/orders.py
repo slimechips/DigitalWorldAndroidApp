@@ -8,6 +8,7 @@ from kivy.uix.image import AsyncImage
 from functools import partial
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
+# from importbarcode import gen_barcode_image
 
 class FoodPicture(ButtonBehavior, AsyncImage):
     def on_release(self):
@@ -52,6 +53,8 @@ class My_Orders(Screen):
     def update_UI(self):
         for idx, order in enumerate(self.orders_ls):
             picture = FoodPicture(source=self.picture[idx], size_hint = (0.5, 1))
+            if picture:
+                print('Picture LOADED')
             food_name = order.food_item
             waiting_time = order.est_wait
             orders_in_q = order.num_in_q
@@ -77,3 +80,6 @@ class My_Orders(Screen):
             return 'Indian'
         elif stall == 'chicken_rice_stall':
             return 'Chicken Rice'
+
+    def gen_barcode_image(barcode_no):
+        pass
