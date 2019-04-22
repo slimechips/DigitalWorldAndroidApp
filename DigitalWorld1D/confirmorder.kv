@@ -48,7 +48,7 @@
                 size_hint_y: None
                 font_size: appdimens.button_font_size
                 btn_color: 0.8, 0, 0, 1
-                on_release: self.parent.go_back
+                on_release: app.root.current = 'stalls'
         Widget:
             id: space_btm
             size_hint: 1, 1
