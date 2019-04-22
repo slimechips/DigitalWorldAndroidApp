@@ -3,7 +3,6 @@ from kivy.clock import Clock
 import user
 import database
 
-
 class My_Orders(Screen):
 
     # When loading, setup the orders to be active button in nav bar
