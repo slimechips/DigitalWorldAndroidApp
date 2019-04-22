@@ -24,14 +24,18 @@ class ConfirmOrder(Screen):
         self.ids["grid_layout"].add_widget(self.food_label, 2)
         self.food_info = orig_food_widget.food_info
 
-    def order(self):
+    def order(self, num_in_q=None):
         food = self.food_info
-        database.create_order(user.current_user.uid, "chicken_rice_stall", 
-                              food.stall_id, 
-                              food.food_name,
-                              food.food_id, "None", food.price, 2,
-                              food.waiting_time,
-                              self.order_uploaded)
+        stall_name = self.manager.current_stall
+        database.get_num_in_q(stall_name, self.order)
+        if num_in_q != None:
+            database.create_order(user.current_user.uid, stall_name, 
+                                food.stall_id, 
+                                food.food_name,
+                                food.food_id, "None", food.price,
+                                num_in_q,
+                                food.waiting_time,
+                                self.order_uploaded)
 
     def order_uploaded(self):
         Logger.info("Order: Uploaded")

@@ -24,7 +24,7 @@ class Order:
                           "status", "time_of_order", "time_of_order_collection",
                           "time_of_order_completion", "user_id"]
         properties = [self.est_wait, self.food_item, self.food_id, barcode_no,
-                      0, self.special_requests, self.current_stall,
+                      self.num_in_q, self.special_requests, self.current_stall,
                       self.status, self.time_of_order, "None",
                       "None", self.uid]
 

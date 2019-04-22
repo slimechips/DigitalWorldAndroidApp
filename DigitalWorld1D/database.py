@@ -43,8 +43,17 @@ def get_stall_success(callback, request, result, *args):
     if callback:
         callback(food_items)
 
-def get_num_in_q(stall):
-    pass
+def get_num_in_q(stall, callback):
+    stallDatabaseUrl = databaseURL + "active_orders/" + stall + ".json"
+    req = UrlRequest(stallDatabaseUrl, 
+                     on_success=partial(got_num_in_q, callback),
+                     verify=False,
+                     on_error=network_failure)
+
+def got_num_in_q(callback, req, result, *args):
+    num_in_q = len(result) - 1
+    if callback:
+        callback(num_in_q)
 
 def split_datetime_now():
     day = datetime.now().day
@@ -69,6 +78,10 @@ def split_datetime_now():
 # Create a new order
 def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                  num_in_q, est_wait, callback):
+    
+    
+    # TEMP
+    num_in_q = 0
     order = Order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                   est_wait, num_in_q)
     date, time = split_datetime_now()
