@@ -3,7 +3,7 @@ from kivy.logger import Logger
 
 class Order:
     def __init__(self, uid, stall, stall_id, food_item, food_id,
-                 spec_req, amt_paid, num_in_q):
+                 spec_req, amt_paid, num_in_q, est_wait):
         self.__uid = uid
         self.__current_stall = stall
         self.__stall_id = stall_id
@@ -14,17 +14,19 @@ class Order:
         self.__amt_paid = amt_paid
         self.__num_in_q = num_in_q
         self.__status = "sent"
+        self.__est_wait = est_wait
 
     def to_dict(self, barcode_no):
         mydict = {}
-        property_names = ["estimated_waiting_time", "food_item", "order_id",
+        property_names = ["estimated_waiting_time", "food_item", "food_id",
+                          "order_id",
                           "orders_in_queue", "special_requests", "stall", 
                           "status", "time_of_order", "time_of_order_collection",
                           "time_of_order_completion", "user_id"]
-        properties = [self.uid, self.food_item, barcode_no,
-                      2, self.special_requests, self.current_stall,
+        properties = [self.est_wait, self.food_item, self.food_id, barcode_no,
+                      0, self.special_requests, self.current_stall,
                       self.status, self.time_of_order, "None",
-                      "None", 1]
+                      "None", self.uid]
 
         for idx in range(len(property_names)):
             mydict[property_names[idx]] = properties[idx]
@@ -115,3 +117,10 @@ class Order:
     @status.setter
     def status(self, value):
         self.__status = value
+
+    @property
+    def est_wait(self):
+        return self.__est_wait
+    @est_wait.setter
+    def est_wait(self, value):
+        self.__est_wait = value

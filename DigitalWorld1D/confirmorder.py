@@ -7,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.logger import Logger
 
 import database
+import user
 
 class ConfirmOrder(Screen):
     def on_pre_enter(self, *args):
@@ -25,9 +26,11 @@ class ConfirmOrder(Screen):
 
     def order(self):
         food = self.food_info
-        database.create_order(1, "chicken_rice_stall", food.stall_id, 
+        database.create_order(user.current_user.uid, "chicken_rice_stall", 
+                              food.stall_id, 
                               food.food_name,
-                              food.food_id, "None", food.price, 2, 
+                              food.food_id, "None", food.price, 2,
+                              food.waiting_time,
                               self.order_uploaded)
 
     def order_uploaded(self):

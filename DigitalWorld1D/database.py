@@ -68,9 +68,9 @@ def split_datetime_now():
 
 # Create a new order
 def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
-                 num_in_q, callback):
+                 num_in_q, est_wait, callback):
     order = Order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
-                  num_in_q)
+                  est_wait, num_in_q)
     date, time = split_datetime_now()
     barcode_no = barcode_generator(stall_id, food_id, uid, date, time)
     orderDatabaseURL = databaseURL + "active_orders/" + stall + ".json"

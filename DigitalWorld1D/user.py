@@ -6,9 +6,9 @@ class User:
         self.__username = username
         self.__password = password
         if uid != None:
-            self.__uid = uid
+            self.__uid = int(uid)
         elif kwargs["db_result"]:
-            self.__uid = self.create_new_uid(kwargs["db_result"])
+            self.__uid = int(self.create_new_uid(kwargs["db_result"]))
         else:
             self.__uid = uid
 
