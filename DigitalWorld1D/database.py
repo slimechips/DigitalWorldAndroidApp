@@ -140,18 +140,19 @@ def got_orders_data(callback, req, result, *args):
         callback(orders) # Returns the list of orders to UI
 
 # Func to get the food picture of an order given its stall id and food id
-def query_picture_url(stall_name, food_name, callback):
+def query_picture_url(stall_name, food_name, idx, callback):
     imageUrl = "{}menu/{}/{}/photo_url.json" \
           .format(databaseURL,stall_name, food_name)
     
     # Query the url
-    req = UrlRequest(imageUrl, on_success=partial(got_picture_url, callback),
+    req = UrlRequest(imageUrl, 
+                     on_success=partial(got_picture_url, idx, callback),
                      verify=False, on_error=network_failure)
 
 # Callback to query for picture url
-def got_picture_url(callback, req, result, *args):
+def got_picture_url(idx, callback, req, result, *args):
     Logger.info("Database: Got picture url")
-    callback(result)
+    callback(result, idx)
 
 # Callback when there is a network error
 def network_failure(request, error, *args):
