@@ -111,7 +111,8 @@ ScreenManagement:
     size_hint_y: None
     height: self.width
     label_txt: "Placeholder"
-    on_release: self.parent.parent.parent.parent.btn_pressed(self.stall_name)
+    on_release: 
+        self.parent.parent.parent.parent.btn_pressed(self.stall_name,self.label_txt)
     Image:
         x: self.parent.x
         y: self.parent.y

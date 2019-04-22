@@ -54,8 +54,9 @@ class Stalls(Screen):
         super().on_pre_enter(*args)
         self.ids["btm_bar"].ids["stalls_btn"].state = "down"
 
-    def btn_pressed(self, stall_name):
+    def btn_pressed(self, stall_name, label_txt):
         self.manager.current_stall = stall_name
+        self.manager.navbarname = label_txt
         self.manager.current = "stall_screen"
 
 class StallButton(Button):
@@ -69,7 +70,7 @@ class StallScreen(Screen):
 
     def on_pre_enter(self, *args, **kwargs):
         super().on_pre_enter(*args, **kwargs)
-        self.ids["top_bar"].text = self.current_stall
+        self.ids["top_bar"].text = self.manager.navbarname
         database.get_stall_info(self.current_stall, callback=self.on_get_info)
         self.ids["btm_bar"].ids["stalls_btn"].state = "normal"
 
@@ -123,6 +124,7 @@ class ScreenManagement(ScreenManager):
     current_stall = StringProperty("")
     food_item = ObjectProperty()
     cur_food_info = ObjectProperty()
+    navbarname = ObjectProperty()
 
     main_menus = ["stalls", "my_orders"]
 
