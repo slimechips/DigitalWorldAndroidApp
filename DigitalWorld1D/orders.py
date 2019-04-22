@@ -61,14 +61,11 @@ class My_Orders(Screen):
             status = order.status
             stall_name = self.mk_stall_name(stall)
             my_box_layout = OrderRow()
-            label_text = """[b][u]{}[/u][/b]\n[b]Status: 
-                            [/b]{}\n[b]Arriving:[/b] {} 
-                            mins\n[b]Orders in Queue:[/b] 
-                            {}\n[b]Stall:[/b] {}""".format(food_name,
-                            status, waiting_time, orders_in_q, stall_name)
-            label = Label(text=label_text, size_hint = (0.5, None), font_size=40, 
-                          color=[0, 0, 0, 1], markup = True)
-            label.bind(size=label.setter('text_size'), texture_size=label.setter('size'))
+            label_text = "[b][u]{}[/u][/b]\n[b]Status: [/b]{}\n" \
+                         "[b]Arriving:[/b] {}mins\n[b]Orders in Queue:[/b]" \
+                         "{}\n[b]Stall:[/b] {}".format(food_name,
+                         status, waiting_time, orders_in_q, stall_name)
+            label = OrderLabel(text=label_text)
             my_box_layout.add_widget(picture)
             my_box_layout.add_widget(label)
             self.grd.add_widget(my_box_layout)
