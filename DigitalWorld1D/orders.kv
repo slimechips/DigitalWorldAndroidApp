@@ -10,18 +10,16 @@
             pos: self.pos
     BoxLayout:
         orientation: "vertical"
+        id: orders_box
         TopNavigationBar:
             id: top_bar
             text: "My Orders"
         ScrollView:
             size: self.size
             do_scroll_y: True
-            GridLayout:
-                id: orders_grd
-                cols: 2
-                column_default_force: True,
-                column_default_width: Window.width/2
-                height: self.minimum_height
+            BoxLayout:
+                id: orders_box_box
+                orientation: "vertical"
                 spacing: 10
                 padding: 20
                 size_hint_y: None
