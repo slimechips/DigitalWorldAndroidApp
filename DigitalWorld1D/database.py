@@ -92,6 +92,13 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
     headers = {'Content-Type': 'application/json'}
 
     req = UrlRequest(orderDatabaseURL, req_body=data, req_headers=headers,
+                     on_success=None,
+                     method="PATCH", verify=False,
+                     on_error=network_failure)
+
+    userDatabaseURL = databaseURL + "Users/" + str(uid) + "/active_orders.json"  
+    
+    re2 = UrlRequest(userDatabaseURL, req_body=data, req_headers=headers,
                      on_success=partial(create_order_success, callback),
                      method="PATCH", verify=False,
                      on_error=network_failure)
@@ -100,6 +107,11 @@ def create_order_success(callback, req, result, *args):
     # Do something
     if callback:
         callback()
+
+def check_my_orders(self, uid, callback):
+    userDatabaseUrl = databaseURL + "Users/" + str(uid) + "/active_orders.json"
+
+    # req = UrlRequest(userDatabaseUrl,)
 
 def network_failure(request, error, *args):
     Logger.info(error)
