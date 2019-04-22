@@ -1,4 +1,6 @@
 #:kivy 1.10.1
+#:import appdimens appdimens
+#:import appcolours appcolours
 
 <My_Orders>:
     name: "my_orders"
@@ -22,7 +24,7 @@
                 cols: 1
                 column_default_force: True,
                 column_default_width: Window.width
-                # height: self.minimum_height
+                height: self.minimum_height
                 spacing: 10
                 padding: 20
                 size_hint_y: None
@@ -35,3 +37,15 @@
     on_error: self.img_error
     size_hint: 1, None
     height: appdimens.stall_screen_height
+
+<OrderLabel@Label>:
+    text: "Placeholder"
+    size_hint: 0.5, None
+    font_size: appdimens.label_font_size
+    color: appcolours.BLACK
+
+<OrderRow@GridLayout>:
+    cols: 2
+    rows: 1
+    size_hint_y: None
+    height: self.minimum_height

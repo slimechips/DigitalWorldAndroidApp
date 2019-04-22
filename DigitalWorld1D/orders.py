@@ -11,11 +11,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 # from importbarcode import gen_barcode_image
 
-class FoodPicture(ButtonBehavior, AsyncImage):
-    def on_release(self):
-        super().on_release()
-        self.parent.parent.parent.parent.goto_confirm(self)
-
 class My_Orders(Screen):
     # When loading, setup the orders to be active button in nav bar
 
@@ -51,12 +46,13 @@ class My_Orders(Screen):
         if '' not in self.picture:
             self.update_UI()
 
-    def gen_barcode_image(barcode_no):
+    def gen_barcode_image(self, barcode_no):
         pass
 
     def update_UI(self):
         for idx, order in enumerate(self.orders_ls):
-            picture = FoodPicture(source=self.picture[idx], size_hint = (0.5, None))
+            picture = FoodPicture(source=self.picture[idx], 
+                                  size_hint = (0.5, None))
             print(self.picture[idx])
             food_name = order.food_item
             waiting_time = order.est_wait
@@ -64,10 +60,12 @@ class My_Orders(Screen):
             stall = order.current_stall
             status = order.status
             stall_name = self.mk_stall_name(stall)
-            my_box_layout = GridLayout(cols=2, size_hint_y=None)
-            # my_box_layout.bind(height=my_box_layout.setter('minimum_height'))
-            label_text = """[b][u]{}[/u][/b]\n[b]Status: [/b]{}\n[b]Arriving:[/b] {} mins\n[b]Orders in Queue:[/b] {}\n[b]Stall:[/b] {}""".format(food_name,
-                        status, waiting_time, orders_in_q, stall_name)
+            my_box_layout = OrderRow()
+            label_text = """[b][u]{}[/u][/b]\n[b]Status: 
+                            [/b]{}\n[b]Arriving:[/b] {} 
+                            mins\n[b]Orders in Queue:[/b] 
+                            {}\n[b]Stall:[/b] {}""".format(food_name,
+                            status, waiting_time, orders_in_q, stall_name)
             label = Label(text=label_text, size_hint = (0.5, None), font_size=40, 
                           color=[0, 0, 0, 1], markup = True)
             label.bind(size=label.setter('text_size'), texture_size=label.setter('size'))
@@ -84,3 +82,14 @@ class My_Orders(Screen):
             return 'Indian'
         elif stall == 'chicken_rice_stall':
             return 'Chicken Rice'
+
+class FoodPicture(ButtonBehavior, AsyncImage):
+    def on_release(self):
+        super().on_release()
+        self.parent.parent.parent.parent.goto_confirm(self)
+
+class OrderLabel(Label):
+    pass
+
+class OrderRow(GridLayout):
+    pass
