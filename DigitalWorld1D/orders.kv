@@ -14,7 +14,14 @@
             id: top_bar
             text: "My Orders"
         GridLayout:
+            id: orders_grd
             cols: 2
+            column_default_force: True,
+            column_default_width: Window.width/2
+            height: self.minimum_height
+            spacing: 10
+            padding: 20
+            size_hint_y: None
             Label:
                 id: order_pic
                 text: 'picture here'
