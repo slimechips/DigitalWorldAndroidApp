@@ -10,13 +10,13 @@
             text: 'Stalls'
             on_release: app.root.current = 'stalls'
             allow_no_selection: False
-            group: "btm_bar"
+            group: "logout_btm_bar"
         ActionToggleButton:
             id: my_orders_btn
             text: 'My Orders'
             on_release: app.root.current = 'my_orders'
             allow_no_selection: False
-            group: "btm_bar"
+            group: "logout_btm_bar"
 
 <Logout_Confirm>:
     name: "logout_pg"
@@ -33,21 +33,21 @@
             text: "Logout?"
         Button:
             font_size: root._button_font_size
-            size_hint: 0.2, 0.1
-            pos_hint: {"center_x": 0.5, "top": 1}
+            size_hint: 0.2, 0.15
+            pos_hint: {"center_x": 0.5, "top": 0.85}
             text: "Back"
             on_release: app.root.current = "stalls"
-        Button:
-            font_size: root._button_font_size
-            size_hint: 0.2, 0.1
-            pos_hint: {"center_x": 0.5, "top": 0.2}
-            text: "Logout"
-            on_release: app.root.current = "login"
         Label:
             id: logout_text
             text: "Do you want to log out?"
             font_size: root._title_font_size/2
             color: 0, 0, 0, 1
+        Button:
+            font_size: root._button_font_size
+            size_hint: 0.2, 0.15
+            pos_hint: {"center_x": 0.5, "top": 0.15}
+            text: "Logout"
+            on_release: app.root.current = "loginpage"
         LogoutBottomNavBar:
             id: btm_bar
         
