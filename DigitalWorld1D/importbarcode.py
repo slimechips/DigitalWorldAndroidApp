@@ -76,7 +76,7 @@ def gen_barcode_img(barcodeno):
 		sub_folder_path = os.path.join(root, "ezeat")
 		if not os.path.exists(sub_folder_path):
 			os.makedirs(sub_folder_path)
-		filePath = os.path.join(sub_folder_path, barcodeno + ".png")
+		filePath = os.path.join(sub_folder_path, str(barcodeno) + ".png")
 	else:
 		desktop = os.path.join(os.path.expanduser("~"), "Desktop")
 		filePath = os.path.join(desktop, str(barcodeno) + ".png")

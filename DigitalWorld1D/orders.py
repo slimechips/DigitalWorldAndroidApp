@@ -32,7 +32,7 @@ class My_Orders(Screen):
         self.grd = self.ids["orders_grd"]
         self.ids["btm_bar"].ids["my_orders_btn"].state = "down"
         self.retrieve_orders(None)
-        self.order_updater = Clock.schedule_interval(self.retrieve_orders, 30)
+        self.order_updater = Clock.schedule_interval(self.retrieve_orders, 10)
 
     def on_leave(self, *args):
         super().on_leave(*args)
@@ -130,10 +130,8 @@ class My_Orders(Screen):
         elif stall == 'chicken_rice_stall':
             return 'Chicken Rice'
 
-class FoodPicture(ButtonBehavior, AsyncImage):
-    def on_release(self):
-        super().on_release()
-        self.parent.parent.parent.parent.goto_confirm(self)
+class FoodPicture(AsyncImage):
+    pass
 
 class OrderLabel(Label):
     pass
