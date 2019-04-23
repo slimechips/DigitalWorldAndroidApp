@@ -2,23 +2,33 @@
 #:import appdimens appdimens
 #:import appcolours appcolours
 
+# My_Orders object inheriting from Screen
 <My_Orders>:
     name: "my_orders"
+
+    # Background color of 0.8, 0.8, 0.8
+    # Takes up whole screen
     canvas.before:
         Color:
             rgb: 0.8, 0.8, 0.8
         Rectangle:
             size: self.size
             pos: self.pos
+
+    # BoxLayout to contain two nav bars and screen content
     BoxLayout:
         orientation: "vertical"
         id: orders_box
         TopNavigationBar:
             id: top_bar
             text: "My Orders"
+
+        # ScrollView to allow user to scroll through content
         ScrollView:
             size: self.size
             do_scroll_y: True
+
+            # GridLayout to display information related to orders in a 1 column grid
             GridLayout:
                 id: orders_grd
                 cols: 1
@@ -30,6 +40,7 @@
                 size_hint_y: None
         BottomNavigationBar:
             id: btm_bar
+
 
 <FoodPicture@AsyncImage>:
     allow_stretch: True
