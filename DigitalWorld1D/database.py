@@ -141,12 +141,14 @@ def got_orders_data(callback, req, result, *args):
     else:
         # User has at least 1 active order!
         # Add to list of orders to get
-        user.current_user.orders = list(result.values().keys())
+        user.current_user.orders = list(result.keys())
+        # Convert the str list to a int list
+        user.current_user.orders = list(map(int, user.current_user.orders))
         for order_no, order_data in result.items():
             order_no = int(order_no) # Cast self to an int
             Logger.info("Order_no: " + str(order_no))
             # Iterate through orders
-            query_detailed_order(order_no, order_data["stall"], callback)
+            query_detailed_order(order_data["stall"], order_no, callback)
 
 # Query for detailed orders data
 def query_detailed_order(stall, order_no, callback):
@@ -158,29 +160,35 @@ def query_detailed_order(stall, order_no, callback):
 
 # Callback when detailed order data comes
 def got_detailed_order(order_no, callback, req, result, *args):
-    if result == "" or None:
+    if result == "" or result == None:
         # Stall has already completed/removed the order
         # Remove this order from our user's local order list
-        idx = user.current_user.orders.idx(order_no)
+        idx = user.current_user.orders.index(order_no)
         user.current_user.orders.pop(idx)
 
         # Remove this order from user's firebase list
         remove_order(user.current_user.uid, order_no)
 
-    Logger.info("Order_data: " + str(result))
-    order = Order.dict_to_obj(result) # Converts dict to order obj
-    for idx, orig_order in enumerate(user.current_user.orders):
-        if order.current_stall == int(orig_order):
-            user.current_user.orders[idx] = order
+    else:
+        # Order exists
+        Logger.info("Order_data: " + str(result))
+        order = Order.dict_to_obj(result) # Converts dict to order obj
+        # Replace the 'vague' order with a proper order object
+        for idx, orig_order in enumerate(user.current_user.orders):
+            if type(orig_order) != Order:
+                if order.order_id == int(orig_order):
+                    user.current_user.orders[idx] = order
     
     # Check if all detailed order data is in
     all_orders_in = True
     for cur_order in user.current_user.orders:
-        if type(cur_order) == int:
+        if type(cur_order) == int or type(cur_order) == str:
+            # Order has not been received yet
             all_orders_in = False
 
     if all_orders_in:
         # Call our callback
+        Logger.info("Orders in: " + str(user.current_user.orders))
         callback(user.current_user.orders)
 
 def remove_order(uid, order_no):
