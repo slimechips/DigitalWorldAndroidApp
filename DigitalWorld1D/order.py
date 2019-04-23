@@ -19,7 +19,7 @@ class Order:
         self.__time_of_order_completion = time_of_order_completion
         self.__amt_paid = amt_paid
         self.__num_in_q = num_in_q
-        self.__status = "sent"
+        self.__status = self.status
         self.__est_wait = est_wait
         self.__order_id = int(order_id)
 
