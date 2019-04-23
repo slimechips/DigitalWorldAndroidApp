@@ -7,6 +7,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.properties import NumericProperty
+from kivy.logger import Logger
 
 from functools import partial
 
@@ -32,7 +33,9 @@ class My_Orders(Screen):
         self.grd = self.ids["orders_grd"]
         self.ids["btm_bar"].ids["my_orders_btn"].state = "down"
         self.retrieve_orders(None)
-        self.order_updater = Clock.schedule_interval(self.retrieve_orders, 10)
+        update_interval = 15 # 15 second update interval for UI
+        self.order_updater = Clock.schedule_interval(self.retrieve_orders,
+                                                     update_interval)
 
     def on_leave(self, *args):
         super().on_leave(*args)
@@ -44,6 +47,7 @@ class My_Orders(Screen):
             pass
 
     def retrieve_orders(self, dt):
+        self.picture = []
         # retrieve list from Firebase
         current_user_uid = user.current_user.uid
         database.check_my_orders(current_user_uid, self.got_orders)
@@ -73,10 +77,13 @@ class My_Orders(Screen):
     def update_UI(self):
         # Update the page UI based on data received
         current_order_ids = []
+        Logger.info("Current barcodes: " + str(self.current_bars))
         for idx, order in enumerate(self.orders_ls):
             # Extract the order ids from database data in a list
             current_order_ids.append(order.order_id)
+            Logger.info("Order id: " + str(order.order_id))
             if order.order_id in self.current_bars:
+                Logger.info("Current order: already loaded")
                 # Order was already previously loaded, skip loading
                 continue
 
@@ -108,7 +115,7 @@ class My_Orders(Screen):
             my_box_layout.add_widget(label)
             self.grd.add_widget(my_box_layout)
             self.grd.add_widget(barcode)
-            self.current_bars.append(barcodePath)
+            self.current_bars.append(order.order_id)
             self.row_widgets.append(my_box_layout)
             self.bar_widgets.append(barcode)
 
