@@ -28,6 +28,13 @@ class User:
     def password(self):
         return self.__password
 
+    @property
+    def orders(self):
+        return self.__orders
+    @orders.setter
+    def orders(self, value):
+        self.__orders = value
+
     def create_new_uid(self, db_result):
         max_uid = 0
         for user in db_result.values():

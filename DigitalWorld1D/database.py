@@ -5,6 +5,7 @@ from functools import partial
 from order import Order
 from importbarcode import barcode_generator
 from datetime import datetime
+import user
 import json
  
 def check_request_success(req):
@@ -105,7 +106,7 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
 
     userDatabaseURL = databaseURL + "Users/" + str(uid) + "/active_orders.json"  
     
-    data_for_user = json.dumps(order.current_stall)
+    data_for_user = json.dumps({order.order_id: {"stall" : order.current_stall}})
 
     re2 = UrlRequest(userDatabaseURL, req_body=data_for_user, 
                      req_headers=headers,
@@ -115,6 +116,7 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
 
 # Callback when order has been successfully created
 def create_order_success(callback, req, result, *args):
+    Logger.info("Order: Successfully created")
     if callback:
         callback()
 
@@ -130,6 +132,7 @@ def check_my_orders(uid, callback):
 # Callback to query for orders data
 def got_orders_data(callback, req, result, *args):
     Logger.info("Database: Got orders data")
+    user.current_user.orders = []
     # Result will only contain the stall name of the order
     # Need to retrieve other order data from active_orders node
     if result == None or result == "":
@@ -137,15 +140,59 @@ def got_orders_data(callback, req, result, *args):
         callback([]) # Inform UI there are no orders to show
     else:
         # User has at least 1 active order!
-        orders = []
-        for order_data in result.values():
-            Logger.info("Order_data: " + str(order_data))
+        # Add to list of orders to get
+        user.current_user.orders = list(result.values().keys())
+        for order_no, order_data in result.items():
+            order_no = int(order_no) # Cast self to an int
+            Logger.info("Order_no: " + str(order_no))
             # Iterate through orders
-            order = Order.dict_to_obj(order_data) # Converts dict to order obj
-            orders.append(order)
-        callback(orders) # Returns the list of orders to UI
+            query_detailed_order(order_no, order_data["stall"], callback)
 
-# 
+# Query for detailed orders data
+def query_detailed_order(stall, order_no, callback):
+    orderUrl = "{}active_orders/{}/{}.json".format(databaseURL, stall,
+                                                   order_no)
+    req = UrlRequest(orderUrl, 
+                     on_success=partial(got_detailed_order, order_no, callback),
+                     verify=False, on_error=network_failure)
+
+# Callback when detailed order data comes
+def got_detailed_order(order_no, callback, req, result, *args):
+    if result == "" or None:
+        # Stall has already completed/removed the order
+        # Remove this order from our user's local order list
+        idx = user.current_user.orders.idx(order_no)
+        user.current_user.orders.pop(idx)
+
+        # Remove this order from user's firebase list
+        remove_order(user.current_user.uid, order_no)
+
+    Logger.info("Order_data: " + str(result))
+    order = Order.dict_to_obj(result) # Converts dict to order obj
+    for idx, orig_order in enumerate(user.current_user.orders):
+        if order.current_stall == int(orig_order):
+            user.current_user.orders[idx] = order
+    
+    # Check if all detailed order data is in
+    all_orders_in = True
+    for cur_order in user.current_user.orders:
+        if type(cur_order) == int:
+            all_orders_in = False
+
+    if all_orders_in:
+        # Call our callback
+        callback(user.current_user.orders)
+
+def remove_order(uid, order_no):
+    # Remove a order from user database
+    orderUrl = "{}users/{}/active_orders/{}".format(databaseURL, uid, order_no)
+
+    # URL req to delete data
+    req = UrlRequest(orderUrl, method="DELETE", on_success=order_removed,
+                     verify=False, on_error=network_failure)
+
+def order_removed(*args):
+    Logger.info("Order: Order missing, removed...")
 
 # Func to get the food picture of an order given its stall id and food id
 def query_picture_url(stall_name, food_name, idx, callback):

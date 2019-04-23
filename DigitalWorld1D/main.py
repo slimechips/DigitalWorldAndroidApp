@@ -119,7 +119,7 @@ class StallScreen(Screen):
         self.food_items = []
 
 # Create FoodLabel object that inherits from GridLayout        
-class FoodLabel(GridLayout):
+class FoodLabel(Label):
     pass
 
 # Create FoodPicture object which acts like a button and an image 
