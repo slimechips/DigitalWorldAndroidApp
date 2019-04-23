@@ -88,26 +88,17 @@ class My_Orders(Screen):
             Logger.info("Order id: " + str(order.order_id))
             if order.order_id in self.current_bars:
                 Logger.info("Current order: already loaded")
-                # Order was already previously loaded, skip loading
+                # Order was already previously loaded, just update text
+                idx = self.current_bars.index(order.order_id)
+                label_text = self.get_label_text(order)
+                Logger.info("label_txt: " + str(self.row_widgets[idx].children[1]))
+                self.row_widgets[idx].children[0].text = label_text
                 continue
 
             # First we create the image of the order
             picture = FoodPicture(source=self.picture[idx], 
                                   size_hint = (0.5, None))
-            food_name = order.food_item
-            waiting_time = order.est_wait
-            orders_in_q = order.num_in_q
-            stall = order.current_stall
-            status = order.status
-            stall_name = self.mk_stall_name(stall)
-
-            # Then we create the label of order
-            label_text = ("[b][u]{}[/u][/b]\n"
-		                  "[b]Status: [/b]{}\n"
-		                  "[b]Arriving: [/b]{} mins\n"
-		                  "[b]Orders in Queue: [/b]{}\n"
-		                  "[b]Stall: [/b]{}".format(food_name,
-		                  status, waiting_time, orders_in_q, stall_name))
+            label_text = self.get_label_text(order)
             label = OrderLabel(text=label_text)
 
             # Then we generate the barcode of the order
@@ -136,6 +127,25 @@ class My_Orders(Screen):
                 self.grd.remove_widget(bar_widget)
                 self.grd.remove_widget(self.row_widgets[idx])
                 self.grd.remove_widget(self.space_widgets[idx])
+
+    def get_label_text(self, order):
+        # Gets the formatted label text given an order
+        food_name = order.food_item
+        waiting_time = order.est_wait
+        orders_in_q = order.num_in_q
+        stall = order.current_stall
+        status = order.status
+        stall_name = self.mk_stall_name(stall)
+
+        # Then we create the label of order
+        label_text = ("[b][u]{}[/u][/b]\n"
+                        "[b]Status: [/b]{}\n"
+                        "[b]Arriving: [/b]{} mins\n"
+                        "[b]Orders in Queue: [/b]{}\n"
+                        "[b]Stall: [/b]{}".format(food_name,
+                        status, waiting_time, orders_in_q, stall_name))
+        return label_text
+
 
     def mk_stall_name(self, stall):
         if stall == 'japanese_stall':
