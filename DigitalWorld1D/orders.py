@@ -6,6 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
+from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty
 from kivy.logger import Logger
 
@@ -26,6 +27,7 @@ class My_Orders(Screen):
         self.current_bars = []
         self.row_widgets = []
         self.bar_widgets = []
+        self.space_widgets = []
 
     def on_pre_enter(self, *args):
         # Start to update the page with orders info of current user
@@ -112,14 +114,19 @@ class My_Orders(Screen):
             barcodePath = gen_barcode_img(order.order_id)
             barcode = BarcodeImage(source=barcodePath,
                                    order_id=order.order_id)
+
+            # Add some space below the barcode to seperate the orders
+            space = Widget(height=150, size_hint_y=None)
             my_box_layout = OrderRow()
             my_box_layout.add_widget(picture)
             my_box_layout.add_widget(label)
             self.grd.add_widget(my_box_layout)
             self.grd.add_widget(barcode)
+            self.grd.add_widget(space)
             self.current_bars.append(order.order_id)
             self.row_widgets.append(my_box_layout)
             self.bar_widgets.append(barcode)
+            self.space_widgets.append(space)
 
         # The below checks if an active order has been removed from the db
         for idx, bar_widget in enumerate(self.bar_widgets):
@@ -128,6 +135,7 @@ class My_Orders(Screen):
                 # If so, remove the widget from the page
                 self.grd.remove_widget(bar_widget)
                 self.grd.remove_widget(self.row_widgets[idx])
+                self.grd.remove_widget(self.space_widgets[idx])
 
     def mk_stall_name(self, stall):
         if stall == 'japanese_stall':
