@@ -1,6 +1,7 @@
 from datetime import datetime
 from kivy.logger import Logger
 
+# Custom class Order which stores all information related to the order
 class Order:
     def __init__(self, uid, stall, stall_id, food_item, food_id,
                  spec_req, amt_paid, num_in_q, est_wait,

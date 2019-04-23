@@ -1,14 +1,21 @@
 #:kivy 1.10.1
 #:import appdimens appdimens
+
+# ConfirmOrder object inheriting from Screen
 <ConfirmOrder>:
     name: "confirm_order"
     id: confirm_order_screen
+
+    # Background of screen has color 0.8, 0.8, 0.8
+    # Takes up whole screen
     canvas.before:
         Color:
             rgb: 0.8, 0.8, 0.8
         Rectangle:
             size: self.size
             pos: self.pos
+
+    # BoxLayout to contain top and bottom nav bars + contents of the screen
     BoxLayout:
         orientation: "vertical"
         spacing: 50
@@ -23,6 +30,8 @@
             padding_y: 20
             outline_color: (0, 0, 0)
             color: 0, 0, 0, 1
+
+        # GridLayout to contain picture and label of food item
         GridLayout:
             id: grid_layout
             orientation: "vertical"
@@ -31,8 +40,9 @@
             spacing: 100
             size_hint: 0.8, None
             pos_hint: {"x": 0.1}
-            # Picture to go here
-            # Label to go here
+
+            # Custom button SmoothButton
+            # Yes button calls order method in confirm_order_screen
             SmoothButton:
                 id: yes_btn
                 text: "[b]Yes[/b]"
@@ -41,6 +51,9 @@
                 font_size: appdimens.button_font_size
                 btn_color: 0, 0.5, 0, 1
                 on_release: confirm_order_screen.order()
+            
+            # Custom button SmoothButton
+            # No button returns user to stalls Screen    
             SmoothButton:
                 id: no_btn
                 text: "[b]No[/b]"

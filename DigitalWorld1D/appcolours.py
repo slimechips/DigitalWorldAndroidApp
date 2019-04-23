@@ -1,4 +1,4 @@
-# Always use rgba!
+# Store global variables used in custom buttons SmoothButton and StrokeButton
 WHITE = (1, 1, 1, 1)
 BLACK = (0, 0, 0, 1)
 

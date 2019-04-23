@@ -4,27 +4,38 @@
 #: import appstrings appstrings
 #: import appcolours appcolours
 
+# LoginPage object inheriting from Screen
 <LoginPage>:
     name: "loginpage"
     BackgroundImage:
         id: background_image
+
+    # BoxLayout to contain widgets
     BoxLayout:
         orientation: "vertical"
         size_hint: 0.8, 1
         spacing: 30
         pos_hint: {"x": 0.1}
+
+        # Empty space above appname
         Widget:
             id: login_space_top
             size_hint_y: 0.05
+
+        # Title of application
         Label:
             id: easy_eat_txt
             text: appstrings.appname
             size_hint_y: None
             font_size: appdimens.title_font_size
             color: appcolours.def_blue
+
+        # Empty space between appname and username label
         Widget:
             id: login_space_mid
             size_hint_y: 0.05
+
+        # Username label
         Label:
             id: username_txt
             text: "Username"
@@ -36,10 +47,14 @@
             halign: "left"
             padding: 0, 0
             color: appcolours.def_blue
+        
+        # Custom input field TransparentInput
         TransparentInput:
             id: login
             size_hint_y: None
-            hint_text: "example@email.com"
+            hint_text: "example"
+
+        # Password label
         Label:
             id: password_txt
             text: "Password"
@@ -50,10 +65,14 @@
             color: (1, 1, 1, 1)
             halign: "left"
             color: appcolours.def_blue
+        
+        # Custom input field TransparentInput
         TransparentInput:
             id: passw
             size_hint_y: None
             password: True
+
+        # Custom button SmoothButton
         SmoothButton:
             id: login_button
             size_hint_y: None
@@ -63,6 +82,8 @@
             on_release: root.verify_credentials()
             background_normal: ""
             btn_color: appcolours.login_green
+
+        # Custom button StrokeButton
         StrokeButton:
             id: signup_button
             size_hint_y: None
@@ -70,21 +91,28 @@
             markup: True
             font_size: appdimens.button_font_size
             on_release: root.signup()
-            back_color: 0.6, 0.8, 1, 1     
+            back_color: 0.6, 0.8, 1, 1
+
+        # Empty space below     
         Widget:
             id: space_login_btm
             size_hint: 1, 0.9
 
+# SignUpPage object inheriting from Screen
 <SignUpPage>:
     name: "signup"
     BackgroundImage:
         id: background_image
+
+    # BoxLayout to contain widgets
     BoxLayout:
         orientation: "vertical"
         size_hint: 0.8, 1
         spacing: 50
         height: self.minimum_height
         pos_hint: {"x": 0.1}
+
+        # SignUp Label
         Label:
             id: signup_txt_title
             text: "Sign up"
@@ -93,6 +121,8 @@
             size_hint: 1, None
             size: self.texture_size
             spacing: 20
+
+        # Custom input fields TransparentInput
         TransparentInput:
             id: email_signup_input
             hint_text: "Email Address"
@@ -107,6 +137,8 @@
             id: passw_confirm_signup_input
             hint_text: "Retype Password"
             password: True
+
+        # Custom button SmoothButton
         SmoothButton:
             size_hint: 0.8, None
             size_y: passw_confirm_signup_input.line_height
@@ -116,6 +148,8 @@
             on_release: root.firebase_signup()
             background_normal: ""
             btn_color: appcolours.signup_blue
+        
+        # Info label to display error messages, if any
         Label:
             id: info_text
             text: ""
@@ -123,6 +157,8 @@
             color: 1.0, 0.2, 0.2, 1
             size_hint: 1, None
             size: self.texture_size
+        
+        # Empty space below
         Widget:
             id: space_signup
             size_hint: 1, 1
@@ -180,7 +216,7 @@
         Line:
             points: [self.x, self.y, self.x + self.width, self.y]
 
-# Bg of the app
+# Background of the app
 <BackgroundImage@Image>:
     pos: self.pos
     size_hint: 1, 1

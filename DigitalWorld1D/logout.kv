@@ -1,5 +1,7 @@
 #:kivy 1.10.1
 
+# LogOutBottomNavBar object inheriting from ActionBar
+# Has 2 buttons: Stalls, My Orders
 <LogoutBottomNavBar>:
     ActionView:
         id: logout_btm_bar_view
@@ -18,14 +20,20 @@
             allow_no_selection: False
             group: "logout_btm_bar"
 
+# Logout_Confirm screen inheriting from Screen
 <Logout_Confirm>:
     name: "logout_pg"
+
+    # Background color of 0.8, 0.8, 0.8
+    # Takes up whole screen
     canvas.before:
         Color:
             rgba: 0.8, 0.8, 0.8
         Rectangle:
             pos: self.pos
             size: self.size
+
+    # BoxLayout to contain two nav bars and screen content
     BoxLayout:
         orientation: "vertical"
         TopNavigationBar:
@@ -36,12 +44,16 @@
             text: "Do you want to log out?"
             font_size: root._title_font_size/2
             color: 0, 0, 0, 1
-        Button:
-            font_size: root._button_font_size
-            size_hint: 0.2, 0.15
+        
+        # Custom button SmoothButton
+        SmoothButton:
+            font_size: appdimens.button_font_size
+            size_hint: 0.8, None
             pos_hint: {"center_x": 0.5, "top": 0.15}
             text: "Logout"
             on_release: app.root.current = "loginpage"
+            background_normal: ""
+            btn_color: appcolours.signup_blue
         LogoutBottomNavBar:
             id: btm_bar
         
