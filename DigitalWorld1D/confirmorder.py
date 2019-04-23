@@ -42,6 +42,10 @@ class ConfirmOrder(Screen):
     def go_back(self):
         self.manager.current = self.manager.previous()
 
+    def on_leave(self):
+        self.ids["grid_layout"].remove_widget(self.food_widget)
+        self.ids["grid_layout"].remove_widget(self.food_label)
+
 class FoodPicture2(ButtonBehavior, AsyncImage):
     pass
 
