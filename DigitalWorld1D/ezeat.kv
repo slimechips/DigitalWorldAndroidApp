@@ -8,6 +8,7 @@
 #: import Window kivy.core.window.Window
 #: import appdimens appdimens
 #: import fonts fonts
+#: import appcolours appcolours
 
 ScreenManagement:
     id: screenmanager
@@ -160,10 +161,14 @@ ScreenManagement:
             id: btm_bar
 
 <FoodLabel>:
+    text: "Placeholder"
     font_size: appdimens.label_font_size
-    color: [0, 0, 0, 1]
-    size_hint_y: None
-    padding_y: 20
+    color: appcolours.BLACK
+    markup: True
+    text_size: self.size
+    halign: "left"
+    valign: "center"
+    multiline: True
 
 # Custom Food Picture Widget
 <FoodPicture@AsyncImage>:

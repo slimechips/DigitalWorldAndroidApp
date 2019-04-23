@@ -105,7 +105,10 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
 
     userDatabaseURL = databaseURL + "Users/" + str(uid) + "/active_orders.json"  
     
-    re2 = UrlRequest(userDatabaseURL, req_body=data, req_headers=headers,
+    data_for_user = json.dumps(order.current_stall)
+
+    re2 = UrlRequest(userDatabaseURL, req_body=data_for_user, 
+                     req_headers=headers,
                      on_success=partial(create_order_success, callback),
                      method="PATCH", verify=False,
                      on_error=network_failure)
@@ -127,9 +130,11 @@ def check_my_orders(uid, callback):
 # Callback to query for orders data
 def got_orders_data(callback, req, result, *args):
     Logger.info("Database: Got orders data")
+    # Result will only contain the stall name of the order
+    # Need to retrieve other order data from active_orders node
     if result == None or result == "":
         # User has no active orders!
-        callback(None) # Inform UI there are no orders to show
+        callback([]) # Inform UI there are no orders to show
     else:
         # User has at least 1 active order!
         orders = []
@@ -139,6 +144,8 @@ def got_orders_data(callback, req, result, *args):
             order = Order.dict_to_obj(order_data) # Converts dict to order obj
             orders.append(order)
         callback(orders) # Returns the list of orders to UI
+
+# 
 
 # Func to get the food picture of an order given its stall id and food id
 def query_picture_url(stall_name, food_name, idx, callback):

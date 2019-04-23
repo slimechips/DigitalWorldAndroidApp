@@ -16,10 +16,7 @@ class ConfirmOrder(Screen):
         self.food_widget = FoodPicture2(id=orig_food_widget.id,
                                    source=orig_food_widget.source)
         orig_food_label = self.manager.food_item.food_label
-        self.food_label = Label(text=orig_food_label.text, 
-                           font_size=orig_food_label.font_size, 
-                           color=orig_food_label.color, 
-                           height=orig_food_label.height)
+        self.food_label = FoodLabel(text=orig_food_label.text)
         self.ids["grid_layout"].add_widget(self.food_widget, 2)
         self.ids["grid_layout"].add_widget(self.food_label, 2)
         self.food_info = orig_food_widget.food_info
@@ -46,4 +43,7 @@ class ConfirmOrder(Screen):
         self.manager.current = self.manager.previous()
 
 class FoodPicture2(ButtonBehavior, AsyncImage):
+    pass
+
+class FoodLabel(Label):
     pass

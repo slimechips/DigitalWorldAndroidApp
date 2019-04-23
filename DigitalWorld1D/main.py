@@ -82,12 +82,12 @@ class StallScreen(Screen):
             picture = FoodPicture(id=food_img_id,
                                   source=food.photo_url)
 
-            label_text = "Food Name: {}\nPrice: {}\nEst " \
-                         "Wait Time: {} mins".format(food.food_name, 
+            label_text = "[u][b]{}[/b][/u]\n" \
+                         "[b]Price:[/b] {}\n" \
+                         "[b]Est Wait Time:[/b] {} mins" \
+                         .format(food.food_name, 
                          food.price, food.waiting_time)
-            label = Label(text=label_text, font_size=40, 
-                          color=[0, 0, 0, 1], 
-                          height=appdimens.stall_screen_height)
+            label = FoodLabel(text=label_text)
             picture.food_label = label
             picture.food_info = food
             self.grd.add_widget(picture)
@@ -108,7 +108,7 @@ class StallScreen(Screen):
         self.grd.clear_widgets()
         self.food_items = []
         
-class FoodLabel(GridLayout):
+class FoodLabel(Label):
     pass
 
 class FoodPicture(ButtonBehavior, AsyncImage):
