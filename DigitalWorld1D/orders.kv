@@ -41,7 +41,7 @@
         BottomNavigationBar:
             id: btm_bar
 
-
+# FoodPicture object inheriting from AsyncImage
 <FoodPicture@AsyncImage>:
     allow_stretch: True
     keep_ratio: True
@@ -49,6 +49,7 @@
     size_hint: 0.5, 1
     height: appdimens.stall_screen_height
 
+# OrderLabel object inheriting from Label
 <OrderLabel@Label>:
     text: "Placeholder"
     size_hint: 0.5, 1
@@ -59,11 +60,13 @@
     markup: True
     halign: "left"
 
+# OrderRow object inheriting from BoxLayout
 <OrderRow@BoxLayout>:
     orientation: "horizontal"
     size_hint_y: None
     height: self.minimum_height
 
+# BarcodeImage object inheriting from Image
 <BarcodeImage@Image>:
     allow_stretch: True
     keep_ratio: True

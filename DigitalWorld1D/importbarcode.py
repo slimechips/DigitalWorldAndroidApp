@@ -7,11 +7,6 @@ from barcode.writer import ImageWriter
 from kivy.logger import Logger
 from kivy.utils import platform
 
-# stall dish user
-stalls=['Chicken Rice','Japanese']
-dishes=[1,2,3,4,5,6,7,8,9,10]
-barcodeno=0
-
 # Generate barcode for user
 def barcode_generator(stallind,dishind,userid,date,time):
 	# stall ind, dish in, date, time, uid
