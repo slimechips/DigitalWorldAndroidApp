@@ -1,4 +1,6 @@
 __version__ = "1.0"
+
+# Kivy Module Imports
 from kivy.app import App
 #kivy.require("1.10.1")
 from kivy.uix.screenmanager import Screen
@@ -10,6 +12,7 @@ from kivy.properties import ColorProperty, BooleanProperty
 
 from functools import partial
 
+# Import app classes/strings/dimens from other python files
 import user
 import database
 import orders
@@ -18,8 +21,10 @@ import appcolours
 import appdimens
 from config import apikey, authDomain, databaseURL
 
+# LoginPage Screen
 class LoginPage(Screen):
 
+    # Initialize with no user logged in
     def __init__(self, **kwargs):
         super(LoginPage, self).__init__(**kwargs)
         self.user = None
@@ -28,7 +33,7 @@ class LoginPage(Screen):
     def verify_credentials(self):
         _username, _pw = self.ids["login"].text, self.ids["passw"].text
         usersDatabaseURL = databaseURL + "Users.json"
-        # Make a url request
+        # Make a URL request
         req = UrlRequest(usersDatabaseURL,
                          on_success=partial(self.got_json, _username, _pw),
                          verify=False,
@@ -255,6 +260,7 @@ class SignUpPage(Screen):
         user.current_user = user
         self.manager.current = "stalls"
 
+# Custom button class SmoothButton
 class SmoothButton(Button):
     btn_color = ColorProperty()
 
@@ -282,11 +288,13 @@ class TransparentInput(TextInput):
             # Text input is not focused
             self.cur_line_colour = self.normal_line_colour # Change Colour
 
+    # Change colour of TransparentInput if it does not meet requirements
     def set_wrong(self):
         self.wrong = True
         self.foreground_color = self.wrong_line_colour
         self.cur_line_colour = self.wrong_line_colour
 
+    # Change colour of TransparentInput back to normal state
     def set_okay(self):
         self.wrong = False
         self.foreground_color = appcolours.WHITE

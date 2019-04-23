@@ -10,8 +10,9 @@ from kivy.utils import platform
 # stall dish user
 stalls=['Chicken Rice','Japanese']
 dishes=[1,2,3,4,5,6,7,8,9,10]
-sn=0
 barcodeno=0
+
+# Generate barcode for user
 def barcode_generator(stallind,dishind,userid,date,time):
 	# stall ind, dish in, date, time, uid
 
@@ -66,7 +67,7 @@ def barcode_generator(stallind,dishind,userid,date,time):
 	
 	#add date time instead of the random numbers
 
-
+# Write the barcode image file into the computer/Android device
 def gen_barcode_img(barcodeno):
 	image = barcode.get_barcode_class('ean13')
 	Logger.info(image)
