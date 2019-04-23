@@ -193,8 +193,10 @@ def got_detailed_order(order_no, callback, req, result, *args):
 
 def remove_order(uid, order_no):
     # Remove a order from user database
-    orderUrl = "{}users/{}/active_orders/{}".format(databaseURL, uid, order_no)
-
+    Logger.info("Removing Order: " + str(order_no))
+    orderUrl = "{}Users/{}/active_orders/{}.json".format(databaseURL,
+                                                         uid, order_no)
+    Logger.info("Remove from: " + orderUrl)
     # URL req to delete data
     req = UrlRequest(orderUrl, method="DELETE", on_success=order_removed,
                      verify=False, on_error=network_failure)
