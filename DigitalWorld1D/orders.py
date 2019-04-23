@@ -30,8 +30,10 @@ class My_Orders(Screen):
     def on_pre_enter(self, *args):
         # Start to update the page with orders info of current user
         super().on_pre_enter(*args)
-        self.grd = self.ids["orders_grd"]
+        self.ids["btm_bar"].ids["stalls_btn"].state = "normal"
         self.ids["btm_bar"].ids["my_orders_btn"].state = "down"
+        self.ids["btm_bar"].ids["logout_btn"].state = "normal"
+        self.grd = self.ids["orders_grd"]
         self.retrieve_orders(None)
         update_interval = 15 # 15 second update interval for UI
         self.order_updater = Clock.schedule_interval(self.retrieve_orders,

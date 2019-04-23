@@ -56,6 +56,8 @@ class Stalls(Screen):
     def on_pre_enter(self, *args):
         super().on_pre_enter(*args)
         self.ids["btm_bar"].ids["stalls_btn"].state = "down"
+        self.ids["btm_bar"].ids["my_orders_btn"].state = "normal"
+        self.ids["btm_bar"].ids["logout_btn"].state = "normal"
 
     # When user selects stall, change screen to stall_screen
     def btn_pressed(self, stall_name, label_txt):
