@@ -104,7 +104,7 @@ class My_Orders(Screen):
             # Then we create the label of order
             label_text = ("[b][u]{}[/u][/b]\n"
 		                  "[b]Status: [/b]{}\n"
-		                  "[b]Arriving [/b]{} mins\n"
+		                  "[b]Arriving: [/b]{} mins\n"
 		                  "[b]Orders in Queue: [/b]{}\n"
 		                  "[b]Stall: [/b]{}".format(food_name,
 		                  status, waiting_time, orders_in_q, stall_name))

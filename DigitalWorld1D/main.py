@@ -92,9 +92,10 @@ class StallScreen(Screen):
             food_img_id = "food_{}_img".format(i)
             picture = FoodPicture(id=food_img_id,
                                   source=food.photo_url)
-            label_text = "Food Name: {}\nPrice: {}\nEst " \
-                         "Wait Time: {} mins".format(food.food_name, 
-                         food.price, food.waiting_time)
+            label_text = ("[b][u]{}[/u][/b]\n"
+                          "[b]Price: [/b]{}\n"
+                          "[b]Est. Waiting Time: [/b]{} mins".format(food.food_name, 
+                          food.price, food.waiting_time))
             label = FoodLabel(text=label_text)
             picture.food_label = label
             picture.food_info = food
