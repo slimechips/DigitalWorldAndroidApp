@@ -10,6 +10,8 @@
 #: import fonts fonts
 #: import appcolours appcolours
 
+# Set ScreenManagement to fade screen in and out when changing screen
+# Initialize all screens
 ScreenManagement:
     id: screenmanager
     transition: FadeTransition()
@@ -21,7 +23,7 @@ ScreenManagement:
     My_Orders:
     Logout_Confirm:
 
-
+# Stylesheet for TopNavigationBar which inherits from ActionBar
 <TopNavigationBar>:
     ActionView:
         id: top_bar_view
@@ -31,6 +33,8 @@ ScreenManagement:
             title: root.text
             with_previous: False
 
+# Stylesheet for BottomNavigationBar which inherits from ActionBar
+# Has 3 buttons: Stalls, My Orders and Logout
 <BottomNavigationBar>:
     ActionView:
         id: btm_bar_view
@@ -55,15 +59,21 @@ ScreenManagement:
             allow_no_selection: False
             group: "btm_bar"
 
+# Stylesheet for Stalls which inherits from Screen
 <Stalls>:
     name: "stalls"
     layout_content: layout_content
+
+    # Background color of 0.8, 0.8, 0.8
+    # Takes up whole screen
     canvas.before:
         Color:
             rgb: 0.8, 0.8, 0.8
         Rectangle:
             size: self.size
             pos: self.pos
+
+    # BoxLayout to contain two nav bars and screen content
     BoxLayout:
         orientation: "vertical"
         TopNavigationBar:
@@ -72,6 +82,8 @@ ScreenManagement:
         ScrollView:
             size: self.size
             do_scroll_y: True
+
+            # GridLayout to contain StallButtons of 4 stalls
             GridLayout:
                 id: layout_content
                 orientation: "vertical"
@@ -104,6 +116,8 @@ ScreenManagement:
             id: btm_bar
             stalls_btn: "down"
 
+# Custom class StallButton inheriting from Button
+# Consists of an image and a label
 <StallButton>:
     id: stall_btn
     background_color: 0,0,0,0
@@ -130,6 +144,7 @@ ScreenManagement:
         font_name: fonts.fonts["robotoslab bold"]
         color: 0, 0, 0, 1
 
+# StallScreen object inheriting from Screen
 <StallScreen>:
     name: "stall_screen"
     id: stall_screen
@@ -140,6 +155,8 @@ ScreenManagement:
         Rectangle:
             size: self.size
             pos: self.pos
+
+    # BoxLayout to contain top and bottom nav bars + contents of the screen
     BoxLayout:
         orientation: "vertical"
         TopNavigationBar:
@@ -148,6 +165,8 @@ ScreenManagement:
         ScrollView:
             size: self.size
             do_scroll_y: True
+            
+            # GridLayout to contain picture and label of food item
             GridLayout:
                 id: stall_grd
                 cols: 2
@@ -160,6 +179,7 @@ ScreenManagement:
         BottomNavigationBar:
             id: btm_bar
 
+# Creates FoodLabel object which inherits from GridLayout
 <FoodLabel>:
     text: "Placeholder"
     font_size: appdimens.label_font_size

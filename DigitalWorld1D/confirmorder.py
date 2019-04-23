@@ -6,9 +6,11 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.logger import Logger
 
+# Import app classes/strings/dimens from other python files
 import database
 import user
 
+# Creates ConfirmOrder Screen, with a GridLayout containing food picture and information
 class ConfirmOrder(Screen):
     def on_pre_enter(self, *args):
         super().on_pre_enter(*args)
@@ -21,6 +23,7 @@ class ConfirmOrder(Screen):
         self.ids["grid_layout"].add_widget(self.food_label, 2)
         self.food_info = orig_food_widget.food_info
 
+    # On release of Order button, create order in Firebase
     def order(self, num_in_q=None):
         food = self.food_info
         stall_name = self.manager.current_stall
@@ -35,13 +38,17 @@ class ConfirmOrder(Screen):
                                 food.waiting_time,
                                 self.order_uploaded)
 
+    # When order is created in Firebase, output in Logger
+    # Change user's screen to show user's orders
     def order_uploaded(self):
         Logger.info("Order: Uploaded")
         self.manager.current = "my_orders"
     
+    # When user presses back on screen, go back to previous screen
     def go_back(self):
         self.manager.current = self.manager.previous()
 
+# Creates FoodPicture2 obj which is a button and a image
 class FoodPicture2(ButtonBehavior, AsyncImage):
     pass
 
