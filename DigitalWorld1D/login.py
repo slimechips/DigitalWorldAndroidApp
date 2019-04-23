@@ -24,10 +24,17 @@ from config import apikey, authDomain, databaseURL
 # LoginPage Screen
 class LoginPage(Screen):
 
-    # Initialize with no user logged in
-    def __init__(self, **kwargs):
-        super(LoginPage, self).__init__(**kwargs)
+    def on_pre_enter(self, *args):
+        # Initialize with no user logged in
+        super().on_pre_enter(*args)
         self.user = None
+        # Set input fields empty
+        try:
+            self.ids["login"].text = ""
+            self.ids["passw"].text = ""
+        except:
+            # Input fields could not be found, usually because app just started
+            pass
 
     # Checks with database if login details are correct
     def verify_credentials(self):
