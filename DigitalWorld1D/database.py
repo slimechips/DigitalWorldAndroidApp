@@ -89,7 +89,8 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
     order = Order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                   num_in_q, est_wait)
     date, time = split_datetime_now()
-    barcode_no = barcode_generator(stall_id, food_id, uid, date, time)
+    barcode_no = barcode_generator(order.stall_id, order.food_id, 
+                                   order.uid, date, time)
     order.order_id = barcode_no
     orderDatabaseURL = databaseURL + "active_orders/" + stall + ".json"
     Logger.info("Dbase URL:" + orderDatabaseURL)
