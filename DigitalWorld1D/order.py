@@ -24,6 +24,7 @@ class Order:
         self.__order_id = int(order_id)
 
     def to_dict(self):
+        # Method to convert an order object to a dict for upload
         mydict = {}
         property_names = ["estimated_waiting_time", "food_item", "food_id",
                           "order_id", "orders_in_queue", "special_requests", 
@@ -44,6 +45,7 @@ class Order:
 
     @staticmethod
     def dict_to_obj(dict):
+        # Static function used to convert firebase data to a order object
         order = Order(dict["user_id"], dict["stall"], dict["stall_id"],
                       dict["food_item"], dict["food_id"],
                       dict["special_requests"], dict["amt_paid"], 

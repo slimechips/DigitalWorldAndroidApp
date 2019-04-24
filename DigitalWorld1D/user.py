@@ -1,6 +1,7 @@
 from kivy.logger import Logger
 
 class User:
+    # User Object
     def __init__(self, email, username, password, uid = None, **kwargs):
         self.__email = email
         self.__username = username
@@ -36,6 +37,7 @@ class User:
         self.__orders = value
 
     def create_new_uid(self, db_result):
+        # Create a new uid for our new user
         max_uid = 0
         for user in db_result.values():
             uid = user["user_id"]
@@ -44,6 +46,7 @@ class User:
         return max_uid + 1
 
     def to_dict(self):
+        # Convert user object into a dict obj for upload to firebase
         mydict = {}
         property_names = ["email", "user_id", "user_name", "password"]
         try:
@@ -57,4 +60,4 @@ class User:
         bigdict = {self.__uid: mydict}
         return bigdict
 
-current_user = None
+current_user = None # This is where the current user info is stored

@@ -46,27 +46,27 @@ class TopNavigationBar(ActionBar):
 class BottomNavigationBar(ActionBar):
     pass
 
-# Creates Stalls screen where user can select which stall to order from
 class Stalls(Screen):
+    # Creates Stalls screen where user can select which stall to order from
     _buttonfontsize = appdimens.button_font_size
     _titlefontsize = appdimens.title_font_size
     layout_content = ObjectProperty(None)
 
-    # When loading, setup Stalls to be active button in nav bar
     def on_pre_enter(self, *args):
+        # When loading, setup Stalls to be active button in nav bar
         super().on_pre_enter(*args)
         self.ids["btm_bar"].ids["stalls_btn"].state = "down"
         self.ids["btm_bar"].ids["my_orders_btn"].state = "normal"
         self.ids["btm_bar"].ids["logout_btn"].state = "normal"
 
-    # When user selects stall, change screen to stall_screen
     def btn_pressed(self, stall_name, label_txt):
+        # When user selects stall, change screen to stall_screen
         self.manager.current_stall = stall_name
         self.manager.navbarname = label_txt
         self.manager.current = "stall_screen"
 
-# Button where user selects which stall to purchase dishes from
 class StallButton(Button):
+    # Button where user selects which stall to purchase dishes from
     source = StringProperty(None)
     label_txt = StringProperty(None)
     stall_name = StringProperty(None)
@@ -76,16 +76,16 @@ class StallScreen(Screen):
     food_items = []
     current_stall = StringProperty("")
 
-    # When loading, set top nav bar to be name of stall
-    # When loading, set Stalls to be inactive button on bottom nav bar
     def on_pre_enter(self, *args, **kwargs):
+        # When loading, set top nav bar to be name of stall
+        # When loading, set Stalls to be inactive button on bottom nav bar
         super().on_pre_enter(*args, **kwargs)
         self.ids["top_bar"].text = self.manager.navbarname
         database.get_stall_info(self.current_stall, callback=self.on_get_info)
         self.ids["btm_bar"].ids["stalls_btn"].state = "normal"
 
-    # After retrieving menu from Firebase, display menu to user
     def on_get_info(self, food_items):
+        # After retrieving menu from Firebase, display menu to user
         self.food_items = food_items
         self.grd = self.ids["stall_grd"]
         for i, food in enumerate(food_items):
@@ -106,17 +106,17 @@ class StallScreen(Screen):
     def loaded(self, *args):
         pass
 
-    # Display error in Logger if there is one
     def img_error(self, error, *args):
+        # Display error in Logger if there is one
         Logger.info("Error: " + str(error))
 
-    # When user selects dish, move to confirm_order Screen
     def goto_confirm(self, picture):
+        # When user selects dish, move to confirm_order Screen
         self.manager.food_item = picture
         self.manager.current = "confirm_order"
     
-    # When user leaves StallScreen, clear all widgets
     def on_leave(self, *args):
+        # When user leaves StallScreen, clear all widgets
         super().on_leave(*args)
         self.grd.clear_widgets()
         self.food_items = []
@@ -131,8 +131,8 @@ class FoodPicture(ButtonBehavior, AsyncImage):
     food_info = ObjectProperty()
     stall_name = StringProperty()
 
-    # On release of button, calls goto_confirm
     def on_release(self):
+        # On release of button, calls goto_confirm method of screen
         super().on_release()
         self.parent.parent.parent.parent.goto_confirm(self)
 
@@ -145,21 +145,21 @@ class ScreenManagement(ScreenManager):
 
     main_menus = ["stalls", "my_orders"]
 
-    # Initialize ScreenManager to receive inputs from keyboard
     def __init__(self, **kwargs):
+        # Initialize ScreenManager to receive inputs from device touch
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.key_handler)
 
-    # If keyboard provides input of ESC, run set_previous_screen
     def key_handler(self, instance, key, *args):
+        # If ESC button is pressed (back button on android), set to prev screen
         if key is 27: # ESC
             self.set_previous_screen()
             return True
     
-    # If current screen is loginpage, stalls, my_orders, do not change screen
-    # If current screen is logout_pg, change screen to stalls
-    # Screen transition will be towards the left
     def set_previous_screen(self):
+        # If current screen is loginpage, stalls, my_orders, do not change screen
+        # If current screen is logout_pg, change screen to stalls
+        # Screen transition will be towards the left
         if self.current == "loginpage":
             pass
         elif self.current in self.main_menus:
@@ -170,7 +170,6 @@ class ScreenManagement(ScreenManager):
             self.transition.direction = "left"
             self.current = self.previous()
 
-# Initalize the EzEat App to disable SSL and run init
 class EzEat(App):
     def build(self):
         self.disable_ssl()
@@ -188,7 +187,7 @@ class EzEat(App):
         getattr(ssl, '_create_unverified_context', None)): 
             ssl._create_default_https_context = ssl._create_unverified_context
 
-# Run only when this file is the main program
+# Run the app
 if __name__ == "__main__":
     EzEat().run()    
 

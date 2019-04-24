@@ -18,8 +18,8 @@ def check_request_success(req):
         success = False
     return success
 
-# Get the info of the menu of a particular stall from firebase
 def get_stall_info(current_stall, callback = None):
+    # Get the info of the menu of a particular stall from firebase
     catalogDatabaseURL = databaseURL + "menu/" + current_stall + ".json"
     try:
         req = UrlRequest(catalogDatabaseURL,
@@ -29,8 +29,8 @@ def get_stall_info(current_stall, callback = None):
     except:
         pass
 
-# Callback to query for information of stall menu
 def get_stall_success(callback, request, result, *args):
+    # Callback to query for information of stall menu
     # Split the stall data
     food_items = []
     print("Food info", result)
@@ -46,24 +46,24 @@ def get_stall_success(callback, request, result, *args):
     if callback:
         callback(food_items)
 
-# Func to get number of orders in the queue of a particular stall
 def get_num_in_q(stall, callback):
+    # Func to get number of orders in the queue of a particular stall
     stallDatabaseUrl = databaseURL + "active_orders/" + stall + ".json"
     req = UrlRequest(stallDatabaseUrl, 
                      on_success=partial(got_num_in_q, callback),
                      verify=False,
                      on_error=network_failure)
 
-# Result of querying for get number in queue
 def got_num_in_q(callback, req, result, *args):
+    # Callback from querying for get number in queue    
     Logger.info("Result:" + str(result))
     Logger.info(len(result))
     num_in_q = len(result) - 1
     if callback:
         callback(num_in_q)
 
-# Func to get datetime format for barcode
 def split_datetime_now():
+    # Get datetime format for barcode
     day = datetime.now().day
     month = datetime.now().month
     year = datetime.now().year
@@ -83,10 +83,9 @@ def split_datetime_now():
     return date, time
 
 
-# Create a new order and uploads it to firebase
 def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                  num_in_q, est_wait, callback):
-    
+    # Create a new order and uploads it to firebase    
     order = Order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                   num_in_q, est_wait)
     date, time = split_datetime_now()
@@ -114,14 +113,14 @@ def create_order(uid, stall, stall_id, food_item, food_id, spec_req, amt_paid,
                      method="PATCH", verify=False,
                      on_error=network_failure)
 
-# Callback when order has been successfully created
 def create_order_success(callback, req, result, *args):
+    # Callback when order has been successfully created
     Logger.info("Order: Successfully created")
     if callback:
         callback()
 
-# Function to find out a user's orders from firebase
 def check_my_orders(uid, callback):
+    # Function to find out a user's orders from firebase
     userDatabaseUrl = databaseURL + "Users/" + str(uid) + "/active_orders.json"
 
     # Queries to firebase, result passed to get_orders_data
@@ -129,8 +128,8 @@ def check_my_orders(uid, callback):
                      on_success=partial(got_orders_data, callback),
                      verify=False, on_error=network_failure)
 
-# Callback to query for orders data
 def got_orders_data(callback, req, result, *args):
+    # Callback to query for orders data
     Logger.info("Database: Got orders data")
     user.current_user.orders = []
     # Result will only contain the stall name of the order
@@ -150,16 +149,16 @@ def got_orders_data(callback, req, result, *args):
             # Iterate through orders
             query_detailed_order(order_data["stall"], order_no, callback)
 
-# Query for detailed orders data
 def query_detailed_order(stall, order_no, callback):
+    # Query for detailed orders data
     orderUrl = "{}active_orders/{}/{}.json".format(databaseURL, stall,
                                                    order_no)
     req = UrlRequest(orderUrl, 
                      on_success=partial(got_detailed_order, order_no, callback),
                      verify=False, on_error=network_failure)
 
-# Callback when detailed order data comes
 def got_detailed_order(order_no, callback, req, result, *args):
+    # Callback when detailed order data comes
     if result == "" or result == None:
         # Stall has already completed/removed the order
         # Remove this order from our user's local order list
@@ -204,8 +203,8 @@ def remove_order(uid, order_no):
 def order_removed(*args):
     Logger.info("Order: Order missing, removed...")
 
-# Func to get the food picture of an order given its stall id and food id
 def query_picture_url(stall_name, food_name, idx, callback):
+    # Get the food picture of an order given its stall id and food id
     imageUrl = "{}menu/{}/{}/photo_url.json" \
           .format(databaseURL,stall_name, food_name)
     
@@ -214,13 +213,13 @@ def query_picture_url(stall_name, food_name, idx, callback):
                      on_success=partial(got_picture_url, idx, callback),
                      verify=False, on_error=network_failure)
 
-# Callback to query for picture url
 def got_picture_url(idx, callback, req, result, *args):
+    # Callback to query for picture url
     Logger.info("Database: Got picture url")
     callback(result, idx)
 
-# Callback when there is a network error
 def network_failure(request, error, *args):
+    # Callback when there is a network error
     Logger.info(error)
 
 # Food Item Object

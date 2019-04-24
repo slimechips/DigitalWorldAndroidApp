@@ -10,9 +10,11 @@ from kivy.logger import Logger
 import database
 import user
 
-# Creates ConfirmOrder Screen, with a GridLayout containing food picture and information
 class ConfirmOrder(Screen):
+    # ConfirmOrder Screen, with a GridLayout containing food picture 
+    # and information
     def on_pre_enter(self, *args):
+        # Adds our dynamic food widget and label to the main gridlayout
         super().on_pre_enter(*args)
         orig_food_widget = self.manager.food_item
         self.food_widget = FoodPicture2(id=orig_food_widget.id,
@@ -23,8 +25,8 @@ class ConfirmOrder(Screen):
         self.ids["grid_layout"].add_widget(self.food_label, 2)
         self.food_info = orig_food_widget.food_info
 
-    # On release of Order button, create order in Firebase
     def order(self, num_in_q=None):
+    # On release of Order button, create order in Firebase
         food = self.food_info
         stall_name = self.manager.current_stall
         if num_in_q == None:
@@ -38,22 +40,23 @@ class ConfirmOrder(Screen):
                                 food.waiting_time,
                                 self.order_uploaded)
 
+    def order_uploaded(self):
     # When order is created in Firebase, output in Logger
     # Change user's screen to show user's orders
-    def order_uploaded(self):
         Logger.info("Order: Uploaded")
         self.manager.current = "my_orders"
     
-    # When user presses back on screen, go back to previous screen
     def go_back(self):
+    # When user presses back on screen, go back to previous screen
         self.manager.current = self.manager.previous()
 
     def on_leave(self):
+    # Remove the widgets when leaving page
         self.ids["grid_layout"].remove_widget(self.food_widget)
         self.ids["grid_layout"].remove_widget(self.food_label)
 
-# Creates FoodPicture2 obj which is a button and a image
 class FoodPicture2(ButtonBehavior, AsyncImage):
+    # Food picutre is a image that is also a button
     pass
 
 class FoodLabel(Label):
