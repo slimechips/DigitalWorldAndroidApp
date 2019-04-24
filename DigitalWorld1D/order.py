@@ -10,9 +10,9 @@ class Order:
                  time_of_order_completion="None", order_id=0):
         self.__uid = uid
         self.__current_stall = stall
-        self.__stall_id = stall_id
+        self.__stall_id = int(stall_id)
         self.__food_item = food_item
-        self.__food_id = food_id
+        self.__food_id = int(food_id)
         self.__special_requests = spec_req
         self.__time_of_order = time_of_order
         self.__time_of_order_collection = time_of_order_collection
